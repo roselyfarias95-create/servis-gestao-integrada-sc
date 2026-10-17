@@ -1,37 +1,1248 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SERVIS | Gestão Integrada SC</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script>
-// Configure apenas a URL e a chave publicável do Supabase.
-// Nunca coloque aqui uma chave sb_secret_ ou service_role.
-window.SERVIS_CONFIG = {
-url: 'https://fkwnsegmibfmmdzancev.supabase.co',
-  anonKey: 'sb_publishable_ZELUMCyPtWkdQPmDcFmf_Q_xtHZcnMi'
-};
-</script><style>
-:root{font-family:Inter,system-ui,Arial,sans-serif;color:#eaf2fc;background:#081524}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}aside{background:#0e2033;width:245px;position:fixed;top:0;bottom:0;padding:24px 16px;border-right:1px solid #273c54}aside strong{font-size:23px;letter-spacing:.09em}aside p{color:#9cb1c6;font-size:12px}nav button{border:0;background:transparent;color:#c9d9e9;text-align:left;padding:12px;border-radius:8px;display:block;width:100%;margin:3px 0}nav button.active,nav button:hover{background:#245078;color:white}main{margin-left:245px;padding:28px;max-width:1500px}h1{font-size:27px;margin:4px 0 18px}h2{font-size:17px;margin:0 0 12px}.muted,.sub{color:#97afc6}.sub{font-size:13px}.panel{background:#10243a;border:1px solid #29425b;border-radius:14px;padding:20px;margin:15px 0}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.kpi{background:#172f47;padding:18px;border-radius:12px;border:1px solid #2e4a65}.kpi b{font-size:27px;display:block;margin:8px 0}.kpi small{color:#a8bfd2}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.grow{flex:1}input,select,textarea{background:#081c2e;border:1px solid #36516a;color:#f0f6fd;padding:10px;border-radius:9px;min-width:140px;max-width:100%}textarea{min-height:80px}button.primary{background:#2577bd;border:0;color:white;border-radius:8px;padding:11px 16px}button.subtle{background:#203c58;border:1px solid #395675;color:#e7f3ff;border-radius:8px;padding:9px 13px}.danger{color:#ffc0b8}.page{display:none}.page.active{display:block}table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:10px 8px;text-align:left;border-bottom:1px solid #2d435a;vertical-align:top}th{color:#b6d0e6}.scroll{overflow:auto}.pill{background:#23435c;border-radius:25px;padding:5px 9px;font-size:12px}label{display:flex;flex-direction:column;gap:5px;color:#a9c0d3;font-size:12px}#signin{max-width:520px;margin:10vh auto;padding:26px}#app{display:none}#notice{padding:10px 15px;border-radius:8px;color:#f8d2a6;min-height:32px}.form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.process{padding:10px;border:1px solid #35506b;border-radius:8px;margin:5px;display:inline-block;font-size:12px}.hidden{display:none!important}@media(max-width:920px){aside{position:static;width:100%;padding:12px}nav{display:flex;overflow:auto}nav button{white-space:nowrap;width:auto}main{margin:0;padding:16px}.grid{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:1fr 1fr}}@media(max-width:560px){.grid,.form{grid-template-columns:1fr}}
-</style></head><body>
-<section id="signin" class="panel"><h1>SERVIS • Sucesso do Cliente</h1><p class="muted">Sistema compartilhado com autenticação e permissões por carteira.</p><p id="setupNotice" class="danger"></p><label>E-mail<input id="email" type="email" autocomplete="username"></label><br><label>Senha<input id="password" type="password" autocomplete="current-password"></label><br><button class="primary" id="login">Entrar</button><p class="sub">Os acessos precisam ser criados pela administradora no Supabase. Cadastro público não é permitido.</p></section>
-<div id="app"><aside><strong>SERVIS</strong><p>SUCESSO DO CLIENTE • 2026</p><div id="who" class="pill"></div><nav id="nav"><button data-tab="visao" class="active">▦ Visão executiva</button><button data-tab="carteiras">▤ Carteiras</button><button data-tab="demandas">☷ Demandas e O.S.</button><button data-tab="pesquisas">☆ Pesquisas</button><button data-tab="fiscalizacao">◎ Fiscalização</button><button data-tab="processos">♧ 45 processos</button><button data-tab="relatorio">▥ Relatório</button></nav><button class="subtle" id="logout">Sair</button></aside><main><div class="row"><div class="grow"><span class="sub">PAINEL DE GESTÃO INTEGRADO • SERVIS</span><h1 id="pageTitle">Visão executiva</h1></div><button class="subtle" id="reload">↻ Atualizar</button></div><div id="notice"></div>
-<section id="visao" class="page active"><div class="grid" id="kpis"></div><div class="panel"><h2>Distribuição de carteiras</h2><div id="owners"></div></div><div class="panel"><h2>Condições de funcionamento</h2><p class="sub">As informações são carregadas do banco de dados compartilhado. Estatísticas operacionais refletem apenas registros cadastrados no sistema, não dados estimados.</p></div></section>
-<section id="carteiras" class="page"><div class="panel"><h2>Condomínios por responsável</h2><div class="row"><input id="search" placeholder="Buscar condomínio ou supervisor" class="grow"><select id="filterOwner"><option value="">Todas as responsáveis</option><option>Nicole</option><option>Josy</option><option>Paula</option><option>Tayane</option><option>Juliana</option><option>A definir</option></select><label style="display:inline-flex;flex-direction:row"><input id="showInactive" type="checkbox"> Mostrar inativos</label></div><p id="portfolioCount" class="sub"></p><div class="scroll"><table><thead><tr><th>Condomínio</th><th>Filial</th><th>Responsável SC</th><th>Supervisor técnico</th><th>Ações (gestão)</th></tr></thead><tbody id="portfolioRows"></tbody></table></div></div></section>
-<section id="demandas" class="page"><div class="panel"><h2>Nova demanda</h2><form id="demandForm" class="form"><label>Condomínio<select id="dCondo" required></select></label><label>Tipo<select id="dTipo"><option>Demanda</option><option>O.S.</option><option>Preventiva</option><option>Reclamação</option><option>Cadastro</option><option>Ampliação</option><option>Armário</option><option>TI/Backoffice</option></select></label><label>Título<input id="dTitle" required></label><label>Setor<input id="dSetor"></label><label>Prazo<input id="dPrazo" type="date"></label><label>Próxima ação<input id="dAcao"></label><label class="grow">Descrição<textarea id="dDesc"></textarea></label><div><button class="primary" type="submit">Registrar demanda</button></div></form></div><div class="panel"><h2>Acompanhamento de demandas</h2><div class="scroll"><table><thead><tr><th>Condomínio</th><th>Demanda</th><th>Setor</th><th>Prazo</th><th>Última cobrança</th><th>Status</th></tr></thead><tbody id="demandRows"></tbody></table></div></div></section>
-<section id="pesquisas" class="page"><div class="panel"><h2>Nova pesquisa de satisfação</h2><form id="surveyForm" class="form"><label>Condomínio<select id="sCondo" required></select></label><label>Nota de 0 a 10<input id="sNota" type="number" min="0" max="10" step="0.5" placeholder="Em branco se não avaliou"></label><label>Canal<select id="sCanal"><option>WhatsApp</option><option>Ligação</option></select></label><label>Referência da evidência<input id="sEvidencia" placeholder="ID de registro ou link interno"></label><label>Relato<textarea id="sComentario"></textarea></label><div><button class="primary" type="submit">Salvar pesquisa original</button></div></form><p class="sub">Pesquisas não podem ser alteradas por integrantes. Novas avaliações são novos registros.</p></div><div class="panel"><h2>Histórico de pesquisas</h2><div class="scroll"><table><thead><tr><th>Condomínio</th><th>Nota</th><th>Canal</th><th>Relato</th><th>Data</th></tr></thead><tbody id="surveyRows"></tbody></table></div></div></section>
-<section id="fiscalizacao" class="page"><div class="panel"><h2>Fiscalização regional</h2><div class="grid"><div class="kpi"><small>Josy</small><b>Secopi</b><span class="sub">Paula • operação local</span></div><div class="kpi"><small>Josy</small><b>Manaus</b><span class="sub">Tayane • operação local</span></div><div class="kpi"><small>Nicole</small><b>Maranhão</b><span class="sub">Juliana • operação local</span></div><div class="kpi"><small>Rosely</small><b>Gestão geral</b><span class="sub">Todas as carteiras</span></div></div><p>As representantes locais executam e atualizam as demandas. Josy e Nicole podem consultá-las para fiscalização e realizam as pesquisas de satisfação nas filiais atribuídas.</p></div><div class="panel"><h2>Pendências em fiscalização</h2><div id="oversightRows"></div></div></section>
-<section id="processos" class="page"><div class="panel"><h2>Biblioteca dos 45 processos</h2><p class="sub">Catálogo preservado. Consulte os procedimentos completos no projeto original, ainda mantido separadamente.</p><a href="https://servis-processos-sc-rose.roselyfarias95.chatgpt.site" target="_blank" rel="noopener" style="color:#91cdff">Abrir processos originais ↗</a><div id="processList" style="margin-top:15px"></div></div></section>
-<section id="relatorio" class="page"><div class="panel"><h2>Relatório resumido</h2><div id="report"></div><button class="subtle" onclick="window.print()">Imprimir</button><button class="subtle" id="exportCsv">Exportar condomínios CSV</button></div></section>
-</main></div>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SERVIS | Sucesso do Cliente</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<style>
+:root {
+  --bg:#081525;
+  --side:#0b1b2e;
+  --panel:#102136;
+  --input:#1a3049;
+  --line:#2b435d;
+  --text:#e8f2ff;
+  --muted:#a4bad3;
+  --blue:#55aaff;
+  --teal:#37d5c8;
+  --amber:#ffbf68;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+  font-size:14px;
+}
+button,input,select,textarea {font:inherit}
+button {cursor:pointer}
+.hidden {display:none!important}
+
+.sidebar {
+  width:240px;
+  height:100vh;
+  position:fixed;
+  top:0;
+  left:0;
+  background:var(--side);
+  border-right:1px solid var(--line);
+  padding:25px 14px;
+  overflow-y:auto;
+}
+.brand {padding:0 12px 22px}
+.brand h2 {
+  margin:0;
+  color:white;
+  font-size:25px;
+  letter-spacing:3px;
+}
+.brand p {
+  color:var(--teal);
+  font-size:10px;
+  letter-spacing:2px;
+}
+.menu button {
+  display:block;
+  width:100%;
+  background:transparent;
+  border:0;
+  color:#bfd1e6;
+  text-align:left;
+  padding:14px 13px;
+  border-radius:11px;
+  margin-bottom:5px;
+  font-weight:600;
+}
+.menu button:hover,
+.menu button.active {
+  background:#1b3855;
+  color:white;
+}
+.user {
+  color:#a6d7f8;
+  margin:8px 12px 15px;
+  font-size:12px;
+}
+main {
+  margin-left:240px;
+  padding:28px 38px;
+  min-height:100vh;
+}
+.eyebrow {
+  color:var(--teal);
+  letter-spacing:2px;
+  font-size:11px;
+  font-weight:bold;
+  text-transform:uppercase;
+}
+h1 {
+  font-size:29px;
+  margin:8px 0;
+  color:white;
+}
+h1 span {color:var(--blue)}
+h2 {font-size:19px;margin:0 0 10px}
+.muted {color:var(--muted)}
+.topline {
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+button.action {
+  padding:11px 17px;
+  color:white;
+  background:#1a344f;
+  border:1px solid var(--line);
+  border-radius:9px;
+}
+button.primary {
+  background:#108f91;
+  border:0;
+  color:white;
+  padding:12px 18px;
+  border-radius:9px;
+}
+button.action:hover,button.primary:hover {
+  filter:brightness(1.15);
+}
+.panel {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:21px;
+  margin-top:17px;
+}
+.filters {
+  display:flex;
+  gap:11px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin:24px 0;
+}
+.tag {
+  color:var(--teal);
+  border:1px solid #325368;
+  border-radius:25px;
+  padding:11px 15px;
+  font-size:12px;
+}
+input,select,textarea {
+  color:white;
+  background:var(--input);
+  border:1px solid #38516c;
+  border-radius:9px;
+  padding:11px;
+  outline:none;
+}
+input::placeholder,textarea::placeholder {
+  color:#91a9c0;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+.kpi {
+  border:1px solid var(--line);
+  border-top:3px solid var(--teal);
+  background:var(--panel);
+  padding:20px;
+  border-radius:15px;
+  min-height:130px;
+}
+.kpi:nth-child(3n+2) {border-top-color:var(--blue)}
+.kpi:nth-child(3n) {border-top-color:var(--amber)}
+.kpi b {
+  display:block;
+  font-size:31px;
+  margin:15px 0 8px;
+}
+.kpi small {color:var(--muted)}
+
+.process-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-top:17px;
+}
+.process-card {
+  background:#102136;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:17px;
+  min-height:108px;
+}
+.process-card:hover {
+  border-color:var(--teal);
+}
+.process-card small {
+  display:block;
+  font-size:11px;
+  color:#8fbef0;
+  margin-bottom:12px;
+}
+.process-card strong {
+  display:block;
+  margin-bottom:12px;
+}
+.process-card a {
+  color:#65b9ff;
+  font-size:12px;
+  font-weight:600;
+}
+.search-row {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:17px 0;
+}
+.search-row label {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  font-size:12px;
+  color:var(--muted);
+}
+.search-row input {width:275px;max-width:100%}
+.search-row select {width:245px;max-width:100%}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+}
+th,td {
+  text-align:left;
+  padding:12px;
+  border-bottom:1px solid var(--line);
+}
+th {
+  color:#b3d4ed;
+  background:#172e45;
+  font-size:12px;
+}
+.table-scroll {overflow-x:auto}
+td {font-size:12px}
+.form-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+}
+.form-grid label {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  color:var(--muted);
+}
+.full {grid-column:1/-1}
+.page {display:none}
+.page.active {display:block}
+.status {
+  color:#ffbd79;
+  margin:15px 0;
+  font-size:13px;
+}
+.login-wrap {
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.login-box {
+  width:390px;
+  max-width:100%;
+  padding:28px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:15px;
+}
+.login-box input {
+  width:100%;
+  margin:7px 0 15px;
+}
+.login-box .primary {margin-top:5px}
+
+@media(max-width:1050px) {
+  .grid {grid-template-columns:repeat(2,1fr)}
+  .process-grid {grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:720px) {
+  .sidebar {
+    position:relative;
+    width:100%;
+    height:auto;
+  }
+  .menu {
+    display:flex;
+    overflow:auto;
+  }
+  .menu button {
+    white-space:nowrap;
+    width:auto;
+  }
+  main {margin:0;padding:20px}
+  .process-grid,.grid,.form-grid {
+    grid-template-columns:1fr;
+  }
+  h1 {font-size:24px}
+}
+</style>
+</head>
+
+<body>
+
+<section id="loginScreen" class="login-wrap">
+  <div class="login-box">
+    <h2>SERVIS • Sucesso do Cliente</h2>
+    <p class="muted">Sistema compartilhado com autenticação e permissões por carteira.</p>
+    <p id="loginMessage" class="status"></p>
+
+    <label>E-mail</label>
+    <input id="email" type="email" autocomplete="username">
+
+    <label>Senha</label>
+    <input id="password" type="password" autocomplete="current-password">
+
+    <button class="primary" id="loginButton">Entrar</button>
+    <p class="muted" style="font-size:11px">
+      Acesso exclusivo para usuários cadastrados no Supabase.
+    </p>
+  </div>
+</section>
+
+<div id="system" class="hidden">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <h2>SERVIS</h2>
+      <p>SUCESSO DO CLIENTE</p>
+    </div>
+
+    <div id="userName" class="user"></div>
+
+    <nav class="menu">
+      <button data-page="visao" class="active">▦ Visão executiva</button>
+      <button data-page="carteiras">▤ Carteiras Ceará</button>
+      <button data-page="processos">▣ Processos do SC</button>
+      <button data-page="demandas">☷ Demandas & O.S.</button>
+      <button data-page="pesquisas">☆ Pesquisas</button>
+      <button data-page="fiscalizacao">◎ Fiscalização</button>
+      <button data-page="estrategica">◇ Gestão estratégica</button>
+      <button data-page="estrutura">♧ Estrutura & regras</button>
+      <button data-page="exportacao">⚙ Dados & exportação</button>
+    </nav>
+
+    <button id="logout" class="action" style="margin-top:25px">
+      Sair
+    </button>
+  </aside>
+
+  <main>
+
+    <div class="topline">
+      <div>
+        <div class="eyebrow">Painel gerencial • Implantação novembro 2026</div>
+        <h1>Dashboard Executivo <span>| Sucesso do Cliente</span></h1>
+        <div class="muted">
+          Visão consolidada, execução Ceará, fiscalização regional e retenção
+        </div>
+      </div>
+      <button id="reload" class="action">↻ Atualizar</button>
+    </div>
+
+    <div class="filters">
+      <span id="currentSection" class="tag">▦ Visão executiva</span>
+      <span class="tag">Dados reais • Sem números fictícios</span>
+    </div>
+
+    <p id="notice" class="status"></p>
+
+    <section id="visao" class="page active">
+      <div class="panel">
+        <h2>Explorar indicador</h2>
+        <p class="muted">
+          Indicadores calculados com os registros disponíveis no Supabase.
+        </p>
+      </div>
+
+      <div id="kpis" class="grid"></div>
+
+      <div class="panel">
+        <h2>Distribuição de carteiras</h2>
+        <div id="distribution"></div>
+      </div>
+    </section>
+
+    <section id="carteiras" class="page">
+      <div class="panel">
+        <h2>Carteiras de condomínios</h2>
+        <p class="muted">
+          Relação conforme as permissões de cada usuária.
+        </p>
+
+        <div class="search-row">
+          <label>
+            Buscar condomínio
+            <input id="condoSearch" placeholder="Nome, técnico ou supervisor">
+          </label>
+          <label>
+            Responsável
+            <select id="condoOwner">
+              <option value="">Todos</option>
+              <option>Josy</option>
+              <option>Nicole</option>
+              <option>A definir</option>
+            </select>
+          </label>
+        </div>
+
+        <p id="condoCount" class="muted"></p>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Condomínio</th>
+                <th>Filial</th>
+                <th>Responsável SC</th>
+                <th>Supervisor</th>
+                <th>Técnico</th>
+              </tr>
+            </thead>
+            <tbody id="condoRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="processos" class="page">
+      <div class="panel">
+        <div class="topline">
+          <div>
+            <h2>Biblioteca de processos do Sucesso do Cliente</h2>
+            <p class="muted">
+              45 processos do painel original, em cinco áreas de atuação.
+              Acesse o procedimento integral no site original.
+            </p>
+          </div>
+          <a class="action"
+             style="text-decoration:none;color:white"
+             href="https://servis-processos-sc-rose.roselyfarias95.chatgpt.site/"
+             target="_blank"
+             rel="noopener noreferrer">
+             Abrir processos originais ↗
+          </a>
+        </div>
+
+        <div class="search-row">
+          <label>
+            Buscar processo
+            <input id="processSearch"
+                   placeholder="Digite um processo, por exemplo: O.S., visita">
+          </label>
+
+          <label>
+            Área
+            <select id="processArea">
+              <option value="">Todas as áreas</option>
+              <option>Jornada do cliente</option>
+              <option>Operação e qualidade</option>
+              <option>Segurança e ocorrências</option>
+              <option>Contratos e retenção</option>
+              <option>Gestão e indicadores</option>
+            </select>
+          </label>
+        </div>
+
+        <p id="processCount" class="muted">45 de 45 processos</p>
+      </div>
+
+      <div id="processGrid" class="process-grid"></div>
+    </section>
+
+    <section id="demandas" class="page">
+      <div class="panel">
+        <h2>Demandas e Ordens de Serviço</h2>
+
+        <form id="demandForm" class="form-grid">
+          <label class="full">
+            Condomínio
+            <select id="dCondo" required></select>
+          </label>
+          <label>
+            Título
+            <input id="dTitle" required>
+          </label>
+          <label>
+            Tipo
+            <select id="dType">
+              <option>Demanda</option>
+              <option>O.S.</option>
+              <option>Pendência técnica</option>
+              <option>Reclamação</option>
+              <option>Melhoria</option>
+            </select>
+          </label>
+          <label>
+            Setor
+            <input id="dSector">
+          </label>
+          <label>
+            Prazo
+            <input type="date" id="dDeadline">
+          </label>
+          <label class="full">
+            Descrição
+            <textarea id="dDescription" rows="3"></textarea>
+          </label>
+          <div class="full">
+            <button class="primary" type="submit">Salvar demanda</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Demandas cadastradas</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Condomínio</th>
+                <th>Demanda</th>
+                <th>Setor</th>
+                <th>Prazo</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="demandRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="pesquisas" class="page">
+      <div class="panel">
+        <h2>Pesquisa de satisfação</h2>
+
+        <form id="surveyForm" class="form-grid">
+          <label class="full">
+            Condomínio
+            <select id="sCondo" required></select>
+          </label>
+
+          <label>
+            Nota
+            <input type="number"
+                   id="sScore"
+                   min="0"
+                   max="10"
+                   step="0.5">
+          </label>
+
+          <label>
+            Canal
+            <select id="sChannel">
+              <option>WhatsApp</option>
+              <option>Ligação</option>
+            </select>
+          </label>
+
+          <label class="full">
+            Elogios, reclamações e pendências
+            <textarea id="sComment" rows="4"></textarea>
+          </label>
+
+          <div class="full">
+            <button class="primary" type="submit">Salvar pesquisa</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Pesquisas registradas</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Condomínio</th>
+                <th>Nota</th>
+                <th>Canal</th>
+                <th>Comentário</th>
+              </tr>
+            </thead>
+            <tbody id="surveyRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="fiscalizacao" class="page">
+      <div class="panel">
+        <h2>Fiscalização das filiais</h2>
+        <p class="muted">
+          Josy acompanha Secopi e Manaus.
+          Nicole acompanha Maranhão.
+          A execução permanece com as representantes locais.
+        </p>
+        <div id="oversight"></div>
+      </div>
+    </section>
+
+    <section id="estrategica" class="page">
+      <div class="panel">
+        <h2>Gestão estratégica</h2>
+        <p class="muted">
+          Acompanhamento de carteiras, retenção e relacionamento.
+          Os indicadores são calculados a partir dos registros existentes.
+        </p>
+        <div id="strategic"></div>
+      </div>
+    </section>
+
+    <section id="estrutura" class="page">
+      <div class="panel">
+        <h2>Estrutura e regras de atuação</h2>
+        <p><strong>Rosely:</strong> gestão geral, contratos, retenção, negociações, violações e casos críticos.</p>
+        <p><strong>Josy:</strong> operação da sua carteira Ceará e fiscalização de Secopi e Manaus.</p>
+        <p><strong>Nicole:</strong> operação da sua carteira Ceará e fiscalização do Maranhão.</p>
+        <p><strong>Representantes das filiais:</strong> execução das demandas operacionais locais.</p>
+      </div>
+    </section>
+
+    <section id="exportacao" class="page">
+      <div class="panel">
+        <h2>Dados e exportação</h2>
+        <p class="muted">
+          Exporta somente os registros que a usuária autenticada tem
+          permissão para consultar.
+        </p>
+        <button id="exportButton" class="primary">
+          Baixar backup JSON
+        </button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
 <script>
-'use strict';
-const CFG=window.SERVIS_CONFIG||{}, $=id=>document.getElementById(id);let db,me,condos=[],demands=[],surveys=[];
-const processos=['Entrada de novo condomínio','Entrega oficial','Apresentação do SC','Relacionamento preventivo','Pesquisa de satisfação','Pesquisa com moradores','Retorno da pesquisa','Visitas','Pós-visita','Adoção digital','Cadastros','Testes de ligação','Comunicação com o cliente','Retorno ao cliente','Gestão de reclamações','Reclamação da Central','Reclamações técnicas','Ordem de Serviço','OS reincidentes','Preventivas','Demandas','Melhorias','Ampliações','Financeiro','Comunicação de indisponibilidades','Reuniões internas','Eventos de segurança','Dupla passagem','Porta aberta ou violada','Renovações','Aditivos','Fechamento do pedido','Retenção','Cancelamento','Clientes críticos','Plano de ação para críticos','Indicadores da Central','Indicadores do SC','Fechamento mensal','Pareto das reclamações','Distribuição interna da equipe','Rotina diária','Rotina semanal','Escalonamento','Critério de encerramento'];
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function notice(s){$('notice').textContent=s||''}function check(e){if(e.error)throw e.error;return e.data}function fmt(v){return v?new Date(v).toLocaleDateString('pt-BR'):''}function findC(id){return condos.find(c=>c.id===id)}
-function tab(id){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));$('pageTitle').textContent=({visao:'Visão executiva',carteiras:'Carteiras e supervisão técnica',demandas:'Demandas e O.S.',pesquisas:'Pesquisas de satisfação',fiscalizacao:'Fiscalização das filiais',processos:'Biblioteca de processos',relatorio:'Relatório gerencial'})[id];location.hash=id}
-async function load(){notice('Atualizando informações…');try{condos=check(await db.from('condominios').select('*').order('nome'));demands=check(await db.from('demandas').select('*').order('criado_em',{ascending:false}).limit(1000));surveys=check(await db.from('pesquisas').select('*').order('criado_em',{ascending:false}).limit(1000));render();notice('Informações atualizadas.')}catch(e){notice('Erro ao consultar banco: '+e.message)}}
-function render(){const active=condos.filter(c=>c.ativo);const completed=demands.filter(d=>d.status==='Concluída').length;const late=demands.filter(d=>d.status!=='Concluída'&&d.prazo&&d.prazo<new Date().toISOString().slice(0,10)).length;const notes=surveys.filter(s=>s.nota!==null&&s.nota!==undefined&&s.nota!=='').map(s=>Number(s.nota)).filter(v=>Number.isFinite(v)&&v>=0);const avg=notes.length?(notes.reduce((a,b)=>a+b,0)/notes.length).toFixed(1).replace('.',','):'—';let metrics=[['Condomínios ativos',active.length],['Demandas registradas',demands.length],['Demandas concluídas',completed],['Pendências vencidas',late],['Pesquisas registradas',surveys.length],['Média de satisfação',avg],['Nicole · Ceará',active.filter(c=>c.filial==='Ceará'&&c.responsavel_sc==='Nicole').length],['Josy · Ceará',active.filter(c=>c.filial==='Ceará'&&c.responsavel_sc==='Josy').length]];$('kpis').innerHTML=metrics.map(([k,v])=>`<div class="kpi"><small>${k}</small><b>${v}</b></div>`).join('');$('owners').innerHTML=active.reduce((a,c)=>(a[c.responsavel_sc]=(a[c.responsavel_sc]||0)+1,a),{})&&Object.entries(active.reduce((a,c)=>(a[c.responsavel_sc]=(a[c.responsavel_sc]||0)+1,a),{})).map(([k,v])=>`<span class="pill" style="display:inline-block;margin:5px">${esc(k)}: ${v}</span>`).join('');renderPortfolio();let selectData=active.map(c=>`<option value="${c.id}">${esc(c.nome)} (${esc(c.filial)})</option>`).join('');$('dCondo').innerHTML=active.filter(canOperate).map(c=>`<option value="${c.id}">${esc(c.nome)} (${esc(c.filial)})</option>`).join('');$('sCondo').innerHTML=active.filter(canSurvey).map(c=>`<option value="${c.id}">${esc(c.nome)} (${esc(c.filial)})</option>`).join('');$('demandForm').querySelector('button[type=submit]').disabled=!active.some(canOperate);$('surveyForm').querySelector('button[type=submit]').disabled=!active.some(canSurvey);
-$('demandRows').innerHTML=demands.map(d=>`<tr><td>${esc(findC(d.condominio_id)?.nome)}</td><td>${esc(d.titulo)}<br><small>${esc(d.tipo)}</small></td><td>${esc(d.setor)}</td><td>${esc(d.prazo)}</td><td>${esc(d.ultima_cobranca)}</td><td>${canOperate(findC(d.condominio_id))?`<select data-demand="${d.id}">${['Aberta','Em andamento','Aguardando setor','Concluída'].map(x=>`<option ${d.status===x?'selected':''}>${x}</option>`).join('')}</select>`:esc(d.status)}</td></tr>`).join('');$('surveyRows').innerHTML=surveys.map(s=>`<tr><td>${esc(findC(s.condominio_id)?.nome)}</td><td>${s.nota===null?'—':esc(s.nota)}</td><td>${esc(s.canal)}</td><td>${esc(s.comentario)}</td><td>${fmt(s.criado_em)}</td></tr>`).join('');$('oversightRows').innerHTML=demands.filter(d=>d.status!=='Concluída'&&findC(d.condominio_id)?.filial!=='Ceará').map(d=>`<p>${esc(findC(d.condominio_id)?.filial)} · ${esc(findC(d.condominio_id)?.nome)} — ${esc(d.titulo)} (${esc(d.status)})</p>`).join('')||'<p class="sub">Sem registros pendentes nas filiais disponíveis para este perfil.</p>';$('report').innerHTML=`<p>Condomínios ativos visíveis: ${active.length}. Demandas: ${demands.length}. Concluídas: ${completed}. Vencidas: ${late}. Pesquisas: ${surveys.length}. Média das notas registradas: ${avg}.</p>`}
-function canSurvey(c){return !!c&&(me.papel==='admin'||(me.papel==='josy'&&['Secopi','Manaus'].includes(c.filial))||(me.papel==='nicole'&&c.filial==='Maranhão'))}
-function canOperate(c){return !!c&&(me.papel==='admin'||(me.papel==='josy'&&c.filial==='Ceará'&&c.responsavel_sc==='Josy')||(me.papel==='nicole'&&c.filial==='Ceará'&&c.responsavel_sc==='Nicole')||(me.papel==='filial'&&c.filial===me.filial))}
-function renderPortfolio(){let needle=$('search').value.toLocaleLowerCase('pt-BR'),own=$('filterOwner').value, inactive=$('showInactive').checked;let filtered=condos.filter(c=>(inactive||c.ativo)&&(!own||c.responsavel_sc===own)&&(`${c.nome} ${c.supervisor_tecnico||''}`.toLocaleLowerCase('pt-BR').includes(needle)));$('portfolioCount').textContent=`${filtered.length} registros visíveis`;const admin=me.papel==='admin';$('portfolioRows').innerHTML=filtered.map(c=>`<tr><td>${esc(c.nome)} ${!c.ativo?'<span class="pill">Inativo</span>':''}</td><td>${esc(c.filial)}</td><td>${esc(c.responsavel_sc)}</td><td>${esc(c.supervisor_tecnico)}<br><small>${esc(c.tecnico)}</small></td><td>${admin?`<select data-owner="${c.id}">${['Nicole','Josy','Paula','Tayane','Juliana','A definir'].map(n=>`<option ${c.responsavel_sc===n?'selected':''}>${n}</option>`).join('')}</select> <button class="subtle" data-toggle="${c.id}">${c.ativo?'Inativar':'Restaurar'}</button>`:'Somente gestão'}</td></tr>`).join('')}
-async function updateCondo(id,changes){try{check(await db.from('condominios').update(changes).eq('id',id));await load()}catch(e){notice('Não foi possível alterar: '+e.message)}}
-async function onSubmit(table,row){try{check(await db.from(table).insert(row));await load();notice('Registro salvo no banco de dados compartilhado.')}catch(e){notice('Não foi possível salvar: '+e.message)}}
-async function begin(){let sess=(await db.auth.getSession()).data.session;if(!sess){$('signin').style.display='block';$('app').style.display='none';return}try{let data=check(await db.from('profiles').select('*').eq('user_id',sess.user.id).single());me=data;$('who').textContent=`${me.nome} · ${me.papel}`;$('signin').style.display='none';$('app').style.display='block';await load()}catch(e){$('setupNotice').textContent='Conta sem autorização de acesso. Solicite à administradora o cadastro do perfil.';await db.auth.signOut()}}
-window.addEventListener('DOMContentLoaded',()=>{if(!CFG.url||!CFG.anonKey||CFG.url.includes('COLE_')||CFG.anonKey.includes('COLE_')){$('setupNotice').textContent='Configuração pendente: preencha a URL e a chave publicável no início deste index.html.';$('login').disabled=true;return}if(!window.supabase){$('setupNotice').textContent='Não foi possível carregar a biblioteca do Supabase. Verifique a internet.';return}db=window.supabase.createClient(CFG.url,CFG.anonKey);$('login').onclick=async()=>{try{let r=await db.auth.signInWithPassword({email:$('email').value,password:$('password').value});if(r.error)throw r.error;await begin()}catch(e){$('setupNotice').textContent=e.message}};$('logout').onclick=async()=>{await db.auth.signOut();await begin()};$('reload').onclick=load;document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>tab(b.dataset.tab));['search','filterOwner','showInactive'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',renderPortfolio));$('portfolioRows').addEventListener('change',e=>{let id=e.target.dataset.owner;if(id&&confirm('Transferir condomínio para '+e.target.value+'?'))updateCondo(id,{responsavel_sc:e.target.value});else renderPortfolio()});$('portfolioRows').addEventListener('click',e=>{let id=e.target.dataset.toggle;if(id){let c=condos.find(x=>x.id===id);if(confirm(c.ativo?'Inativar condomínio sem apagar histórico?':'Restaurar condomínio?'))updateCondo(id,{ativo:!c.ativo})}});$('demandRows').addEventListener('change',async e=>{let id=e.target.dataset.demand;if(id){try{check(await db.from('demandas').update({status:e.target.value,atualizado_em:new Date().toISOString()}).eq('id',id));await load()}catch(err){notice(err.message)}}});$('demandForm').onsubmit=e=>{e.preventDefault();onSubmit('demandas',{condominio_id:$('dCondo').value,tipo:$('dTipo').value,titulo:$('dTitle').value,setor:$('dSetor').value||null,prazo:$('dPrazo').value||null,proxima_acao:$('dAcao').value||null,descricao:$('dDesc').value||null});e.target.reset()};$('surveyForm').onsubmit=e=>{e.preventDefault();onSubmit('pesquisas',{condominio_id:$('sCondo').value,nota:$('sNota').value===''?null:Number($('sNota').value),canal:$('sCanal').value,comentario:$('sComentario').value||null,evidencia_ref:$('sEvidencia').value||null});e.target.reset()};$('exportCsv').onclick=()=>{let rows=[['Condomínio','Filial','Responsável','Supervisor','Ativo'],...condos.map(c=>[c.nome,c.filial,c.responsavel_sc,c.supervisor_tecnico,c.ativo])];let csv='\ufeff'+rows.map(r=>r.map(x=>'"'+String(x??'').replaceAll('"','""')+'"').join(';')).join('\r\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='carteiras_servis.csv';a.click();URL.revokeObjectURL(a.href)};$('processList').innerHTML=processos.map((p,i)=>`<span class="process">${String(i+1).padStart(2,'0')} · ${esc(p)}</span>`).join('');begin()});
-</script></body></html>
+"use strict";
+
+/*
+  CONFIGURAÇÃO SUPABASE
+
+  A URL abaixo utiliza o endereço do projeto apresentado
+  anteriormente nas configurações.
+
+  Cole somente a chave PUBLICÁVEL.
+  Nunca use sb_secret_ ou service_role neste arquivo.
+*/
+const SUPABASE_URL =
+  "https://fkwnsegmibfmmdzancev.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_ZELUMCyPtWkdQPmDcFmf_Q_xtHZcnMi";
+
+const ORIGINAL_PROCESSES =
+  "https://servis-processos-sc-rose.roselyfarias95.chatgpt.site/";
+
+let db = null;
+let profile = null;
+let condominios = [];
+let demandas = [];
+let pesquisas = [];
+
+const $ = id => document.getElementById(id);
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[c]);
+}
+
+function notify(message) {
+  $("notice").textContent = message || "";
+}
+
+function check(result) {
+  if (result.error) throw result.error;
+  return result.data;
+}
+
+const processNames = [
+  "Entrada de novo condomínio",
+  "Entrega oficial",
+  "Apresentação do SC",
+  "Relacionamento preventivo",
+  "Pesquisa de satisfação",
+  "Pesquisa com moradores",
+  "Retorno da pesquisa",
+  "Visitas",
+  "Pós-visita",
+  "Adoção digital",
+  "Cadastros",
+  "Testes de ligação",
+  "Comunicação com o cliente",
+  "Retorno ao cliente",
+  "Gestão de reclamações",
+  "Reclamação da Central",
+  "Reclamações técnicas",
+  "Ordem de Serviço",
+  "OS reincidentes",
+  "Preventivas",
+  "Demandas",
+  "Melhorias",
+  "Ampliações",
+  "Financeiro",
+  "Comunicação de indisponibilidades",
+  "Reuniões internas",
+  "Eventos de segurança",
+  "Dupla passagem",
+  "Porta aberta ou violada",
+  "Renovações",
+  "Aditivos",
+  "Fechamento do pedido",
+  "Retenção",
+  "Cancelamento",
+  "Clientes críticos",
+  "Plano de ação para críticos",
+  "Indicadores da Central",
+  "Indicadores do SC",
+  "Fechamento mensal",
+  "Pareto das reclamações",
+  "Distribuição interna da equipe",
+  "Rotina diária",
+  "Rotina semanal",
+  "Escalonamento",
+  "Critério de encerramento"
+];
+
+function processArea(index) {
+  if (index < 14) return "Jornada do cliente";
+  if (index < 26) return "Operação e qualidade";
+  if (index < 29) return "Segurança e ocorrências";
+  if (index < 36) return "Contratos e retenção";
+  return "Gestão e indicadores";
+}
+
+const processes = processNames.map((title, index) => ({
+  number:index+1,
+  title,
+  area:processArea(index)
+}));
+
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.toggle("active", page.id === id);
+  });
+
+  document.querySelectorAll("[data-page]").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.page === id
+    );
+  });
+
+  const labels = {
+    visao:"▦ Visão executiva",
+    carteiras:"▤ Carteiras Ceará",
+    processos:"▣ Processos do SC",
+    demandas:"☷ Demandas & O.S.",
+    pesquisas:"☆ Pesquisas",
+    fiscalizacao:"◎ Fiscalização",
+    estrategica:"◇ Gestão estratégica",
+    estrutura:"♧ Estrutura & regras",
+    exportacao:"⚙ Dados & exportação"
+  };
+
+  $("currentSection").textContent = labels[id] || "";
+}
+
+function renderProcesses() {
+  const term =
+    $("processSearch").value.toLowerCase().trim();
+
+  const selectedArea = $("processArea").value;
+
+  const filtered = processes.filter(process => {
+    const matchesText =
+      (process.title + " " + process.area)
+      .toLowerCase()
+      .includes(term);
+
+    const matchesArea =
+      !selectedArea || process.area === selectedArea;
+
+    return matchesText && matchesArea;
+  });
+
+  $("processCount").textContent =
+    `${filtered.length} de 45 processos`;
+
+  $("processGrid").innerHTML = filtered.map(process => `
+    <article class="process-card">
+      <small>
+        PROCESSO ${String(process.number).padStart(2,"0")}
+        · ${escapeHTML(process.area)}
+      </small>
+      <strong>${escapeHTML(process.title)}</strong>
+      <a href="${ORIGINAL_PROCESSES}"
+         target="_blank"
+         rel="noopener noreferrer">
+        Consultar procedimento original ↗
+      </a>
+    </article>
+  `).join("");
+}
+
+function findCondo(id) {
+  return condominios.find(c => c.id === id);
+}
+
+function canOperate(c) {
+  if (!c || !profile) return false;
+
+  if (profile.papel === "admin") return true;
+
+  if (profile.papel === "josy") {
+    return c.filial === "Ceará" &&
+      c.responsavel_sc === "Josy";
+  }
+
+  if (profile.papel === "nicole") {
+    return c.filial === "Ceará" &&
+      c.responsavel_sc === "Nicole";
+  }
+
+  if (profile.papel === "filial") {
+    return c.filial === profile.filial;
+  }
+
+  return false;
+}
+
+function canSurvey(c) {
+  if (!c || !profile) return false;
+
+  if (profile.papel === "admin") return true;
+
+  if (profile.papel === "josy") {
+    return ["Secopi","Manaus"].includes(c.filial);
+  }
+
+  if (profile.papel === "nicole") {
+    return c.filial === "Maranhão";
+  }
+
+  return false;
+}
+
+function renderOverview() {
+  const ativos = condominios.filter(c => c.ativo);
+
+  const concluidas = demandas.filter(
+    d => d.status === "Concluída"
+  ).length;
+
+  const hoje = new Date().toISOString().slice(0,10);
+
+  const atrasadas = demandas.filter(
+    d => d.status !== "Concluída" &&
+      d.prazo &&
+      d.prazo < hoje
+  ).length;
+
+  const notas = pesquisas
+    .map(p => Number(p.nota))
+    .filter(n => Number.isFinite(n) && n >= 0);
+
+  const media = notas.length
+    ? (notas.reduce((a,b) => a+b,0)/notas.length)
+        .toFixed(1).replace(".",",")
+    : "—";
+
+  const metrics = [
+    ["Condomínios ativos",ativos.length],
+    ["Demandas registradas",demandas.length],
+    ["Demandas concluídas",concluidas],
+    ["Pendências atrasadas",atrasadas],
+    ["Pesquisas registradas",pesquisas.length],
+    ["Média de satisfação",media],
+    ["Carteira de Josy",ativos.filter(c =>
+      c.filial==="Ceará" &&
+      c.responsavel_sc==="Josy"
+    ).length],
+    ["Carteira de Nicole",ativos.filter(c =>
+      c.filial==="Ceará" &&
+      c.responsavel_sc==="Nicole"
+    ).length]
+  ];
+
+  $("kpis").innerHTML = metrics.map(([name,value]) => `
+    <article class="kpi">
+      <small>${escapeHTML(name)}</small>
+      <b>${escapeHTML(value)}</b>
+      <small>Registros disponíveis</small>
+    </article>
+  `).join("");
+
+  const grouped = {};
+
+  ativos.forEach(c => {
+    const name = c.responsavel_sc || "A definir";
+    grouped[name] = (grouped[name] || 0) + 1;
+  });
+
+  $("distribution").innerHTML =
+    Object.entries(grouped).map(([name,total]) => `
+      <span class="tag"
+            style="display:inline-block;margin:5px">
+        ${escapeHTML(name)}: ${total}
+      </span>
+    `).join("");
+
+  $("strategic").innerHTML = `
+    <p>Condomínios visíveis: ${ativos.length}</p>
+    <p>Demandas registradas: ${demandas.length}</p>
+    <p>Demandas concluídas: ${concluidas}</p>
+    <p>Pesquisas registradas: ${pesquisas.length}</p>
+  `;
+}
+
+function renderCondominios() {
+  const search = $("condoSearch").value.toLowerCase();
+  const owner = $("condoOwner").value;
+
+  const filtered = condominios.filter(c => {
+    if (!c.ativo) return false;
+
+    const combined = [
+      c.nome,
+      c.tecnico,
+      c.supervisor_tecnico
+    ].join(" ").toLowerCase();
+
+    return combined.includes(search) &&
+      (!owner || c.responsavel_sc===owner);
+  });
+
+  $("condoCount").textContent =
+    `${filtered.length} condomínios visíveis`;
+
+  $("condoRows").innerHTML = filtered.map(c => `
+    <tr>
+      <td>${escapeHTML(c.nome)}</td>
+      <td>${escapeHTML(c.filial)}</td>
+      <td>${escapeHTML(c.responsavel_sc)}</td>
+      <td>${escapeHTML(c.supervisor_tecnico)}</td>
+      <td>${escapeHTML(c.tecnico)}</td>
+    </tr>
+  `).join("");
+}
+
+function renderDemandas() {
+  $("dCondo").innerHTML = condominios
+    .filter(c => c.ativo && canOperate(c))
+    .map(c => `
+      <option value="${c.id}">
+        ${escapeHTML(c.nome)}
+      </option>
+    `).join("");
+
+  $("demandRows").innerHTML = demandas.map(d => {
+    const c = findCondo(d.condominio_id);
+
+    return `
+      <tr>
+        <td>${escapeHTML(c?.nome)}</td>
+        <td>${escapeHTML(d.titulo)}</td>
+        <td>${escapeHTML(d.setor)}</td>
+        <td>${escapeHTML(d.prazo)}</td>
+        <td>${escapeHTML(d.status)}</td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function renderPesquisas() {
+  $("sCondo").innerHTML = condominios
+    .filter(c => c.ativo && canSurvey(c))
+    .map(c => `
+      <option value="${c.id}">
+        ${escapeHTML(c.nome)}
+      </option>
+    `).join("");
+
+  $("surveyRows").innerHTML = pesquisas.map(p => `
+    <tr>
+      <td>${escapeHTML(findCondo(p.condominio_id)?.nome)}</td>
+      <td>${escapeHTML(p.nota ?? "—")}</td>
+      <td>${escapeHTML(p.canal)}</td>
+      <td>${escapeHTML(p.comentario)}</td>
+    </tr>
+  `).join("");
+}
+
+function renderFiscalizacao() {
+  const regional = condominios.filter(c =>
+    c.filial !== "Ceará"
+  );
+
+  $("oversight").innerHTML = regional.length
+    ? regional.map(c => `
+        <p>
+          ${escapeHTML(c.filial)}
+          — ${escapeHTML(c.nome)}
+        </p>
+      `).join("")
+    : `<p class="muted">
+         Nenhum condomínio regional disponível para este perfil.
+       </p>`;
+}
+
+function render() {
+  renderOverview();
+  renderCondominios();
+  renderDemandas();
+  renderPesquisas();
+  renderFiscalizacao();
+}
+
+async function loadData() {
+  notify("Carregando dados do Supabase...");
+
+  try {
+    condominios = check(
+      await db.from("condominios")
+        .select("*")
+        .order("nome")
+    );
+
+    demandas = check(
+      await db.from("demandas")
+        .select("*")
+        .order("criado_em",{ascending:false})
+        .limit(1000)
+    );
+
+    pesquisas = check(
+      await db.from("pesquisas")
+        .select("*")
+        .order("criado_em",{ascending:false})
+        .limit(1000)
+    );
+
+    render();
+    notify("");
+
+  } catch(error) {
+    notify("Erro ao consultar o banco: " + error.message);
+  }
+}
+
+async function checkSession() {
+  const result = await db.auth.getUser();
+
+  if (result.error || !result.data.user) {
+    $("loginScreen").classList.remove("hidden");
+    $("system").classList.add("hidden");
+    return;
+  }
+
+  try {
+    profile = check(
+      await db.from("profiles")
+        .select("*")
+        .eq("user_id",result.data.user.id)
+        .single()
+    );
+
+    $("userName").textContent =
+      `${profile.nome} · ${profile.papel}`;
+
+    $("loginScreen").classList.add("hidden");
+    $("system").classList.remove("hidden");
+
+    await loadData();
+
+  } catch(error) {
+    $("loginMessage").textContent =
+      "Não foi possível carregar seu perfil: " +
+      error.message;
+
+    $("loginScreen").classList.remove("hidden");
+    $("system").classList.add("hidden");
+  }
+}
+
+async function signIn() {
+  $("loginMessage").textContent = "";
+
+  try {
+    const response = await db.auth.signInWithPassword({
+      email:$("email").value.trim(),
+      password:$("password").value
+    });
+
+    check(response);
+    await checkSession();
+
+  } catch(error) {
+    $("loginMessage").textContent = error.message;
+  }
+}
+
+async function saveDemand(event) {
+  event.preventDefault();
+
+  const condoId = $("dCondo").value;
+
+  if (!condoId) {
+    notify("Nenhum condomínio autorizado para essa operação.");
+    return;
+  }
+
+  try {
+    check(await db.from("demandas").insert({
+      condominio_id:condoId,
+      titulo:$("dTitle").value,
+      tipo:$("dType").value,
+      setor:$("dSector").value || null,
+      descricao:$("dDescription").value || null,
+      prazo:$("dDeadline").value || null,
+      status:"Aberta"
+    }));
+
+    $("demandForm").reset();
+    await loadData();
+    notify("Demanda registrada com sucesso.");
+
+  } catch(error) {
+    notify("Erro ao salvar demanda: " + error.message);
+  }
+}
+
+async function saveSurvey(event) {
+  event.preventDefault();
+
+  const condoId = $("sCondo").value;
+
+  if (!condoId) {
+    notify("Nenhum condomínio autorizado para pesquisa.");
+    return;
+  }
+
+  try {
+    check(await db.from("pesquisas").insert({
+      condominio_id:condoId,
+      nota:$("sScore").value === ""
+        ? null : Number($("sScore").value),
+      canal:$("sChannel").value,
+      comentario:$("sComment").value
+    }));
+
+    $("surveyForm").reset();
+    await loadData();
+    notify("Pesquisa registrada com sucesso.");
+
+  } catch(error) {
+    notify("Erro ao salvar pesquisa: " + error.message);
+  }
+}
+
+function exportJSON() {
+  const data = {
+    exportado_em:new Date().toISOString(),
+    condominios,
+    demandas,
+    pesquisas
+  };
+
+  const blob = new Blob(
+    [JSON.stringify(data,null,2)],
+    {type:"application/json"}
+  );
+
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+
+  anchor.href = url;
+  anchor.download = "backup_servis_sc.json";
+  anchor.click();
+
+  URL.revokeObjectURL(url);
+}
+
+document.addEventListener("DOMContentLoaded",async () => {
+  renderProcesses();
+
+  document.querySelectorAll("[data-page]").forEach(button => {
+    button.addEventListener("click",() => {
+      showPage(button.dataset.page);
+    });
+  });
+
+  $("processSearch").addEventListener("input",renderProcesses);
+  $("processArea").addEventListener("change",renderProcesses);
+
+  $("condoSearch").addEventListener("input",renderCondominios);
+  $("condoOwner").addEventListener("change",renderCondominios);
+
+  $("demandForm").addEventListener("submit",saveDemand);
+  $("surveyForm").addEventListener("submit",saveSurvey);
+
+  $("exportButton").addEventListener("click",exportJSON);
+
+  if (SUPABASE_KEY.includes("COLE_SUA")) {
+    $("loginMessage").textContent =
+      "Configure a chave publicável do Supabase no código.";
+    return;
+  }
+
+  db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  $("loginButton").addEventListener("click",signIn);
+
+  $("password").addEventListener("keydown",event => {
+    if (event.key === "Enter") signIn();
+  });
+
+  $("reload").addEventListener("click",loadData);
+
+  $("logout").addEventListener("click",async () => {
+    await db.auth.signOut();
+    profile = null;
+    $("password").value = "";
+    await checkSession();
+  });
+
+  await checkSession();
+});
+</script>
+
+</body>
+</html>
