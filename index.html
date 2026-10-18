@@ -1,1759 +1,238 @@
-
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SERVIS | Gestão de Sucesso do Cliente</title>
-<link rel="icon" href="logo-servis.png">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SERVIS | Gestão de Sucesso do Cliente</title><link rel="icon" href="logo-servis.png"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
-:root{
- --bg:#081525;--side:#0b1b2e;--panel:#102136;
- --panel2:#192f48;--line:#29425d;--text:#e8f2ff;
- --muted:#a4bad3;--teal:#37d5c8;--blue:#55aaff;
- --red:#ff8585;--orange:#ffc27d;--green:#70deb0
-}
-*{box-sizing:border-box}
-body{
- margin:0;background:var(--bg);color:var(--text);
- font:14px Arial,sans-serif
-}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-a{color:var(--blue)}
-.hidden{display:none!important}
-.sidebar{
- position:fixed;top:0;bottom:0;left:0;width:240px;
- padding:17px 12px;overflow-y:auto;background:var(--side);
- border-right:1px solid var(--line)
-}
-.brand{text-align:center;margin-bottom:18px}
-.logo{
- background:white;border-radius:16px;padding:10px;
- width:120px;height:120px;margin:auto
-}
-.logo img{width:100%;height:100%;object-fit:contain}
-.brand small{
- display:block;margin:12px 0;color:var(--muted);
- letter-spacing:2px;font-size:10px
-}
-.profile{
- display:flex;align-items:center;gap:9px;padding:8px;
- background:#1b3855;border:1px solid var(--line);
- border-radius:30px;margin-bottom:17px
-}
-.avatar{
- width:44px;height:44px;min-width:44px;
- border-radius:50%;object-fit:cover;
- object-position:center 35%;border:2px solid var(--blue)
-}
-.profile small{display:block;color:var(--muted);margin-top:4px}
-.menu button{
- display:block;width:100%;padding:13px;border:0;
- border-radius:9px;background:none;color:#c4d6e8;
- text-align:left;margin-bottom:4px;font-weight:600
-}
-.menu button:hover,.menu button.active{
- background:#1b3855;color:white
-}
-.main{margin-left:240px;padding:27px 35px 65px}
-.topline,.actions{
- display:flex;justify-content:space-between;
- align-items:center;gap:10px;flex-wrap:wrap
-}
-.actions{justify-content:flex-start}
-.eyebrow{
- font-size:11px;letter-spacing:1.5px;
- font-weight:bold;color:var(--teal)
-}
-h1{font-size:28px;margin:9px 0}
-h1 span{color:var(--blue)}
-h2{font-size:19px;margin:0 0 12px}
-h3{font-size:16px}
-.muted,small{color:var(--muted)}
-.panel{
- background:var(--panel);border:1px solid var(--line);
- border-radius:14px;padding:20px;margin:15px 0
-}
-.btn{
- display:inline-block;background:#203b58;color:white;
- padding:10px 15px;border:1px solid var(--line);
- border-radius:9px;text-decoration:none
-}
-.btn.primary{background:#118e91;border-color:#118e91}
-.btn.danger{background:#843a49;border-color:#a75362}
-.btn.small{padding:7px 10px;font-size:11px}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-input,select,textarea{
- width:100%;padding:10px;border-radius:9px;
- background:var(--panel2);color:white;
- border:1px solid #365573;outline:none
-}
-input:focus,select:focus,textarea:focus{
- border-color:var(--teal)
-}
-input[type=checkbox]{width:auto}
-input::placeholder,textarea::placeholder{color:#8fa8c2}
-.form{
- display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
- gap:13px
-}
-.form label{
- display:flex;flex-direction:column;gap:6px;
- font-size:12px;color:var(--muted)
-}
-.form .full{grid-column:1/-1}
-.search{
- display:flex;gap:10px;flex-wrap:wrap;margin:15px 0
-}
-.search input{max-width:360px}
-.search select{max-width:250px}
-.tag{
- display:inline-block;padding:8px 12px;margin:5px;
- border:1px solid #365b73;border-radius:20px;
- color:var(--teal);font-size:12px
-}
-.grid{
- display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
- gap:12px;margin:15px 0
-}
-.kpi{
- padding:18px;border:1px solid var(--line);
- border-top:3px solid var(--teal);
- background:var(--panel);border-radius:12px
-}
-.kpi:nth-child(even){border-top-color:var(--blue)}
-.kpi small{display:block}
-.kpi b{display:block;font-size:27px;margin-top:12px}
-.page{display:none}
-.page.active{display:block}
-.scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-th,td{
- text-align:left;vertical-align:top;
- padding:11px 10px;border-bottom:1px solid var(--line);
- font-size:12px
-}
-th{background:#172f47;color:#bdd7ed}
-.status{color:var(--orange);white-space:pre-wrap}
-.login{
- min-height:100vh;display:grid;
- place-items:center;padding:20px
-}
-.login .panel{
- width:400px;max-width:100%;text-align:center
-}
-.login label{
- text-align:left;display:block;margin:12px 0
-}
-.notification-wrap{position:relative}
-.notification-panel{
- position:absolute;right:0;top:48px;z-index:20;
- background:#17304a;border:1px solid var(--line);
- border-radius:12px;padding:15px;width:390px;
- max-width:calc(100vw - 30px);max-height:480px;
- overflow-y:auto;box-shadow:0 18px 40px #0009
-}
-.notification-item{
- padding:12px 3px;border-bottom:1px solid var(--line)
-}
-.notification-item.unread{
- border-left:3px solid var(--teal);padding-left:10px
-}
-.notification-item p{
- color:var(--muted);font-size:12px
-}
-.count{
- background:var(--red);color:#102136;
- padding:2px 7px;border-radius:12px;font-weight:bold
-}
-.detail{border-color:var(--teal)}
-.details{
- display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
- gap:12px;margin:15px 0
-}
-.details div{
- padding:12px;background:var(--panel2);
- border-radius:9px;overflow-wrap:anywhere
-}
-.details small{display:block;margin-bottom:6px}
-.note{
- padding:14px;background:var(--panel2);
- border-radius:9px;white-space:pre-wrap;
- line-height:1.6;overflow-wrap:anywhere
-}
-.process-grid{
- display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
- gap:12px
-}
-.process-card{
- padding:15px;background:var(--panel);
- border:1px solid var(--line);border-radius:13px
-}
-.process-card strong{display:block;margin:10px 0}
-.audit-row{
- padding:13px;border-bottom:1px solid var(--line)
-}
-.audit-row b{color:var(--teal)}
-.audit-row p{margin:5px 0}
-.pill{
- display:inline-block;font-size:11px;padding:5px 8px;
- border-radius:15px;background:#29465f
-}
-.pill.critical{background:#66323c;color:#ffd2d2}
-.pill.success{background:#174b40;color:#bbf7d8}
-.modal{
- position:fixed;inset:0;z-index:30;
- display:flex;justify-content:center;align-items:center;
- background:#000b;padding:16px
-}
-.modal-card{
- width:720px;max-width:100%;
- max-height:94vh;overflow:auto;
- background:#132740;border:1px solid var(--line);
- padding:22px;border-radius:15px
-}
-.result-explanation{
- padding:14px;background:#102d39;
- border:1px solid #28616a;border-radius:10px;
- color:#b5d7df;font-size:12px;line-height:1.6
-}
-.progress{
- height:9px;border-radius:8px;overflow:hidden;
- background:#29435d;margin-top:8px
-}
-.progress-fill{height:100%;background:var(--teal)}
-.empty{text-align:center;color:var(--muted);padding:20px}
-@media(max-width:1050px){
- .grid{grid-template-columns:repeat(2,1fr)}
- .process-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:720px){
- .sidebar{position:relative;width:100%;height:auto}
- .menu{display:flex;overflow-x:auto}
- .menu button{width:auto;white-space:nowrap}
- .main{margin-left:0;padding:18px}
- .grid,.details,.process-grid,.form{grid-template-columns:1fr}
- h1{font-size:23px}
-}
-</style>
-</head>
-
-<body>
-
-<section id="loginScreen" class="login">
- <div class="panel">
-  <div class="logo">
-   <img src="logo-servis.png" alt="Servis">
-  </div>
-  <h2 style="margin-top:18px">SERVIS • Sucesso do Cliente</h2>
-  <p class="muted">Acesso restrito à equipe</p>
-  <p id="loginMessage" class="status"></p>
-  <label>E-mail
-   <input id="email" type="email" autocomplete="username">
-  </label>
-  <label>Senha
-   <input id="password" type="password" autocomplete="current-password">
-  </label>
-  <button id="loginButton" class="btn primary">Entrar</button>
- </div>
+:root{--bg:#081525;--side:#0b1b2e;--panel:#102136;--pane2:#192f48;--line:#29425d;--text:#e8f2ff;--muted:#a4bad3;--teal:#37d5c8;--blue:#55aaff;--danger:#ff8a91}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:var(--blue)}.hidden{display:none!important}.sidebar{position:fixed;inset:0 auto 0 0;background:var(--side);width:240px;padding:16px 12px;border-right:1px solid var(--line);overflow:auto}.brand{text-align:center;margin:3px 0 16px}.logo{width:116px;height:116px;margin:auto;background:white;border-radius:16px;padding:9px}.logo img{width:100%;height:100%;object-fit:contain}.brand small{display:block;margin:10px;color:var(--muted);letter-spacing:2px;font-size:10px}.profile{background:#1b3855;border:1px solid var(--line);border-radius:30px;display:flex;align-items:center;gap:8px;padding:8px;margin-bottom:15px}.avatar{width:42px;height:42px;object-fit:cover;border-radius:50%;border:2px solid var(--blue)}.profile small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.menu button{width:100%;display:block;background:transparent;color:#c4d6e8;border:0;border-radius:9px;padding:13px;text-align:left;margin:3px 0;font-weight:600}.menu button.active,.menu button:hover{background:#1b3855;color:white}.main{margin-left:240px;padding:27px 35px 70px}.topline,.actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.actions{justify-content:flex-start}.eyebrow{font-size:11px;letter-spacing:1.5px;color:var(--teal);font-weight:bold}h1{margin:9px 0;font-size:28px}h1 span{color:var(--blue)}h2{font-size:19px;margin:0 0 12px}h3{font-size:16px}.muted,small{color:var(--muted)}.panel{margin:15px 0;padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:14px}.btn{background:#203b58;color:white;border:1px solid var(--line);border-radius:9px;padding:10px 15px;text-decoration:none;display:inline-block}.btn.primary{background:#118e91;border-color:#118e91}.btn.danger{background:#843a49;border-color:#a75362}.btn.small{padding:6px 9px;font-size:11px}.btn:disabled{opacity:.5;cursor:not-allowed}input,select,textarea{width:100%;background:var(--pane2);border:1px solid #365573;border-radius:9px;padding:10px;color:white}input[type=checkbox]{width:auto}.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.form label{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:12px}.form .full{grid-column:1/-1}.search{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}.search input{max-width:360px}.search select{max-width:210px}.tag{display:inline-block;border:1px solid #365b73;border-radius:20px;color:var(--teal);padding:8px 12px;font-size:12px;margin:5px 5px 5px 0}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.kpi{border:1px solid var(--line);border-top:3px solid var(--teal);border-radius:12px;background:var(--panel);padding:18px}.kpi b{display:block;font-size:27px;margin:12px 0 0}.page{display:none}.page.active{display:block}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid var(--line);padding:11px 10px;font-size:12px;text-align:left;vertical-align:top}th{background:#172f47;color:#bdd7ed}.scroll{overflow:auto}.status{color:#ffc27d;white-space:pre-wrap}.login{min-height:100vh;display:grid;place-items:center;padding:20px}.login .panel{width:400px;max-width:100%;text-align:center}.login label{text-align:left;display:block;margin:12px 0}.notification-wrap{position:relative}.notification-panel{position:absolute;top:48px;right:0;background:#17304a;border:1px solid var(--line);width:390px;max-width:calc(100vw - 30px);max-height:480px;overflow:auto;z-index:20;border-radius:12px;padding:15px;box-shadow:0 18px 40px #0009}.notification-item{padding:12px 3px;border-bottom:1px solid var(--line)}.notification-item p{color:var(--muted);font-size:12px}.count{background:#ff8585;color:#102136;padding:2px 7px;border-radius:12px}.detail{border-color:var(--teal)}.details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:15px 0}.details div{padding:12px;background:var(--pane2);border-radius:9px;overflow-wrap:anywhere}.details small{display:block;margin-bottom:6px}.note{background:var(--pane2);padding:14px;border-radius:9px;white-space:pre-wrap;line-height:1.6}.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.process-card{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:15px}.process-card strong{display:block;margin:10px 0}.audit-row{padding:13px;border-bottom:1px solid var(--line)}.audit-row b{color:var(--teal)}.audit-row p{margin:5px 0}.pill{font-size:11px;border-radius:15px;background:#29465f;padding:5px 8px}.modal{position:fixed;inset:0;background:#000b;z-index:30;display:flex;justify-content:center;align-items:center;padding:16px}.modal-card{width:720px;max-width:100%;max-height:94vh;overflow:auto;background:#132740;border:1px solid var(--line);padding:22px;border-radius:15px}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}#notice{margin:12px 0}@media(max-width:1050px){.grid{grid-template-columns:repeat(2,1fr)}.process-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.sidebar{position:relative;width:100%;height:auto}.menu{display:flex;overflow-x:auto}.menu button{width:auto;white-space:nowrap}.main{margin-left:0;padding:18px}.grid,.details,.process-grid,.form{grid-template-columns:1fr}h1{font-size:23px}}
+.formlabel{display:block;color:var(--muted);margin-bottom:8px}.import-control{min-width:155px}.import-comment{min-width:230px}.import-invalid{background:#502c37}.import-valid{color:#83e6b1}.import-issue{color:#ffc27d}
+</style><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head><body>
+<section id="loginScreen" class="login"><div class="panel"><div class="logo"><img src="logo-servis.png" alt="Servis"></div><h2 style="margin-top:18px">SERVIS • Sucesso do Cliente</h2><p class="muted">Acesso restrito à equipe</p><p id="loginMessage" class="status"></p><label>E-mail<input id="email" type="email" autocomplete="username"></label><label>Senha<input id="password" type="password" autocomplete="current-password"></label><button id="loginButton" class="btn primary">Entrar</button></div></section>
+<div id="system" class="hidden"><aside class="sidebar"><div class="brand"><div class="logo"><img src="logo-servis.png" alt="Servis"></div><small>SUCESSO DO CLIENTE</small></div><div class="profile"><img id="avatar" class="avatar" src="logo-servis.png" alt="Foto de perfil"><div><strong id="who"></strong><small id="role"></small></div></div><nav class="menu"><button data-page="visao" class="active">▦ Visão executiva</button><button data-page="carteiras">▤ Carteiras Ceará</button><button data-page="resultados">◈ Resultados por Carteira</button><button data-page="processos">▣ Processos do SC</button><button data-page="demandas">☷ Demandas & O.S.</button><button data-page="pesquisas">☆ Pesquisas</button><button data-page="pendencias">⚑ Pendências da equipe</button><button data-page="fiscalizacao">◎ Fiscalização</button><button data-page="estrategica">◇ Gestão estratégica</button><button data-page="estrutura">♧ Estrutura & regras</button><button data-page="exportacao">⚙ Dados & exportação</button></nav><button id="logout" class="btn">Sair</button></aside>
+<main class="main"><div class="topline"><div><div class="eyebrow">Painel gerencial • Sucesso do Cliente</div><h1>Dashboard Executivo <span>| Servis</span></h1><p class="muted">Carteiras, O.S., pesquisas, pendências e rastreabilidade</p></div><div class="actions"><div class="notification-wrap"><button id="bell" class="btn">🔔 Notificações <span id="bellCount" class="count hidden">0</span></button><div id="notificationPanel" class="notification-panel hidden"><div class="topline"><h3>Notificações</h3><button class="btn small" id="readAll">Marcar lidas</button></div><div id="notificationList"></div></div></div><button id="reload" class="btn">↻ Atualizar</button></div></div><span id="currentPage" class="tag">Visão executiva</span><p id="notice" class="status"></p>
+<section id="visao" class="page active"><div class="panel"><h2>Visão executiva</h2><p class="muted">Os indicadores são calculados automaticamente a partir dos registros. Para corrigi-los, edite o registro de origem.</p></div><div id="kpis" class="grid"></div><div class="panel"><h2>Distribuição das carteiras</h2><div id="distribution"></div></div></section>
+<section id="carteiras" class="page"><div class="panel"><div class="topline"><div><h2>Cadastro e distribuição de condomínios</h2><p class="muted">Gestão dos condomínios e responsáveis</p></div><button class="btn primary admin-only" data-new="condominios">+ Novo condomínio</button></div><div class="search"><input id="condoSearch" placeholder="Pesquisar condomínio, responsável, técnico ou supervisor"><select id="condoOwner"><option value="">Todas as responsáveis</option><option>Josy</option><option>Nicole</option><option>A definir</option></select></div><div class="scroll"><table><thead><tr><th>Condomínio</th><th>Filial</th><th>Responsável</th><th>Supervisor</th><th>Técnico</th><th>Ações</th></tr></thead><tbody id="condoRows"></tbody></table></div></div></section>
+<section id="resultados" class="page">
+ <div class="panel"><h2>Resultados por Carteira</h2><p class="muted">Pesquisas históricas e atuais, volume de atendimento e clientes em atenção.</p>
+ <div class="search"><select id="resultOwner"><option value="">Todas as carteiras</option><option>Josy</option><option>Nicole</option><option>Paula</option><option>Tayane</option><option>Juliana</option></select>
+ <select id="resultPeriod"><option value="all">Todo o histórico</option><option value="30">Últimos 30 dias</option><option value="90">Últimos 90 dias</option><option value="365">Últimos 12 meses</option></select></div></div>
+ <div id="portfolioKpis" class="grid"></div>
+ <div class="panel"><h2>Comparação entre carteiras</h2><div class="scroll"><table><thead><tr><th>Responsável</th><th>Filial</th><th>Condomínios</th><th>Pesquisas</th><th>Nota média</th><th>Notas críticas</th><th>O.S. abertas</th><th>Pendências abertas</th></tr></thead><tbody id="portfolioComparison"></tbody></table></div></div>
+ <div class="panel"><h2>Condomínios em atenção</h2><div class="scroll"><table><thead><tr><th>Condomínio</th><th>Responsável</th><th>Última nota</th><th>Motivo</th></tr></thead><tbody id="portfolioAttention"></tbody></table></div></div>
 </section>
-
-<div id="system" class="hidden">
-
-<aside class="sidebar">
- <div class="brand">
-  <div class="logo">
-   <img src="logo-servis.png" alt="Servis">
-  </div>
-  <small>SUCESSO DO CLIENTE</small>
+<section id="processos" class="page"><div class="panel"><div class="topline"><div><h2>Biblioteca de processos do SC</h2><p class="muted">45 procedimentos de referência. Esta biblioteca é normativa e não contém registros editáveis no banco atual.</p></div><a class="btn" href="https://servis-processos-sc-rose.roselyfarias95.chatgpt.site/" target="_blank" rel="noopener noreferrer">Abrir processos originais ↗</a></div><div class="search"><input id="processSearch" placeholder="Buscar processo"><select id="processArea"><option value="">Todas as áreas</option><option>Jornada do cliente</option><option>Operação e qualidade</option><option>Segurança e ocorrências</option><option>Contratos e retenção</option><option>Gestão e indicadores</option></select></div><p id="processCount" class="muted"></p></div><div id="processGrid" class="process-grid"></div></section>
+<section id="demandas" class="page"><div class="panel"><div class="topline"><div><h2>Demandas e Ordens de Serviço</h2><p class="muted">Abra a O.S. e registre a tratativa técnica e o retorno ao síndico antes de concluir.</p></div><button class="btn primary" data-new="demandas">+ Cadastrar demanda / O.S.</button></div><div class="search"><input id="demandSearch" placeholder="Condomínio, número ou descrição"><select id="demandStatus"><option value="">Todos os status</option><option>Aberta</option><option>Em tratativa</option><option>Aguardando retorno</option><option>Concluída</option></select></div><div class="scroll"><table><thead><tr><th>Condomínio</th><th>Nº O.S.</th><th>Demanda</th><th>Prazo</th><th>Status</th><th>Última edição</th><th>Ações</th></tr></thead><tbody id="demandRows"></tbody></table></div></div></section>
+<section id="pesquisas" class="page"><div class="panel"><div class="topline"><h2>Pesquisas de satisfação</h2><button class="btn primary" data-new="pesquisas">+ Nova pesquisa</button></div><div class="panel" id="importPanel">
+ <div class="topline"><div><h2>Importar pesquisas anteriores</h2><p class="muted">Excel (.xlsx, .xls), CSV e PDF com texto selecionável. Revise os dados antes de salvar.</p></div><span class="tag">Histórico sem novas notificações</span></div>
+ <label class="formlabel" for="importFile">Selecione um arquivo</label>
+ <input id="importFile" type="file" accept=".xlsx,.xls,.csv,.pdf,application/pdf" />
+ <p class="muted">O arquivo é lido neste navegador. Somente os registros aprovados são enviados ao Supabase.</p>
+ <p id="importInfo" class="status"></p>
+ <div id="importReview" class="hidden">
+  <p id="importSummary" class="muted"></p>
+  <div class="scroll"><table><thead><tr><th>#</th><th>Condomínio reconhecido</th><th>Nota</th><th>Data da pesquisa</th><th>Canal</th><th>Comentário</th><th>Situação</th></tr></thead><tbody id="importRows"></tbody></table></div>
+  <p class="muted">Linhas não reconhecidas ficam bloqueadas. Você poderá corrigir condomínio, data, nota e texto antes de importar.</p>
+  <div class="actions"><button id="importConfirm" class="btn primary" type="button">Confirmar importação das linhas válidas</button><button id="importCancel" class="btn" type="button">Cancelar prévia</button></div>
  </div>
-
- <div class="profile">
-  <img id="avatar" class="avatar"
-       src="logo-servis.png" alt="Foto do perfil">
-  <div>
-   <strong id="who"></strong>
-   <small id="role"></small>
-  </div>
- </div>
-
- <nav class="menu">
-  <button data-page="visao" class="active">▦ Visão executiva</button>
-  <button data-page="carteiras">▤ Carteiras Ceará</button>
-  <button data-page="resultados">◈ Resultados por Carteira</button>
-  <button data-page="processos">▣ Processos do SC</button>
-  <button data-page="demandas">☷ Demandas & O.S.</button>
-  <button data-page="pesquisas">☆ Pesquisas</button>
-  <button data-page="pendencias">⚑ Pendências da equipe</button>
-  <button data-page="fiscalizacao">◎ Fiscalização</button>
-  <button data-page="estrategica">◇ Gestão estratégica</button>
-  <button data-page="estrutura">♧ Estrutura & regras</button>
-  <button data-page="exportacao">⚙ Dados & exportação</button>
- </nav>
-
- <button id="logout" class="btn">Sair</button>
-</aside>
-
-<main class="main">
- <div class="topline">
-  <div>
-   <div class="eyebrow">Painel gerencial • Sucesso do Cliente</div>
-   <h1>Dashboard Executivo <span>| Servis</span></h1>
-   <p class="muted">
-    Carteiras, resultados, O.S., pesquisas,
-    pendências e rastreabilidade
-   </p>
-  </div>
-
-  <div class="actions">
-   <div class="notification-wrap">
-    <button id="bell" class="btn">
-     🔔 Notificações
-     <span id="bellCount" class="count hidden">0</span>
-    </button>
-
-    <div id="notificationPanel"
-         class="notification-panel hidden">
-     <div class="topline">
-      <h3>Notificações</h3>
-      <button id="readAll" class="btn small">
-       Marcar lidas
-      </button>
-     </div>
-     <div id="notificationList"></div>
-    </div>
-   </div>
-
-   <button id="reload" class="btn">↻ Atualizar</button>
-  </div>
- </div>
-
- <span id="currentPage" class="tag">Visão executiva</span>
- <p id="notice" class="status" role="status"></p>
-
- <!-- VISÃO EXECUTIVA -->
- <section id="visao" class="page active">
-  <div class="panel">
-   <h2>Visão executiva</h2>
-   <p class="muted">
-    Indicadores calculados com os dados cadastrados.
-   </p>
-  </div>
-  <div id="kpis" class="grid"></div>
-  <div class="panel">
-   <h2>Distribuição das carteiras</h2>
-   <div id="distribution"></div>
-  </div>
-  <div class="panel">
-   <h2>Acompanhar resultados individuais</h2>
-   <p class="muted">
-    Consulte satisfação, O.S. e pendências de cada carteira.
-   </p>
-   <button class="btn primary" data-page-direct="resultados">
-    Ver Resultados por Carteira
-   </button>
-  </div>
- </section>
-
- <!-- CARTEIRAS -->
- <section id="carteiras" class="page">
-  <div class="panel">
-   <div class="topline">
-    <div>
-     <h2>Cadastro e distribuição de condomínios</h2>
-     <p class="muted">Condomínios, responsáveis e supervisores</p>
-    </div>
-    <button class="btn primary admin-only"
-            data-new="condominios">+ Novo condomínio</button>
-   </div>
-
-   <div class="search">
-    <input id="condoSearch"
-           placeholder="Pesquisar condomínio ou técnico">
-    <select id="condoOwner">
-     <option value="">Todas as responsáveis</option>
-     <option>Josy</option>
-     <option>Nicole</option>
-     <option>A definir</option>
-    </select>
-   </div>
-
-   <div class="scroll">
-    <table>
-     <thead>
-      <tr>
-       <th>Condomínio</th><th>Filial</th>
-       <th>Responsável</th><th>Supervisor</th>
-       <th>Técnico</th><th>Ações</th>
-      </tr>
-     </thead>
-     <tbody id="condoRows"></tbody>
-    </table>
-   </div>
-  </div>
- </section>
-
- <!-- RESULTADOS POR CARTEIRA -->
- <section id="resultados" class="page">
-  <div class="panel">
-   <div class="topline">
-    <div>
-     <h2>Resultados do Sucesso do Cliente por Carteira</h2>
-     <p class="muted">
-      Acompanhamento individual de Josy, Nicole,
-      Paula, Tayane e Juliana.
-     </p>
-    </div>
-    <button id="refreshPortfolio" class="btn">
-     ↻ Atualizar resultados
-    </button>
-   </div>
-
-   <div class="search">
-    <select id="resultOwner">
-     <option value="">Todas as carteiras</option>
-     <option value="Josy|Ceará">Josy — Ceará</option>
-     <option value="Nicole|Ceará">Nicole — Ceará</option>
-     <option value="Paula|Secopi">Paula — Secopi</option>
-     <option value="Tayane|Manaus">Tayane — Manaus</option>
-     <option value="Juliana|Maranhão">Juliana — Maranhão</option>
-    </select>
-
-    <select id="resultPeriod">
-     <option value="all">Todo o histórico disponível</option>
-     <option value="30">Últimos 30 dias</option>
-     <option value="90">Últimos 90 dias</option>
-     <option value="180">Últimos 180 dias</option>
-    </select>
-   </div>
-
-   <div class="result-explanation">
-    Os resultados são calculados com os condomínios e
-    registros acessíveis à sua conta. O total de clientes
-    considera a carteira atual; os demais indicadores
-    respeitam o período selecionado, quando há data disponível.
-    Ausência de registros não significa desempenho negativo.
-   </div>
-  </div>
-
-  <div id="portfolioKpis" class="grid"></div>
-
-  <div class="panel">
-   <h2>Comparativo das carteiras</h2>
-   <div class="scroll">
-    <table>
-     <thead>
-      <tr>
-       <th>Responsável</th>
-       <th>Filial</th>
-       <th>Condomínios</th>
-       <th>Pesquisas</th>
-       <th>Nota média</th>
-       <th>O.S. abertas</th>
-       <th>O.S. concluídas</th>
-       <th>Pendências abertas</th>
-       <th>Críticas</th>
-      </tr>
-     </thead>
-     <tbody id="portfolioComparison"></tbody>
-    </table>
-   </div>
-  </div>
-
-  <div class="panel">
-   <h2>Satisfação por carteira</h2>
-   <div id="portfolioSatisfaction"></div>
-  </div>
-
-  <div class="panel">
-   <h2>Condomínios que precisam de atenção</h2>
-   <p class="muted">
-    Última nota crítica ou pendência crítica em aberto.
-   </p>
-   <div class="scroll">
-    <table>
-     <thead>
-      <tr>
-       <th>Condomínio</th>
-       <th>Responsável</th>
-       <th>Última nota</th>
-       <th>Pendências abertas</th>
-       <th>Motivo</th>
-      </tr>
-     </thead>
-     <tbody id="portfolioAttention"></tbody>
-    </table>
-   </div>
-  </div>
- </section>
-
- <!-- PROCESSOS -->
- <section id="processos" class="page">
-  <div class="panel">
-   <div class="topline">
-    <div>
-     <h2>Biblioteca de processos do SC</h2>
-     <p class="muted">45 procedimentos de referência</p>
-    </div>
-    <a class="btn"
-       href="https://servis-processos-sc-rose.roselyfarias95.chatgpt.site/"
-       target="_blank" rel="noopener noreferrer">
-     Processos originais ↗
-    </a>
-   </div>
-
-   <div class="search">
-    <input id="processSearch" placeholder="Buscar processo">
-    <select id="processArea">
-     <option value="">Todas as áreas</option>
-     <option>Jornada do cliente</option>
-     <option>Operação e qualidade</option>
-     <option>Segurança e ocorrências</option>
-     <option>Contratos e retenção</option>
-     <option>Gestão e indicadores</option>
-    </select>
-   </div>
-   <p id="processCount" class="muted"></p>
-  </div>
-  <div id="processGrid" class="process-grid"></div>
- </section>
-
- <!-- DEMANDAS E O.S. -->
- <section id="demandas" class="page">
-  <div class="panel">
-   <div class="topline">
-    <div>
-     <h2>Demandas e Ordens de Serviço</h2>
-     <p class="muted">
-      Tratativa técnica e retorno ao síndico
-     </p>
-    </div>
-    <button class="btn primary" data-new="demandas">
-     + Nova demanda / O.S.
-    </button>
-   </div>
-
-   <div class="search">
-    <input id="demandSearch"
-           placeholder="Buscar condomínio ou O.S.">
-    <select id="demandStatus">
-     <option value="">Todos os status</option>
-     <option>Aberta</option>
-     <option>Em tratativa</option>
-     <option>Aguardando retorno</option>
-     <option>Concluída</option>
-    </select>
-   </div>
-
-   <div class="scroll">
-    <table>
-     <thead>
-      <tr>
-       <th>Condomínio</th><th>Nº O.S.</th>
-       <th>Problema</th><th>Status</th>
-       <th>Última alteração</th><th>Ações</th>
-      </tr>
-     </thead>
-     <tbody id="demandRows"></tbody>
-    </table>
-   </div>
-  </div>
- </section>
-
- <!-- PESQUISAS -->
- <section id="pesquisas" class="page">
-  <div class="panel">
-   <div class="topline">
-    <div>
-     <h2>Pesquisas de satisfação</h2>
-     <p class="muted">
-      Notas, reclamações e registros por condomínio
-     </p>
-    </div>
-    <button class="btn primary" data-new="pesquisas">
-     + Nova pesquisa
-    </button>
-   </div>
-
-   <div class="search">
-    <input id="surveySearch"
-           placeholder="Buscar condomínio ou comentário">
-   </div>
-
-   <div class="scroll">
-    <table>
-     <thead>
-      <tr>
-       <th>Condomínio</th><th>Nota</th>
-       <th>Canal</th><th>Comentário</th>
-       <th>Última alteração</th><th>Ações</th>
-      </tr>
-     </thead>
-     <tbody id="surveyRows"></tbody>
-    </table>
-   </div>
-  </div>
- </section>
-
- <!-- PENDÊNCIAS -->
- <section id="pendencias" class="page">
-  <div id="pendingDetail" class="panel detail hidden">
-   <div class="topline">
-    <h2>Detalhes da reclamação ou pendência</h2>
-    <button id="closePending" class="btn">Fechar</button>
-   </div>
-   <div id="pendingDetailContent"></div>
-  </div>
-
-  <div class="panel">
-   <div class="topline">
-    <div>
-     <h2>Pendências da equipe</h2>
-     <p class="muted">
-      Responsáveis, prioridades e acompanhamentos
-     </p>
-    </div>
-    <button class="btn primary" data-new="pendencias_sc">
-     + Nova pendência
-    </button>
-   </div>
-
-   <div class="search">
-    <input id="pendingSearch" placeholder="Buscar pendência">
-    <select id="pendingStatus">
-     <option value="">Todos os status</option>
-     <option>Aberta</option>
-     <option>Em tratativa</option>
-     <option>Aguardando retorno</option>
-     <option>Concluída</option>
-    </select>
-   </div>
-
-   <div class="scroll">
-    <table>
-     <thead>
-      <tr>
-       <th>Condomínio</th><th>Título</th>
-       <th>Responsável</th><th>Prioridade</th>
-       <th>Status</th><th>Ações</th>
-      </tr>
-     </thead>
-     <tbody id="pendingRows"></tbody>
-    </table>
-   </div>
-  </div>
- </section>
-
- <!-- FISCALIZAÇÃO -->
- <section id="fiscalizacao" class="page">
-  <div class="panel">
-   <h2>Fiscalização das filiais</h2>
-   <p class="muted">
-    Josy fiscaliza Secopi e Manaus.
-    Nicole fiscaliza Maranhão.
-    As representantes locais executam as demandas.
-   </p>
-   <div id="oversight"></div>
-  </div>
- </section>
-
- <!-- GESTÃO ESTRATÉGICA -->
- <section id="estrategica" class="page">
-  <div class="panel">
-   <h2>Gestão estratégica</h2>
-   <div id="strategic"></div>
-  </div>
-
-  <div class="panel">
-   <div class="topline">
-    <div>
-     <h2>Histórico de alterações</h2>
-     <p class="muted">
-      Identificação de quem criou, editou ou excluiu.
-     </p>
-    </div>
-    <button id="auditReload" class="btn">
-     ↻ Atualizar histórico
-    </button>
-   </div>
-   <div class="search">
-    <select id="auditFilter">
-     <option value="">Todos os módulos</option>
-     <option value="condominios">Condomínios</option>
-     <option value="demandas">Demandas e O.S.</option>
-     <option value="pesquisas">Pesquisas</option>
-     <option value="pendencias_sc">Pendências</option>
-    </select>
-   </div>
-   <div id="auditList"></div>
-  </div>
- </section>
-
- <!-- ESTRUTURA -->
- <section id="estrutura" class="page">
-  <div class="panel">
-   <h2>Estrutura e regras do Sucesso do Cliente</h2>
-   <p><strong>Rosely:</strong> gestão estratégica,
-    contratos, retenção, fiscalização e casos críticos.</p>
-   <p><strong>Josy:</strong> carteira Ceará,
-    fiscalização de Secopi e Manaus.</p>
-   <p><strong>Nicole:</strong> carteira Ceará,
-    fiscalização do Maranhão.</p>
-   <p><strong>Paula:</strong> execução operacional de Secopi.</p>
-   <p><strong>Tayane:</strong> execução operacional de Manaus.</p>
-   <p><strong>Juliana:</strong> execução operacional do Maranhão.</p>
-  </div>
- </section>
-
- <!-- EXPORTAÇÃO -->
- <section id="exportacao" class="page">
-  <div class="panel">
-   <h2>Dados e exportação</h2>
-   <p class="muted">
-    Exportação dos registros acessíveis ao usuário.
-   </p>
-   <button id="exportBtn" class="btn primary">
-    Exportar backup JSON
-   </button>
-  </div>
- </section>
-</main>
-</div>
-
-<!-- FORMULÁRIO UNIVERSAL -->
-<div id="recordModal" class="modal hidden">
- <div class="modal-card">
-  <div class="topline">
-   <h2 id="modalTitle">Cadastrar registro</h2>
-   <button id="modalClose" class="btn" type="button">
-    Fechar
-   </button>
-  </div>
-
-  <form id="recordForm">
-   <div id="recordFields" class="form"></div>
-   <p id="modalError" class="status"></p>
-
-   <div class="actions" style="margin-top:18px">
-    <button id="modalSave" type="submit"
-            class="btn primary">Salvar</button>
-    <button id="modalCancel" type="button"
-            class="btn">Cancelar</button>
-   </div>
-  </form>
- </div>
-</div>
-
+</div><div class="search"><input id="surveySearch" placeholder="Condomínio ou comentário"></div><div class="scroll"><table><thead><tr><th>Condomínio</th><th>Nota</th><th>Canal</th><th>Comentário</th><th>Última edição</th><th>Ações</th></tr></thead><tbody id="surveyRows"></tbody></table></div></div></section>
+<section id="pendencias" class="page"><div id="pendingDetail" class="panel detail hidden"><div class="topline"><h2>Detalhes da reclamação ou pendência</h2><button class="btn" id="closePending">Fechar</button></div><div id="pendingContent"></div></div><div class="panel"><div class="topline"><h2>Pendências da equipe</h2><button class="btn primary" data-new="pendencias_sc">+ Nova pendência</button></div><div class="search"><input id="pendingSearch" placeholder="Condomínio ou responsável"><select id="pendingStatus"><option value="">Todos</option><option>Aberta</option><option>Em tratativa</option><option>Aguardando retorno</option><option>Concluída</option></select></div><div class="scroll"><table><thead><tr><th>Condomínio</th><th>Reclamação</th><th>Responsável</th><th>Prioridade</th><th>Status</th><th>Última edição</th><th>Ações</th></tr></thead><tbody id="pendingRows"></tbody></table></div></div></section>
+<section id="fiscalizacao" class="page"><div class="panel"><h2>Fiscalização regional</h2><p class="muted">Josy: Secopi e Manaus. Nicole: Maranhão. Para cadastrar ou editar condomínios das filiais, utilize Cadastro e distribuição de condomínios. Para tratar registros regionais, utilize Demandas e Pendências.</p><div id="oversight"></div></div></section>
+<section id="estrategica" class="page"><div class="panel"><h2>Gestão estratégica</h2><div id="strategic"></div></div><div class="panel"><div class="topline"><div><h2>Quem criou, editou ou excluiu</h2><p class="muted">Registro gerado automaticamente pelo Supabase, identificado pela conta utilizada.</p></div><button id="auditReload" class="btn">↻ Atualizar histórico</button></div><div class="search"><select id="auditFilter"><option value="">Todos os módulos</option><option value="condominios">Condomínios</option><option value="demandas">Demandas e O.S.</option><option value="pesquisas">Pesquisas</option><option value="pendencias_sc">Pendências</option></select></div><div id="auditList"></div></div></section>
+<section id="estrutura" class="page"><div class="panel"><h2>Estrutura da equipe</h2><p><strong>Rosely:</strong> administração, supervisão, negociação, retenção e situações críticas.</p><p><strong>Josy:</strong> operação da carteira Ceará e fiscalização Secopi e Manaus.</p><p><strong>Nicole:</strong> operação da carteira Ceará e fiscalização Maranhão.</p><p><strong>Paula / Tayane / Juliana:</strong> execução operacional Secopi / Manaus / Maranhão, respectivamente.</p><p class="muted">A alteração da estrutura e dos procedimentos formais não deve ser confundida com a edição de um registro operacional.</p></div></section>
+<section id="exportacao" class="page"><div class="panel"><h2>Exportação de dados</h2><p class="muted">Salva em JSON os registros que sua conta pode visualizar.</p><button class="btn primary" id="exportBtn">Exportar dados</button></div></section>
+</main></div>
+<div id="recordModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h2 id="modalTitle">Registro</h2><button id="modalClose" class="btn">Fechar</button></div><p id="modalError" class="status"></p><form id="recordForm" class="form"><div id="recordFields" class="full" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px"></div><div class="full actions"><button id="modalSave" class="btn primary" type="submit">Salvar</button><button id="modalCancel" class="btn" type="button">Cancelar</button></div></form></div></div>
 <script>
-"use strict";
-
-/* SUPABASE */
-const URL_DB="https://fkwnsegmibfmmdzancev.supabase.co";
-const KEY="sb_publishable_ZELUMCyPtWkdQPmDcFmf_Q_xtHZcnMi";
-const ORIGINAL="https://servis-processos-sc-rose.roselyfarias95.chatgpt.site/";
-
-const $=id=>document.getElementById(id);
-const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",
- '"':"&quot;","'":"&#39;"
-})[c]);
-
-let db,profile=null,dialog=null;
-
-const store={
- condominios:[],
- demandas:[],
- pesquisas:[],
- pendencias_sc:[],
- notificacoes_sc:[],
- auditoria_sc:[]
-};
-
-function ck(r){
- if(r.error)throw r.error;
- return r.data;
-}
-function message(t){$("notice").textContent=t||""}
-function isAdmin(){return profile?.papel==="admin"}
-function getCondo(id){
- return store.condominios.find(c=>String(c.id)===String(id));
-}
-function condoName(id){
- return getCondo(id)?.nome||"Condomínio não disponível";
-}
-function dateText(s){
- if(!s)return "—";
- const d=new Date(s);
- return Number.isNaN(d.getTime())?"—":d.toLocaleString("pt-BR");
-}
-function canOperate(c){
- if(!c||!profile)return false;
- if(isAdmin())return true;
- if(profile.papel==="josy")
-  return c.filial==="Ceará"&&c.responsavel_sc==="Josy";
- if(profile.papel==="nicole")
-  return c.filial==="Ceará"&&c.responsavel_sc==="Nicole";
- return profile.papel==="filial"&&profile.filial===c.filial;
-}
-function canSurvey(c){
- if(!c||!profile)return false;
- if(isAdmin())return true;
- if(profile.papel==="josy")
-  return ["Secopi","Manaus"].includes(c.filial);
- if(profile.papel==="nicole")
-  return c.filial==="Maranhão";
- return false;
-}
-
-/* =====================================
-   FOTOS DA EQUIPE — NOMES DO GITHUB
-   ===================================== */
-
-function setPhoto(){
- let photos=[];
-
- if(isAdmin()){
-  photos=[
-   "foto-rosely.jpg.jpeg",
-   "foto-rosely.jpg",
-   "logo-servis.png"
-  ];
- }else if(profile.papel==="josy"){
-  photos=[
-   "foto-josy.jpg.jpg",
-   "foto-josy.jpg",
-   "logo-servis.png"
-  ];
- }else if(profile.papel==="nicole"){
-  photos=[
-   "foto-nicole.jpg.jpg",
-   "foto-nicole.jpg",
-   "logo-servis.png"
-  ];
- }else if(profile.filial==="Secopi"){
-  photos=["foto-paula.jpg","logo-servis.png"];
- }else if(profile.filial==="Manaus"){
-  photos=["foto-tayane.jpg","logo-servis.png"];
- }else if(profile.filial==="Maranhão"){
-  photos=["foto-juliana.jpg","logo-servis.png"];
- }else{
-  photos=["logo-servis.png"];
+'use strict';
+const URL_DB='https://fkwnsegmibfmmdzancev.supabase.co',KEY='sb_publishable_ZELUMCyPtWkdQPmDcFmf_Q_xtHZcnMi';
+const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ck=r=>{if(r.error)throw r.error;return r.data};let db,profile=null,store={condominios:[],demandas:[],pesquisas:[],pendencias_sc:[],notificacoes_sc:[],auditoria_sc:[]};let dialog=null,chosenPending=null;
+const isAdmin=()=>profile?.papel==='admin',getCondo=id=>store.condominios.find(x=>String(x.id)===String(id)),condoName=id=>getCondo(id)?.nome||'Condomínio não disponível';
+const dateText=v=>v?(Number.isNaN(new Date(v).getTime())?String(v):new Date(v).toLocaleString('pt-BR')):'—';
+const message=s=>{$('notice').textContent=s||''};
+function canOperate(c){if(!c||!profile)return false;if(isAdmin())return true;if(profile.papel==='josy')return c.filial==='Ceará'&&c.responsavel_sc==='Josy';if(profile.papel==='nicole')return c.filial==='Ceará'&&c.responsavel_sc==='Nicole';return profile.papel==='filial'&&c.filial===profile.filial}
+function canSurvey(c){if(!c||!profile)return false;if(isAdmin())return true;if(profile.papel==='josy')return ['Secopi','Manaus'].includes(c.filial);if(profile.papel==='nicole')return c.filial==='Maranhão';return false}
+function setPhoto(){let list=isAdmin()?['foto-rosely.jpg.jpeg','foto-rosely.jpg']:profile.papel==='josy'?['foto-josy.jpg.jpg','foto-josy.jpg']:profile.papel==='nicole'?['foto-nicole.jpg.jpg','foto-nicole.jpg']:profile.filial==='Secopi'?['foto-paula.jpg']:profile.filial==='Manaus'?['foto-tayane.jpg']:profile.filial==='Maranhão'?['foto-juliana.jpg']:[];let i=0;const img=$('avatar');function next(){if(i<list.length)img.src=list[i++];else{img.onerror=null;img.src='logo-servis.png'}}img.onerror=next;next();$('who').textContent=profile.nome;$('role').textContent=isAdmin()?'Administradora':profile.papel==='filial'?profile.filial:'Sucesso do Cliente'}
+function page(id){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('currentPage').textContent=document.querySelector(`[data-page="${id}"]`)?.textContent||'';$('notificationPanel').classList.add('hidden')}
+const names=['Entrada de novo condomínio','Entrega oficial','Apresentação do SC','Relacionamento preventivo','Pesquisa de satisfação','Pesquisa com moradores','Retorno da pesquisa','Visitas','Pós-visita','Adoção digital','Cadastros','Testes de ligação','Comunicação com o cliente','Retorno ao cliente','Gestão de reclamações','Reclamação da Central','Reclamações técnicas','Ordem de Serviço','OS reincidentes','Preventivas','Demandas','Melhorias','Ampliações','Financeiro','Comunicação de indisponibilidades','Reuniões internas','Eventos de segurança','Dupla passagem','Porta aberta ou violada','Renovações','Aditivos','Fechamento do pedido','Retenção','Cancelamento','Clientes críticos','Plano de ação para críticos','Indicadores da Central','Indicadores do SC','Fechamento mensal','Pareto das reclamações','Distribuição interna da equipe','Rotina diária','Rotina semanal','Escalonamento','Critério de encerramento'];
+function area(i){return i<14?'Jornada do cliente':i<26?'Operação e qualidade':i<29?'Segurança e ocorrências':i<36?'Contratos e retenção':'Gestão e indicadores'}
+function renderProcesses(){let q=$('processSearch').value.toLowerCase(),a=$('processArea').value;let l=names.map((title,i)=>({title,i,area:area(i)})).filter(x=>(x.title+' '+x.area).toLowerCase().includes(q)&&(!a||x.area===a));$('processCount').textContent=`${l.length} de 45 processos`;$('processGrid').innerHTML=l.map(x=>`<div class="process-card"><small>PROCESSO ${String(x.i+1).padStart(2,'0')} · ${esc(x.area)}</small><strong>${esc(x.title)}</strong><a href="https://servis-processos-sc-rose.roselyfarias95.chatgpt.site/" target="_blank" rel="noopener">Consultar procedimento ↗</a></div>`).join('')}
+function actions(t,id,allowEdit){return `<div class="actions">${allowEdit?`<button class="btn small" data-edit="${t}" data-id="${esc(id)}">Editar</button>`:''}${isAdmin()?`<button class="btn danger small" data-delete="${t}" data-id="${esc(id)}">Excluir</button>`:''}</div>`}
+function lastActor(t,id){let rows=store.auditoria_sc.filter(a=>a.tabela===t&&a.registro_id===String(id));let x=rows[0];return x?`${esc(x.usuario_nome||'Não identificado')}<br><small>${esc(dateText(x.realizado_em))}</small>`:'<small>Registro anterior à auditoria</small>'}
+function render(){let C=store.condominios,D=store.demandas,P=store.pesquisas,Q=store.pendencias_sc;let openQ=Q.filter(x=>x.status!=='Concluída');let notes=P.map(x=>x.nota).filter(x=>x!==null&&x!==undefined&&x!=='').map(Number).filter(Number.isFinite);let avg=notes.length?(notes.reduce((a,b)=>a+b,0)/notes.length).toFixed(1).replace('.',','):'—';let cards=[['Condomínios',C.filter(x=>x.ativo).length],['Demandas',D.length],['O.S. abertas',D.filter(x=>x.tipo==='O.S.'&&x.status!=='Concluída').length],['O.S. concluídas',D.filter(x=>x.tipo==='O.S.'&&x.status==='Concluída').length],['Pesquisas',P.length],['Nota média',avg],['Pendências abertas',openQ.length],['Pendências críticas',openQ.filter(x=>x.prioridade==='Crítica').length]];$('kpis').innerHTML=cards.map(([k,v])=>`<div class="kpi"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('');$('strategic').innerHTML=cards.map(([k,v])=>`<p>${esc(k)}: <strong>${esc(v)}</strong></p>`).join('');let counts={};C.forEach(c=>{let k=c.responsavel_sc||'A definir';counts[k]=(counts[k]||0)+1});$('distribution').innerHTML=Object.entries(counts).map(([k,v])=>`<span class="tag">${esc(k)}: ${v}</span>`).join('');
+let co=$('condoSearch').value.toLowerCase(),ow=$('condoOwner').value;$('condoRows').innerHTML=C.filter(c=>(!ow||c.responsavel_sc===ow)&&[c.nome,c.responsavel_sc,c.supervisor_tecnico,c.tecnico].join(' ').toLowerCase().includes(co)).map(c=>`<tr><td>${esc(c.nome)}</td><td>${esc(c.filial)}</td><td>${esc(c.responsavel_sc)}</td><td>${esc(c.supervisor_tecnico)}</td><td>${esc(c.tecnico)}</td><td>${actions('condominios',c.id,isAdmin())}</td></tr>`).join('');
+let dq=$('demandSearch').value.toLowerCase(),ds=$('demandStatus').value;$('demandRows').innerHTML=D.filter(d=>(!ds||d.status===ds)&&[condoName(d.condominio_id),d.numero_os,d.titulo,d.descricao].join(' ').toLowerCase().includes(dq)).map(d=>`<tr><td>${esc(condoName(d.condominio_id))}</td><td>${esc(d.numero_os||'—')}</td><td>${esc(d.titulo)} <small>${esc(d.tipo)}</small></td><td>${esc(d.prazo||'—')}</td><td>${esc(d.status)}</td><td>${lastActor('demandas',d.id)}</td><td>${actions('demandas',d.id,canOperate(getCondo(d.condominio_id)))}</td></tr>`).join('');
+let pq=$('surveySearch').value.toLowerCase();$('surveyRows').innerHTML=P.filter(p=>[condoName(p.condominio_id),p.comentario].join(' ').toLowerCase().includes(pq)).map(p=>`<tr><td>${esc(condoName(p.condominio_id))}</td><td>${esc(p.nota??'—')}</td><td>${esc(p.canal)}</td><td style="white-space:pre-wrap">${esc(p.comentario)}</td><td>${lastActor('pesquisas',p.id)}</td><td>${actions('pesquisas',p.id,isAdmin())}${Q.some(x=>String(x.pesquisa_id)===String(p.id))?'<small>Possui pendência</small>':''}</td></tr>`).join('');
+let qq=$('pendingSearch').value.toLowerCase(),qs=$('pendingStatus').value;$('pendingRows').innerHTML=Q.filter(p=>(!qs||p.status===qs)&&[condoName(p.condominio_id),p.titulo,p.responsavel].join(' ').toLowerCase().includes(qq)).map(p=>`<tr><td>${esc(condoName(p.condominio_id))}</td><td><strong>${esc(p.titulo)}</strong><br><small>${esc(p.descricao)}</small></td><td>${esc(p.responsavel)}</td><td>${esc(p.prioridade)}</td><td>${esc(p.status)}</td><td>${lastActor('pendencias_sc',p.id)}</td><td><button class="btn small" data-detail="${esc(p.id)}">Ver reclamação</button>${actions('pendencias_sc',p.id,canOperate(getCondo(p.condominio_id)))}</td></tr>`).join('');
+$('oversight').innerHTML=C.filter(c=>c.filial!=='Ceará').map(c=>`<p>${esc(c.filial)} — ${esc(c.nome)}</p>`).join('')||'<p class="muted">Nenhum condomínio regional no escopo desta conta.</p>';renderAudit();renderNotices();renderPortfolioResults();document.querySelectorAll('.admin-only').forEach(x=>x.classList.toggle('hidden',!isAdmin()));$('importPanel').classList.toggle('hidden',!isAdmin());}
+function renderAudit(){const f=$('auditFilter').value;let a=store.auditoria_sc.filter(x=>!f||x.tabela===f);$('auditList').innerHTML=a.length?a.map(x=>{let data=x.depois||x.antes||{};return `<div class="audit-row"><b>${esc(x.usuario_nome||'Não identificado')}</b> · ${esc(x.acao)} · ${esc(x.tabela)}<p>${esc(data.nome||data.titulo||data.numero_os||data.comentario||x.registro_id)}</p><small>${esc(dateText(x.realizado_em))}</small></div>`}).join(''):'<p class="muted">Sem alterações registradas neste período ou sem acesso ao histórico.</p>'}
+function renderNotices(){let a=store.notificacoes_sc,n=a.filter(x=>!x.lida).length;$('bellCount').classList.toggle('hidden',!n);$('bellCount').textContent=n;$('notificationList').innerHTML=a.length?a.map(x=>`<div class="notification-item"><strong>${esc(x.titulo)}</strong><p>${esc(x.mensagem)}</p><small>${esc(dateText(x.criado_em))}</small>${x.pendencia_id?`<p><button class="btn small" data-detail="${esc(x.pendencia_id)}">Ver reclamação completa</button></p>`:''}</div>`).join(''):'<p class="muted">Sem notificações.</p>'}
+function showDetail(id){let q=store.pendencias_sc.find(x=>String(x.id)===String(id));page('pendencias');if(!q){message('Pendência não disponível para seu perfil.');return}chosenPending=id;let survey=store.pesquisas.find(x=>String(x.id)===String(q.pesquisa_id));let pairs=[['Condomínio',condoName(q.condominio_id)],['Responsável',q.responsavel],['Supervisão',q.supervisor_sc],['Prioridade',q.prioridade],['Status',q.status],['Nota',survey?.nota??'—'],['Criada',dateText(q.criado_em)],['Última edição',lastActorText('pendencias_sc',q.id)]];$('pendingContent').innerHTML=`<div class="details">${pairs.map(([k,v])=>`<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div><h3>${esc(q.titulo)}</h3><div class="note">${esc(survey?.comentario||q.descricao||'Sem descrição')}</div>`;$('pendingDetail').classList.remove('hidden');$('pendingDetail').scrollIntoView({behavior:'smooth'})}
+function lastActorText(t,id){let x=store.auditoria_sc.find(a=>a.tabela===t&&a.registro_id===String(id));return x?x.usuario_nome+' em '+dateText(x.realizado_em):'Sem registro anterior'}
+function optCondo(selected,filter){let list=store.condominios.filter(filter),options=list.map(c=>`<option value="${esc(c.id)}" ${String(selected)===String(c.id)?'selected':''}>${esc(c.nome)}</option>`).join('');return options||(selected?`<option value="${esc(selected)}">${esc(condoName(selected))}</option>`:'<option value="">Nenhum condomínio autorizado</option>')}
+function inputField(key,label,type='text',value='',options=null,required=false,full=false){let control=options?`<select name="${esc(key)}" ${required?'required':''}>${options.map(o=>`<option value="${esc(o)}" ${String(o)===String(value)?'selected':''}>${esc(o)}</option>`).join('')}</select>`:type==='textarea'?`<textarea name="${esc(key)}" rows="3">${esc(value)}</textarea>`:type==='checkbox'?`<input type="checkbox" name="${esc(key)}" ${value?'checked':''}>`:`<input type="${esc(type)}" name="${esc(key)}" value="${esc(value)}" ${required?'required':''}>`;return `<label style="${full?'grid-column:1/-1;':''}">${esc(label)}${control}</label>`}
+function selectCondoField(value,filter){return `<label style="grid-column:1/-1">Condomínio<select name="condominio_id" required>${optCondo(value,filter)}</select></label>`}
+function openRecord(t,id=null){const data=id?store[t].find(x=>String(x.id)===String(id)):null;if(id&&!data){message('Registro não localizado.');return}if(t==='condominios'&&!isAdmin()){message('Cadastro de condomínios reservado à administradora.');return}if(t==='pesquisas'&&id&&!isAdmin()){message('Edição de pesquisas reservada à administradora.');return}if(data&&!isAdmin()&&!canOperate(getCondo(data.condominio_id))){message('Sem permissão para editar este registro.');return}dialog={t,id};$('modalError').textContent='';let f='';let c=data||{};
+if(t==='condominios'){f+=inputField('nome','Nome do condomínio','text',c.nome||'',null,true,true)+inputField('codigo_origem','Código de origem (opcional)','text',c.codigo_origem||'')+inputField('filial','Filial','text',c.filial||'Ceará',null,true)+inputField('responsavel_sc','Responsável SC','text',c.responsavel_sc||'A definir')+inputField('supervisor_tecnico','Supervisor técnico','text',c.supervisor_tecnico||'')+inputField('tecnico','Técnico','text',c.tecnico||'')+inputField('ativo','Cliente ativo','checkbox',c.ativo??true)}
+if(t==='demandas'){f+=selectCondoField(c.condominio_id,x=>canOperate(x))+inputField('tipo','Tipo','text',c.tipo||'O.S.',null,true)+inputField('numero_os','Número da O.S.','text',c.numero_os||'')+inputField('titulo','Problema / Título','text',c.titulo||'',null,true,true)+inputField('setor','Setor responsável','text',c.setor||'')+inputField('prazo','Prazo','date',c.prazo||'')+inputField('descricao','Descrição inicial','textarea',c.descricao||'',null,false,true)+inputField('tratativa_tecnica','Tratativa técnica','textarea',c.tratativa_tecnica||'',null,false,true)+inputField('retorno_sindico','Retorno dado ao síndico','textarea',c.retorno_sindico||'',null,false,true)+inputField('data_retorno_sindico','Data do retorno','date',c.data_retorno_sindico||'')+inputField('canal_retorno','Canal do retorno','text',c.canal_retorno||'')+inputField('status','Status','select',c.status||'Aberta',['Aberta','Em tratativa','Aguardando retorno','Concluída']);}
+if(t==='pesquisas'){f+=selectCondoField(c.condominio_id,x=>canSurvey(x))+inputField('nota','Nota (0 a 10)','number',c.nota??'')+inputField('canal','Canal','select',c.canal||'WhatsApp',['WhatsApp','Ligação'])+inputField('comentario','Elogios, reclamações e pendências','textarea',c.comentario||'',null,false,true)+inputField('tem_reclamacao','Reclamação relevante','checkbox',c.tem_reclamacao||false)}
+if(t==='pendencias_sc'){let all=store.condominios.filter(x=>canOperate(x));f+=selectCondoField(c.condominio_id,x=>canOperate(x))+inputField('titulo','Título','text',c.titulo||'',null,true,true)+inputField('descricao','Reclamação ou pendência','textarea',c.descricao||'',null,false,true)+inputField('responsavel','Responsável','text',c.responsavel||'')+inputField('supervisor_sc','Fiscalização','text',c.supervisor_sc||'')+inputField('prioridade','Prioridade','select',c.prioridade||'Normal',['Normal','Alta','Crítica'])+inputField('status','Status','select',c.status||'Aberta',['Aberta','Em tratativa','Aguardando retorno','Concluída'])+inputField('prazo','Prazo','date',c.prazo||'')}
+$('recordFields').innerHTML=f;$('modalTitle').textContent=(data?'Editar':'Cadastrar')+' — '+({condominios:'Condomínio',demandas:'Demanda / O.S.',pesquisas:'Pesquisa',pendencias_sc:'Pendência'}[t]);$('recordModal').classList.remove('hidden')}
+function closeRecord(){dialog=null;$('recordModal').classList.add('hidden');$('recordForm').reset()}
+async function saveRecord(e){e.preventDefault();if(!dialog)return;const {t,id}=dialog;let original=id?store[t].find(x=>String(x.id)===String(id)):null;let form=new FormData($('recordForm')),value=Object.fromEntries(form.entries());if(t==='condominios'){value.ativo=$('recordForm').elements.namedItem('ativo')?.checked??false;if(!value.codigo_origem)delete value.codigo_origem}
+if(t==='pesquisas'){value.tem_reclamacao=$('recordForm').elements.namedItem('tem_reclamacao')?.checked??false;value.nota=value.nota===''?null:Number(value.nota);if(value.nota!==null&&(!Number.isFinite(value.nota)||value.nota<0||value.nota>10)){$('modalError').textContent='A nota deve estar entre 0 e 10.';return}}
+if(t==='demandas'){for(const k of ['prazo','data_retorno_sindico','canal_retorno','numero_os','setor'])if(!value[k])value[k]=null;if(value.tipo==='O.S.'&&value.status==='Concluída'&&!(value.tratativa_tecnica?.trim()&&value.retorno_sindico?.trim()&&value.data_retorno_sindico&&value.canal_retorno)){$('modalError').textContent='Para concluir a O.S.: preencha tratativa técnica, retorno ao síndico, data e canal.';return}}
+if(t==='pendencias_sc'){if(!value.prazo)value.prazo=null;if(!value.responsavel?.trim()&&!original){let c=getCondo(value.condominio_id);value.responsavel=c?.filial==='Secopi'?'Paula':c?.filial==='Manaus'?'Tayane':c?.filial==='Maranhão'?'Juliana':c?.responsavel_sc||'Rosely';value.supervisor_sc=c?.filial==='Maranhão'?'Nicole':['Secopi','Manaus'].includes(c?.filial)?'Josy':'Rosely'}if(!id)value.origem='Manual'}
+if(t==='demandas'&&!id)value.status='Aberta';if(t==='condominios'&&!id&&!value.codigo_origem)value.codigo_origem='MANUAL-'+Date.now();
+$('modalSave').disabled=true;$('modalError').textContent='';try{let rows=id?ck(await db.from(t).update(value).eq('id',id).select('id')):ck(await db.from(t).insert(value).select('id'));if(!rows?.length)throw Error('Nenhum registro gravado; confira as permissões RLS.');closeRecord();await loadData();message('Registro salvo. A alteração foi associada ao seu usuário na auditoria.')}catch(error){$('modalError').textContent='Erro ao salvar: '+error.message}finally{$('modalSave').disabled=false}}
+async function deleteRecord(t,id){if(!isAdmin()){message('Somente a administradora pode excluir.');return}const record=store[t]?.find(x=>String(x.id)===String(id));if(!record)return;let label=record.nome||record.titulo||record.comentario||id;if(!confirm('Excluir permanentemente este registro?\n'+label+'\n\nA exclusão ficará registrada na auditoria.'))return;try{const rows=ck(await db.from(t).delete().eq('id',id).select('id'));if(!rows?.length)throw Error('Exclusão não autorizada.');await loadData();message('Registro excluído; autoria registrada.')}catch(error){message('Erro ao excluir: '+error.message)}}
+/* IMPORTAÇÃO HISTÓRICA */
+let importDraft=[];
+const canonical=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+function parseHistoricalDate(value){
+ if(value===null||value===undefined||value==='')return '';
+ if(typeof value==='number'&&value>20000&&value<100000){
+  const d=new Date(Date.UTC(1899,11,30)+Math.round(value)*86400000);
+  return d.toISOString().slice(0,10);
  }
-
- const image=$("avatar");
- let position=0;
-
- function tryPhoto(){
-  if(position<photos.length){
-   image.src=photos[position++];
-  }else{
-   image.onerror=null;
-   image.src="logo-servis.png";
+ const s=String(value).trim();
+ let m=s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})/);
+ if(m){const d=new Date(Date.UTC(+m[3],+m[2]-1,+m[1]));return d.getUTCFullYear()===+m[3]&&d.getUTCMonth()===+m[2]-1&&d.getUTCDate()===+m[1]?d.toISOString().slice(0,10):''}
+ m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+ if(m){const d=new Date(s.slice(0,10)+'T12:00:00Z');return !Number.isNaN(d.getTime())?s.slice(0,10):''}
+ return '';
+}
+function parseHistoricalScore(v){if(v===null||v===undefined||String(v).trim()==='')return null;const n=Number(String(v).replace(',','.').replace(/\s*\/\s*10$/,''));return Number.isFinite(n)&&n>=0&&n<=10?n:null}
+function resolveCondominium(v){
+ const key=canonical(v);if(!key)return '';
+ const exact=store.condominios.filter(c=>canonical(c.nome)===key||canonical(c.codigo_origem)===key);
+ if(exact.length===1)return exact[0].id;
+ return '';
+}
+function findCol(object,aliases){const keys=Object.keys(object);return keys.find(k=>aliases.some(x=>canonical(k)===canonical(x)))||keys.find(k=>aliases.some(x=>canonical(k).includes(canonical(x))))}
+function readStructuredRows(sheetRows){
+ return sheetRows.filter(r=>r&&typeof r==='object').map(r=>{
+  const pick=a=>{const col=findCol(r,a);return col?r[col]:''};
+  return {name:String(pick(['condominio','condomínio','nome do condomínio','cliente','empreendimento'])||'').trim(),
+   nota:parseHistoricalScore(pick(['nota','avaliação','avaliacao','satisfação','satisfacao'])),
+   data:parseHistoricalDate(pick(['data pesquisa','data da pesquisa','data','realizado em','dia'])),
+   canal:String(pick(['canal','meio de contato','meio'])||'WhatsApp').trim(),
+   comentario:String(pick(['comentario','comentário','observações','observacoes','reclamação','reclamacao','elogio','pendência','pendencia'])||'').trim()};
+ }).filter(x=>x.name||x.comentario||x.nota!==null);
+}
+async function parsePDF(file){
+ if(!window.pdfjsLib)throw Error('A biblioteca de leitura de PDF não carregou.');
+ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+ const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
+ const parsed=[];
+ for(let p=1;p<=Math.min(pdf.numPages,70);p++){
+  const page=await pdf.getPage(p),content=await page.getTextContent();
+  const lines=new Map();
+  content.items.forEach(item=>{const y=Math.round((item.transform?.[5]||0)/4)*4;const arr=lines.get(y)||[];arr.push({x:item.transform?.[4]||0,text:item.str});lines.set(y,arr)});
+  const text=[...lines.entries()].sort((a,b)=>b[0]-a[0]).map(([,arr])=>arr.sort((a,b)=>a.x-b.x).map(z=>z.text).join(' ').trim()).filter(Boolean);
+  for(const line of text){
+   // Apenas linhas tabulares reconhecíveis entram como candidatas.
+   const parts=line.split(/\s{2,}|\t|\s*\|\s*|\s*;\s*/).map(x=>x.trim()).filter(Boolean);
+   if(parts.length>=2){
+    const ix=parts.findIndex(x=>/^(10|[0-9](?:[.,][0-9])?)$/.test(x));
+    if(ix>0){parsed.push({name:parts.slice(0,ix).join(' '),nota:parseHistoricalScore(parts[ix]),data:parseHistoricalDate(parts[ix+1]),canal:'WhatsApp',comentario:parts.slice(ix+1).join(' ')})}
+   }
   }
  }
-
- image.onerror=tryPhoto;
- tryPhoto();
-
- $("who").textContent=profile.nome||"Usuário";
- $("role").textContent=isAdmin()
-  ?"Administradora":
-  profile.papel==="filial"?
-  (profile.filial||"Filial"):
-  "Sucesso do Cliente";
+ if(!parsed.length)throw Error('Este PDF não tem linhas de pesquisa reconhecíveis. Se for escaneado, faça OCR; se for um relatório livre, prefira exportar para Excel/CSV. Nenhum dado foi importado.');
+ return parsed;
 }
-
-/* NAVEGAÇÃO */
-function page(id){
- document.querySelectorAll(".page").forEach(el=>{
-  el.classList.toggle("active",el.id===id);
+function importKey(x){return [x.condominio_id||'',x.data||'',x.nota??'',canonical(x.comentario)].join('|')}
+function prepareImport(rows){
+ const existing=new Set(store.pesquisas.filter(p=>p.importacao_historica).map(p=>importKey({condominio_id:p.condominio_id,data:p.data_pesquisa||'',nota:p.nota,comentario:p.comentario})));
+ const batch=new Set();
+ importDraft=rows.map((r,i)=>{
+  const item={...r,condominio_id:resolveCondominium(r.name),data:r.data||'',canal:r.canal||'WhatsApp',comentario:r.comentario||''};
+  item.issue=!item.condominio_id?'Condomínio não identificado':item.nota===null?'Nota ausente/inválida':!item.data?'Data não reconhecida':'';
+  item.duplicate=false;
+  if(!item.issue){const key=importKey(item);item.duplicate=existing.has(key)||batch.has(key);batch.add(key)}
+  return item;
  });
- document.querySelectorAll("[data-page]").forEach(el=>{
-  el.classList.toggle("active",el.dataset.page===id);
- });
- $("currentPage").textContent=
-  document.querySelector(`[data-page="${id}"]`)?.textContent||"";
- $("notificationPanel").classList.add("hidden");
- if(id==="resultados")renderPortfolioResults();
+ renderImportReview();
 }
-
-/* PROCESSOS */
-const processNames=[
- "Entrada de novo condomínio","Entrega oficial",
- "Apresentação do SC","Relacionamento preventivo",
- "Pesquisa de satisfação","Pesquisa com moradores",
- "Retorno da pesquisa","Visitas","Pós-visita",
- "Adoção digital","Cadastros","Testes de ligação",
- "Comunicação com o cliente","Retorno ao cliente",
- "Gestão de reclamações","Reclamação da Central",
- "Reclamações técnicas","Ordem de Serviço",
- "OS reincidentes","Preventivas","Demandas",
- "Melhorias","Ampliações","Financeiro",
- "Comunicação de indisponibilidades",
- "Reuniões internas","Eventos de segurança",
- "Dupla passagem","Porta aberta ou violada",
- "Renovações","Aditivos","Fechamento do pedido",
- "Retenção","Cancelamento","Clientes críticos",
- "Plano de ação para críticos","Indicadores da Central",
- "Indicadores do SC","Fechamento mensal",
- "Pareto das reclamações","Distribuição interna da equipe",
- "Rotina diária","Rotina semanal","Escalonamento",
- "Critério de encerramento"
-];
-function area(i){
- return i<14?"Jornada do cliente":
-  i<26?"Operação e qualidade":
-  i<29?"Segurança e ocorrências":
-  i<36?"Contratos e retenção":"Gestão e indicadores";
+function renderImportReview(){
+ $('importReview').classList.remove('hidden');
+ const valid=importDraft.filter(r=>!r.issue&&!r.duplicate).length;
+ $('importSummary').textContent=`${importDraft.length} linhas analisadas • ${valid} prontas • ${importDraft.filter(r=>r.issue).length} a revisar • ${importDraft.filter(r=>r.duplicate).length} possíveis duplicatas`;
+ $('importRows').innerHTML=importDraft.slice(0,500).map((r,i)=>`
+ <tr class="${r.issue?'import-invalid':''}"><td>${i+1}</td>
+ <td><select class="import-control" data-import-edit="condominio_id" data-index="${i}"><option value="">Selecione condomínio</option>${store.condominios.map(c=>`<option value="${esc(c.id)}" ${c.id===r.condominio_id?'selected':''}>${esc(c.nome)}</option>`).join('')}</select><small>Original: ${esc(r.name)}</small></td>
+ <td><input style="max-width:80px" type="number" min="0" max="10" step="0.5" data-import-edit="nota" data-index="${i}" value="${r.nota??''}"></td>
+ <td><input class="import-control" type="date" data-import-edit="data" data-index="${i}" value="${esc(r.data)}"></td>
+ <td><select data-import-edit="canal" data-index="${i}">${['WhatsApp','Ligação','E-mail','Presencial','Outro'].map(v=>`<option ${v===r.canal?'selected':''}>${esc(v)}</option>`).join('')}</select></td>
+ <td><textarea class="import-comment" rows="2" data-import-edit="comentario" data-index="${i}">${esc(r.comentario)}</textarea></td>
+ <td class="${r.issue?'import-issue':'import-valid'}">${esc(r.issue|| (r.duplicate?'Duplicata — não importar':'Pronta'))}</td></tr>
+ `).join('');
+ $('importConfirm').disabled=!valid;
 }
-function renderProcesses(){
- const q=$("processSearch").value.toLowerCase();
- const a=$("processArea").value;
- const items=processNames.map((title,i)=>({
-  title,number:i+1,area:area(i)
- })).filter(p=>
-  (p.title+" "+p.area).toLowerCase().includes(q)&&
-  (!a||p.area===a)
- );
- $("processCount").textContent=items.length+" de 45 processos";
- $("processGrid").innerHTML=items.map(p=>`
-  <article class="process-card">
-   <small>PROCESSO ${String(p.number).padStart(2,"0")}
-    · ${esc(p.area)}</small>
-   <strong>${esc(p.title)}</strong>
-   <a href="${ORIGINAL}" target="_blank"
-      rel="noopener noreferrer">
-    Consultar procedimento original ↗
-   </a>
-  </article>
- `).join("");
+async function handleImportFile(file){
+ if(!file)return;
+ $('importInfo').textContent='Lendo o arquivo...';$('importReview').classList.add('hidden');importDraft=[];
+ try{
+  const ext=file.name.split('.').pop().toLowerCase();let rows=[];
+  if(ext==='pdf')rows=await parsePDF(file);
+  else if(['xlsx','xls','csv'].includes(ext)){
+   if(!window.XLSX)throw Error('Biblioteca de planilhas indisponível.');
+   const workbook=XLSX.read(await file.arrayBuffer(),{type:'array',cellDates:false});
+   for(const sheet of workbook.SheetNames){
+    const data=XLSX.utils.sheet_to_json(workbook.Sheets[sheet],{defval:''});
+    rows.push(...readStructuredRows(data));
+   }
+  }else throw Error('Formato não aceito. Use XLSX, XLS, CSV ou PDF.');
+  if(!rows.length)throw Error('Não foram encontradas pesquisas. Confira as colunas e o formato do arquivo.');
+  if(rows.length>500)throw Error('O arquivo contém mais de 500 pesquisas. Divida a importação em lotes de até 500 para revisar todas as linhas.');
+  prepareImport(rows);
+  $('importInfo').textContent='Prévia gerada. Confira cada linha antes de importar.';
+ }catch(e){$('importInfo').textContent='Não foi possível ler o arquivo: '+e.message}
 }
-
-/* AUDITORIA */
-function lastActor(table,id){
- const a=store.auditoria_sc.find(x=>
-  x.tabela===table&&String(x.registro_id)===String(id)
- );
- return a
-  ?`${esc(a.usuario_nome||"Não identificado")}
-    <br><small>${esc(dateText(a.realizado_em))}</small>`
-  :"<small>Sem auditoria disponível</small>";
+async function saveHistoricalImport(){
+ if(!isAdmin()){ $('importInfo').textContent='Importação histórica restrita à administradora.';return}
+ const selected=importDraft.filter(x=>!x.issue&&!x.duplicate);
+ if(!selected.length)return;
+ if(!confirm(`Importar ${selected.length} pesquisas históricas? As datas serão preservadas e NÃO devem gerar novas pendências ou notificações.`))return;
+ $('importConfirm').disabled=true;
+ let saved=0,failed=[];
+ for(const r of selected){
+  const payload={condominio_id:r.condominio_id,nota:r.nota,canal:r.canal,comentario:r.comentario,data_pesquisa:r.data,importacao_historica:true,tem_reclamacao:false};
+  const response=await db.from('pesquisas').insert(payload).select('id');
+  if(response.error)failed.push(`${r.name}: ${response.error.message}`);else saved++;
+ }
+ await loadData();
+ importDraft=[];$('importReview').classList.add('hidden');$('importFile').value='';
+ $('importInfo').textContent=`${saved} pesquisa(s) importada(s). ${failed.length} falha(s).`+(failed.length?' '+failed.slice(0,3).join(' | '):'');
 }
-function renderAudit(){
- const f=$("auditFilter").value;
- const items=store.auditoria_sc.filter(a=>!f||a.tabela===f);
- $("auditList").innerHTML=items.map(a=>{
-  const data=a.depois||a.antes||{};
-  return `<div class="audit-row">
-   <b>${esc(a.usuario_nome||"Não identificado")}</b>
-   · ${esc(a.acao)} · ${esc(a.tabela)}
-   <p>${esc(data.nome||data.titulo||
-    data.numero_os||data.comentario||a.registro_id)}</p>
-   <small>${esc(dateText(a.realizado_em))}</small>
-  </div>`;
- }).join("")||'<p class="muted">Nenhuma alteração encontrada.</p>';
-}
-
-/* VISÃO EXECUTIVA */
-function renderOverview(){
- const active=store.condominios.filter(c=>c.ativo);
- const openOS=store.demandas.filter(d=>
-  d.tipo==="O.S."&&d.status!=="Concluída"
- );
- const pending=store.pendencias_sc.filter(p=>
-  p.status!=="Concluída"
- );
- const scores=store.pesquisas.filter(validScore)
-  .map(p=>Number(p.nota));
- const avg=scores.length
-  ?(scores.reduce((a,b)=>a+b,0)/scores.length)
-   .toFixed(1).replace(".",","):"—";
-
- const items=[
-  ["Condomínios ativos",active.length],
-  ["Demandas",store.demandas.length],
-  ["O.S. abertas",openOS.length],
-  ["Pesquisas",store.pesquisas.length],
-  ["Nota média",avg],
-  ["Pendências abertas",pending.length],
-  ["Pendências críticas",pending.filter(p=>
-   p.prioridade==="Crítica").length],
-  ["O.S. concluídas",store.demandas.filter(d=>
-   d.tipo==="O.S."&&d.status==="Concluída").length]
- ];
-
- $("kpis").innerHTML=items.map(([k,v])=>`
-  <div class="kpi"><small>${esc(k)}</small><b>${esc(v)}</b></div>
- `).join("");
-
- const counts={};
- active.forEach(c=>{
-  const k=c.responsavel_sc||"A definir";
-  counts[k]=(counts[k]||0)+1;
- });
- $("distribution").innerHTML=Object.entries(counts)
-  .map(([k,n])=>`<span class="tag">${esc(k)}: ${n}</span>`)
-  .join("");
-
- $("strategic").innerHTML=`
-  <p>Condomínios ativos: ${active.length}</p>
-  <p>Demandas cadastradas: ${store.demandas.length}</p>
-  <p>O.S. em aberto: ${openOS.length}</p>
-  <p>Pesquisas realizadas: ${store.pesquisas.length}</p>
-  <p>Nota média: ${avg}</p>
-  <p>Pendências abertas: ${pending.length}</p>
- `;
-}
-
-/* RESULTADOS POR CARTEIRA */
-const portfolioDefinitions=[
- {name:"Josy",branch:"Ceará"},
- {name:"Nicole",branch:"Ceará"},
- {name:"Paula",branch:"Secopi"},
- {name:"Tayane",branch:"Manaus"},
- {name:"Juliana",branch:"Maranhão"}
-];
-
-function validScore(p){
- return p.nota!==null&&p.nota!==undefined&&
-  p.nota!==""&&Number.isFinite(Number(p.nota))&&
-  Number(p.nota)>=0&&Number(p.nota)<=10;
-}
-function inPeriod(item,period){
- if(period==="all")return true;
- if(!item.criado_em)return false;
- const t=new Date(item.criado_em).getTime();
- return Number.isFinite(t)&&
-  t>=Date.now()-Number(period)*86400000&&
-  t<=Date.now();
-}
-function portfolioMetrics(definition,period){
- const condos=store.condominios.filter(c=>
-  c.filial===definition.branch&&
-  (definition.branch!=="Ceará"||
-   c.responsavel_sc===definition.name)
- );
- const ids=new Set(condos.map(c=>String(c.id)));
- const filtered=(table)=>table.filter(r=>
-  ids.has(String(r.condominio_id))&&inPeriod(r,period)
- );
- const demands=filtered(store.demandas);
- const surveys=filtered(store.pesquisas);
- const pendings=filtered(store.pendencias_sc);
- const scores=surveys.filter(validScore).map(p=>Number(p.nota));
- return {
-  ...definition,condos,demands,surveys,pendings,scores,
-  average:scores.length?
-   scores.reduce((a,b)=>a+b,0)/scores.length:null,
-  openOS:demands.filter(d=>
-   d.tipo==="O.S."&&d.status!=="Concluída"),
-  completedOS:demands.filter(d=>
-   d.tipo==="O.S."&&d.status==="Concluída"),
-  openPendings:pendings.filter(p=>p.status!=="Concluída"),
-  critical:pendings.filter(p=>
-   p.status!=="Concluída"&&p.prioridade==="Crítica")
- };
-}
-function avgText(n){
- return n===null?"Sem notas":n.toFixed(1).replace(".",",");
-}
+/* PAINEL DE RESULTADOS POR CARTEIRA */
+const portfolios=[['Josy','Ceará'],['Nicole','Ceará'],['Paula','Secopi'],['Tayane','Manaus'],['Juliana','Maranhão']];
 function renderPortfolioResults(){
- if(!$("resultOwner"))return;
- const selection=$("resultOwner").value;
- const period=$("resultPeriod").value;
- const defs=selection
-  ?portfolioDefinitions.filter(p=>
-   `${p.name}|${p.branch}`===selection)
-  :portfolioDefinitions;
- const rows=defs.map(p=>portfolioMetrics(p,period));
-
- const sum=(key)=>rows.reduce((a,r)=>a+r[key].length,0);
- const allScores=rows.flatMap(r=>r.scores);
- const average=allScores.length
-  ?allScores.reduce((a,b)=>a+b,0)/allScores.length:null;
-
- const cards=[
-  ["Condomínios",sum("condos")],
-  ["Pesquisas",sum("surveys")],
-  ["Nota média",avgText(average)],
-  ["O.S. abertas",sum("openOS")],
-  ["O.S. concluídas",sum("completedOS")],
-  ["Pendências abertas",sum("openPendings")],
-  ["Pendências críticas",sum("critical")],
-  ["Notas 9 ou 10",allScores.filter(n=>n>=9).length]
- ];
-
- $("portfolioKpis").innerHTML=cards.map(([label,value])=>`
-  <div class="kpi">
-   <small>${esc(label)}</small><b>${esc(value)}</b>
-  </div>
- `).join("");
-
- $("portfolioComparison").innerHTML=rows.map(r=>`
-  <tr>
-   <td><strong>${esc(r.name)}</strong></td>
-   <td>${esc(r.branch)}</td>
-   <td>${r.condos.length}</td>
-   <td>${r.surveys.length}</td>
-   <td>${esc(avgText(r.average))}</td>
-   <td>${r.openOS.length}</td>
-   <td>${r.completedOS.length}</td>
-   <td>${r.openPendings.length}</td>
-   <td>${r.critical.length}</td>
-  </tr>
- `).join("");
-
- $("portfolioSatisfaction").innerHTML=rows.map(r=>`
-  <div style="margin:18px 0">
-   <div class="topline">
-    <strong>${esc(r.name)} — ${esc(r.branch)}</strong>
-    <span>${esc(avgText(r.average))}
-     ${r.average===null?"":"/10"}</span>
-   </div>
-   <div class="progress">
-    <div class="progress-fill"
-     style="width:${r.average===null?0:r.average*10}%">
-    </div>
-   </div>
-   <small>${r.scores.length} nota(s) válida(s)</small>
-  </div>
- `).join("");
-
- const attention=[];
- rows.forEach(r=>{
-  r.condos.forEach(c=>{
-   const surveys=r.surveys.filter(p=>
-    String(p.condominio_id)===String(c.id)
-   ).filter(p=>p.criado_em).sort((a,b)=>
-    new Date(b.criado_em)-new Date(a.criado_em)
-   );
-   const last=surveys[0]||null;
-   const low=last&&validScore(last)&&Number(last.nota)<=6;
-   const pending=r.openPendings.filter(p=>
-    String(p.condominio_id)===String(c.id)
-   );
-   const critical=pending.filter(p=>
-    p.prioridade==="Crítica"
-   );
-   if(!low&&!critical.length)return;
-   attention.push({
-    name:c.nome,owner:r.name,
-    score:last&&validScore(last)?last.nota:"—",
-    total:pending.length,
-    reason:[
-     low?"Nota crítica":"",
-     critical.length?`${critical.length} pendência(s) crítica(s)`:""
-    ].filter(Boolean).join(" / ")
-   });
-  });
+ const owner=$('resultOwner').value,period=$('resultPeriod').value;
+ const defs=portfolios.filter(([n])=>!owner||owner===n);
+ const stats=defs.map(([name,branch])=>{
+  const condos=store.condominios.filter(c=>c.filial===branch&&(branch!=='Ceará'||c.responsavel_sc===name));
+  const ids=new Set(condos.map(c=>String(c.id)));
+  const within=(items)=>items.filter(x=>ids.has(String(x.condominio_id))&&(period==='all'||(x.data_pesquisa||x.criado_em)&&new Date((x.data_pesquisa||x.criado_em)).getTime()>=Date.now()-Number(period)*86400000));
+  const surveys=within(store.pesquisas),demands=within(store.demandas),pendings=within(store.pendencias_sc);
+  const nums=surveys.filter(p=>p.nota!==null&&p.nota!==''&&Number.isFinite(Number(p.nota))).map(p=>Number(p.nota));
+  return {name,branch,condos,surveys,demands,pendings,average:nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:null,criticalSurveys:nums.filter(x=>x<=6).length,openOS:demands.filter(d=>d.tipo==='O.S.'&&d.status!=='Concluída').length,openPending:pendings.filter(d=>d.status!=='Concluída').length};
  });
-
- $("portfolioAttention").innerHTML=attention.length
-  ?attention.map(a=>`
-   <tr>
-    <td>${esc(a.name)}</td>
-    <td>${esc(a.owner)}</td>
-    <td>${esc(a.score)}</td>
-    <td>${a.total}</td>
-    <td><span class="pill critical">${esc(a.reason)}</span></td>
-   </tr>
-  `).join("")
-  :'<tr><td colspan="5" class="empty">Nenhum caso identificado nos registros disponíveis.</td></tr>';
+ const all=stats.flatMap(s=>s.surveys).filter(p=>p.nota!==null&&p.nota!==''&&Number.isFinite(Number(p.nota))).map(p=>Number(p.nota));
+ const cards=[['Condomínios',stats.reduce((a,b)=>a+b.condos.length,0)],['Pesquisas',stats.reduce((a,b)=>a+b.surveys.length,0)],['Nota média',all.length?(all.reduce((a,b)=>a+b,0)/all.length).toFixed(1).replace('.',','):'—'],['Notas críticas',stats.reduce((a,b)=>a+b.criticalSurveys,0)],['O.S. abertas',stats.reduce((a,b)=>a+b.openOS,0)],['Pendências abertas',stats.reduce((a,b)=>a+b.openPending,0)]];
+ $('portfolioKpis').innerHTML=cards.map(([k,v])=>`<div class="kpi"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('');
+ $('portfolioComparison').innerHTML=stats.map(s=>`<tr><td>${esc(s.name)}</td><td>${esc(s.branch)}</td><td>${s.condos.length}</td><td>${s.surveys.length}</td><td>${s.average===null?'—':s.average.toFixed(1).replace('.',',')}</td><td>${s.criticalSurveys}</td><td>${s.openOS}</td><td>${s.openPending}</td></tr>`).join('');
+ const needs=[];stats.forEach(s=>s.condos.forEach(c=>{
+  const surveys=s.surveys.filter(p=>String(p.condominio_id)===String(c.id)).sort((a,b)=>new Date(b.data_pesquisa||b.criado_em)-new Date(a.data_pesquisa||a.criado_em));
+  const last=surveys[0],cr=s.pendings.filter(p=>String(p.condominio_id)===String(c.id)&&p.prioridade==='Crítica'&&p.status!=='Concluída');
+  if((last&&last.nota!==null&&Number(last.nota)<=6)||cr.length){needs.push(`<tr><td>${esc(c.nome)}</td><td>${esc(s.name)}</td><td>${last?.nota??'—'}</td><td>${last?.nota!==null&&Number(last?.nota)<=6?'Pesquisa com nota baixa':''}${cr.length?' • '+cr.length+' pendência(s) crítica(s)':''}</td></tr>`)}
+ }));
+ $('portfolioAttention').innerHTML=needs.join('')||'<tr><td colspan="4">Nenhum caso identificado pelos dados disponíveis.</td></tr>';
 }
 
-/* BOTÕES */
-function actions(table,record,editable){
- let s='<div class="actions">';
- if(editable)s+=`
-  <button class="btn small" data-edit="${table}"
-   data-id="${esc(record.id)}">Editar</button>`;
- if(isAdmin())s+=`
-  <button class="btn danger small" data-delete="${table}"
-   data-id="${esc(record.id)}">Excluir</button>`;
- if(table==="pendencias_sc")s+=`
-  <button class="btn small"
-   data-detail="${esc(record.id)}">Detalhes</button>`;
- return s+"</div>";
-}
-
-/* CARTEIRAS */
-function renderCondos(){
- const q=$("condoSearch").value.toLowerCase();
- const owner=$("condoOwner").value;
- const list=store.condominios.filter(c=>
-  [c.nome,c.responsavel_sc,c.tecnico,c.supervisor_tecnico]
-   .join(" ").toLowerCase().includes(q)&&
-  (!owner||c.responsavel_sc===owner)
- );
- $("condoRows").innerHTML=list.map(c=>`
-  <tr>
-   <td>${esc(c.nome)}</td>
-   <td>${esc(c.filial)}</td>
-   <td>${esc(c.responsavel_sc)}</td>
-   <td>${esc(c.supervisor_tecnico)}</td>
-   <td>${esc(c.tecnico)}</td>
-   <td>${actions("condominios",c,isAdmin())}</td>
-  </tr>
- `).join("");
-}
-
-/* DEMANDAS */
-function renderDemands(){
- const q=$("demandSearch").value.toLowerCase();
- const status=$("demandStatus").value;
- const list=store.demandas.filter(d=>
-  [condoName(d.condominio_id),d.numero_os,d.titulo,d.descricao]
-   .join(" ").toLowerCase().includes(q)&&
-  (!status||d.status===status)
- );
- $("demandRows").innerHTML=list.map(d=>`
-  <tr>
-   <td>${esc(condoName(d.condominio_id))}</td>
-   <td>${esc(d.numero_os||"—")}</td>
-   <td>${esc(d.titulo)}</td>
-   <td>${esc(d.status)}</td>
-   <td>${lastActor("demandas",d.id)}</td>
-   <td>${actions("demandas",d,
-    canOperate(getCondo(d.condominio_id)))}</td>
-  </tr>
- `).join("");
-}
-
-/* PESQUISAS */
-function renderSurveys(){
- const q=$("surveySearch").value.toLowerCase();
- const list=store.pesquisas.filter(p=>
-  [condoName(p.condominio_id),p.comentario]
-   .join(" ").toLowerCase().includes(q)
- );
- $("surveyRows").innerHTML=list.map(p=>`
-  <tr>
-   <td>${esc(condoName(p.condominio_id))}</td>
-   <td>${esc(p.nota??"—")}</td>
-   <td>${esc(p.canal)}</td>
-   <td style="white-space:pre-wrap">${esc(p.comentario)}</td>
-   <td>${lastActor("pesquisas",p.id)}</td>
-   <td>${actions("pesquisas",p,isAdmin())}</td>
-  </tr>
- `).join("");
-}
-
-/* PENDÊNCIAS */
-function renderPendings(){
- const q=$("pendingSearch").value.toLowerCase();
- const status=$("pendingStatus").value;
- const list=store.pendencias_sc.filter(p=>
-  [condoName(p.condominio_id),p.titulo,p.responsavel]
-   .join(" ").toLowerCase().includes(q)&&
-  (!status||p.status===status)
- );
- $("pendingRows").innerHTML=list.map(p=>`
-  <tr>
-   <td>${esc(condoName(p.condominio_id))}</td>
-   <td>${esc(p.titulo)}</td>
-   <td>${esc(p.responsavel)}</td>
-   <td><span class="pill ${p.prioridade==="Crítica"?
-    "critical":""}">${esc(p.prioridade)}</span></td>
-   <td>${esc(p.status)}</td>
-   <td>${actions("pendencias_sc",p,
-    canOperate(getCondo(p.condominio_id)))}</td>
-  </tr>
- `).join("");
-}
-function showDetail(id){
- const p=store.pendencias_sc.find(x=>
-  String(x.id)===String(id)
- );
- if(!p){message("Pendência não localizada.");return}
- const survey=store.pesquisas.find(x=>
-  String(x.id)===String(p.pesquisa_id)
- );
- const items=[
-  ["Condomínio",condoName(p.condominio_id)],
-  ["Responsável",p.responsavel],
-  ["Fiscalização",p.supervisor_sc],
-  ["Prioridade",p.prioridade],
-  ["Status",p.status],
-  ["Nota",survey?.nota??"Não disponível"],
-  ["Canal",survey?.canal||"—"],
-  ["Abertura",dateText(p.criado_em)]
- ];
- $("pendingDetailContent").innerHTML=`
-  <div class="details">
-   ${items.map(([k,v])=>`
-    <div><small>${esc(k)}</small>
-    <strong>${esc(v)}</strong></div>
-   `).join("")}
-  </div>
-  <h3>${esc(p.titulo)}</h3>
-  <div class="note">${esc(survey?.comentario||
-   p.descricao||"Sem descrição.")}</div>
- `;
- page("pendencias");
- $("pendingDetail").classList.remove("hidden");
- $("pendingDetail").scrollIntoView({behavior:"smooth"});
-}
-
-/* NOTIFICAÇÕES */
-function renderNotifications(){
- const unread=store.notificacoes_sc.filter(n=>!n.lida).length;
- $("bellCount").textContent=unread;
- $("bellCount").classList.toggle("hidden",unread===0);
- $("notificationList").innerHTML=
-  store.notificacoes_sc.map(n=>`
-   <div class="notification-item ${n.lida?"":"unread"}">
-    <strong>${esc(n.titulo)}</strong>
-    <p>${esc(n.mensagem)}</p>
-    <small>${esc(dateText(n.criado_em))}</small>
-    ${n.pendencia_id?`
-     <p><button class="btn small"
-       data-detail="${esc(n.pendencia_id)}">
-       Ver reclamação completa
-     </button></p>`:""}
-   </div>
-  `).join("")||'<p class="muted">Nenhuma notificação.</p>';
-}
-
-/* FISCALIZAÇÃO */
-function renderOversight(){
- const list=store.condominios.filter(c=>c.filial!=="Ceará");
- $("oversight").innerHTML=list.map(c=>`
-  <p>${esc(c.filial)} — ${esc(c.nome)}</p>
- `).join("")||
- '<p class="muted">Nenhum condomínio regional disponível.</p>';
-}
-
-/* ATUALIZAÇÕES */
-function render(){
- renderOverview();
- renderPortfolioResults();
- renderCondos();
- renderDemands();
- renderSurveys();
- renderPendings();
- renderNotifications();
- renderOversight();
- renderAudit();
- document.querySelectorAll(".admin-only").forEach(el=>{
-  el.classList.toggle("hidden",!isAdmin());
- });
-}
-
-/* FORMULÁRIOS */
-function field(name,label,type="text",value="",options=null,required=false){
- const req=required?"required":"";
- if(type==="textarea")return `
-  <label class="full">${esc(label)}
-   <textarea name="${name}" rows="3" ${req}>${esc(value)}</textarea>
-  </label>`;
- if(type==="checkbox")return `
-  <label>${esc(label)}
-   <input type="checkbox" name="${name}" ${value?"checked":""}>
-  </label>`;
- if(type==="select")return `
-  <label>${esc(label)}
-   <select name="${name}">
-    ${(options||[]).map(o=>`
-     <option value="${esc(o)}"
-       ${String(o)===String(value)?"selected":""}>
-      ${esc(o)}
-     </option>`).join("")}
-   </select>
-  </label>`;
- return `
-  <label>${esc(label)}
-   <input type="${type}" name="${name}"
-    value="${esc(value)}" ${req}>
-  </label>`;
-}
-function condoSelect(value,mode){
- const list=store.condominios.filter(c=>
-  (mode==="survey"?canSurvey(c):canOperate(c))||
-  String(c.id)===String(value)
- );
- return `
-  <label class="full">Condomínio
-   <select name="condominio_id" required>
-    ${list.map(c=>`
-     <option value="${esc(c.id)}"
-       ${String(c.id)===String(value)?"selected":""}>
-      ${esc(c.nome)}
-     </option>`).join("")}
-   </select>
-  </label>`;
-}
-function openRecord(table,id=null){
- const d=id?store[table]?.find(x=>
-  String(x.id)===String(id)):null;
- if(id&&!d){message("Registro não localizado.");return}
- if(table==="condominios"&&!isAdmin()){
-  message("Somente a administradora pode editar condomínios.");
-  return;
- }
- if(table==="pesquisas"&&id&&!isAdmin()){
-  message("Edição de pesquisa reservada à administradora.");
-  return;
- }
- if(d&&table!=="condominios"&&!isAdmin()&&
-    !canOperate(getCondo(d.condominio_id))){
-  message("Sem permissão para editar este registro.");
-  return;
- }
-
- dialog={table,id};
- const r=d||{};
- let html="";
-
- if(table==="condominios"){
-  html+=field("nome","Nome do condomínio","text",r.nome||"",null,true);
-  html+=field("codigo_origem","Código de origem","text",r.codigo_origem||"");
-  html+=field("filial","Filial","select",r.filial||"Ceará",
-   ["Ceará","Secopi","Manaus","Maranhão"]);
-  html+=field("responsavel_sc","Responsável SC","text",
-   r.responsavel_sc||"A definir");
-  html+=field("supervisor_tecnico","Supervisor técnico","text",
-   r.supervisor_tecnico||"");
-  html+=field("tecnico","Técnico","text",r.tecnico||"");
-  html+=field("ativo","Cliente ativo","checkbox",r.ativo??true);
- }
- if(table==="demandas"){
-  html+=condoSelect(r.condominio_id,"operate");
-  html+=field("tipo","Tipo","select",r.tipo||"O.S.",
-   ["O.S.","Demanda","Pendência técnica","Reclamação","Melhoria"]);
-  html+=field("numero_os","Número da O.S.","text",r.numero_os||"");
-  html+=field("titulo","Problema / Título","text",r.titulo||"",null,true);
-  html+=field("setor","Setor","text",r.setor||"");
-  html+=field("prazo","Prazo","date",r.prazo||"");
-  html+=field("descricao","Descrição inicial","textarea",r.descricao||"");
-  html+=field("tratativa_tecnica","Tratativa técnica","textarea",
-   r.tratativa_tecnica||"");
-  html+=field("retorno_sindico","Retorno dado ao síndico","textarea",
-   r.retorno_sindico||"");
-  html+=field("data_retorno_sindico","Data do retorno","date",
-   r.data_retorno_sindico||"");
-  html+=field("canal_retorno","Canal do retorno","select",
-   r.canal_retorno||"",
-   ["","WhatsApp","Ligação","E-mail","Presencial","Outro"]);
-  html+=field("status","Status","select",r.status||"Aberta",
-   ["Aberta","Em tratativa","Aguardando retorno","Concluída"]);
- }
- if(table==="pesquisas"){
-  html+=condoSelect(r.condominio_id,"survey");
-  html+=field("nota","Nota (0 a 10)","number",r.nota??"");
-  html+=field("canal","Canal","select",r.canal||"WhatsApp",
-   ["WhatsApp","Ligação"]);
-  html+=field("comentario","Elogios, reclamações e pendências",
-   "textarea",r.comentario||"");
-  html+=field("tem_reclamacao","Reclamação relevante",
-   "checkbox",r.tem_reclamacao||false);
- }
- if(table==="pendencias_sc"){
-  html+=condoSelect(r.condominio_id,"operate");
-  html+=field("titulo","Título","text",r.titulo||"",null,true);
-  html+=field("descricao","Reclamação ou pendência",
-   "textarea",r.descricao||"");
-  html+=field("responsavel","Responsável","text",r.responsavel||"");
-  html+=field("supervisor_sc","Fiscalização","text",r.supervisor_sc||"");
-  html+=field("prioridade","Prioridade","select",r.prioridade||"Normal",
-   ["Normal","Alta","Crítica"]);
-  html+=field("status","Status","select",r.status||"Aberta",
-   ["Aberta","Em tratativa","Aguardando retorno","Concluída"]);
-  html+=field("prazo","Prazo","date",r.prazo||"");
- }
-
- const labels={
-  condominios:"Condomínio",
-  demandas:"Demanda / O.S.",
-  pesquisas:"Pesquisa",
-  pendencias_sc:"Pendência"
- };
- $("recordFields").innerHTML=html;
- $("modalError").textContent="";
- $("modalTitle").textContent=
-  (id?"Editar":"Cadastrar")+" — "+labels[table];
- $("recordModal").classList.remove("hidden");
-}
-function closeRecord(){
- dialog=null;
- $("recordModal").classList.add("hidden");
- $("recordForm").reset();
-}
-
-/* SALVAR */
-async function saveRecord(event){
- event.preventDefault();
- if(!dialog)return;
-
- const {table,id}=dialog;
- const original=id?store[table].find(x=>
-  String(x.id)===String(id)):null;
- const values=Object.fromEntries(
-  new FormData($("recordForm")).entries()
- );
-
- if(table==="condominios"){
-  values.ativo=$("recordForm").elements.namedItem("ativo")
-   ?.checked??false;
-  if(!values.codigo_origem)
-   values.codigo_origem=original?.codigo_origem||
-    "MANUAL-"+Date.now();
- }
- if(table==="pesquisas"){
-  values.tem_reclamacao=$("recordForm")
-   .elements.namedItem("tem_reclamacao")?.checked??false;
-  values.nota=values.nota===""?null:Number(values.nota);
-  if(values.nota!==null&&
-    (!Number.isFinite(values.nota)||
-     values.nota<0||values.nota>10)){
-   $("modalError").textContent="A nota deve estar entre 0 e 10.";
-   return;
-  }
- }
- if(table==="demandas"){
-  for(const key of [
-   "numero_os","setor","prazo",
-   "data_retorno_sindico","canal_retorno"
-  ])if(!values[key])values[key]=null;
-
-  if(values.tipo==="O.S."&&values.status==="Concluída"&&
-    !(values.tratativa_tecnica?.trim()&&
-      values.retorno_sindico?.trim()&&
-      values.data_retorno_sindico&&
-      values.canal_retorno)){
-   $("modalError").textContent=
-    "Para concluir a O.S., registre a tratativa técnica, "+
-    "o retorno ao síndico, a data e o canal.";
-   return;
-  }
-  if(!id)values.status="Aberta";
- }
- if(table==="pendencias_sc"){
-  if(!values.prazo)values.prazo=null;
-  if(!values.responsavel?.trim()){
-   const c=getCondo(values.condominio_id);
-   values.responsavel=
-    c?.filial==="Secopi"?"Paula":
-    c?.filial==="Manaus"?"Tayane":
-    c?.filial==="Maranhão"?"Juliana":
-    c?.responsavel_sc||"Rosely";
-   values.supervisor_sc=
-    c?.filial==="Maranhão"?"Nicole":
-    ["Secopi","Manaus"].includes(c?.filial)?"Josy":"Rosely";
-  }
-  if(!id)values.origem="Manual";
- }
-
- $("modalSave").disabled=true;
- $("modalError").textContent="";
- try{
-  const response=id
-   ?await db.from(table).update(values)
-     .eq("id",id).select("id")
-   :await db.from(table).insert(values).select("id");
-  const result=ck(response);
-  if(!result?.length)
-   throw Error("Nenhum registro salvo. Confira as permissões RLS.");
-  closeRecord();
-  await loadData();
-  message("Registro salvo com sucesso.");
- }catch(err){
-  $("modalError").textContent="Erro ao salvar: "+err.message;
- }finally{
-  $("modalSave").disabled=false;
- }
-}
-
-/* EXCLUIR */
-async function deleteRecord(table,id){
- if(!isAdmin()){
-  message("Somente a administradora pode excluir registros.");
-  return;
- }
- const r=store[table]?.find(x=>String(x.id)===String(id));
- if(!r)return;
- if(!confirm(
-  "Excluir permanentemente este registro?\n"+
-  (r.nome||r.titulo||r.comentario||id)+
-  "\n\nEsta ação não poderá ser desfeita."
- ))return;
-
- try{
-  const rows=ck(await db.from(table)
-   .delete().eq("id",id).select("id"));
-  if(!rows.length)throw Error("Exclusão não autorizada.");
-  await loadData();
-  message("Registro excluído.");
- }catch(err){
-  message("Erro ao excluir: "+err.message);
- }
-}
-
-/* CARREGAR DADOS */
-async function loadData(){
- message("Atualizando informações...");
- try{
-  for(const table of [
-   "condominios","demandas","pesquisas",
-   "pendencias_sc","notificacoes_sc"
-  ]){
-   let query=db.from(table).select("*").limit(1000);
-   if(table==="condominios")query=query.order("nome");
-   if(["pendencias_sc","notificacoes_sc"].includes(table))
-    query=query.order("criado_em",{ascending:false});
-   store[table]=ck(await query);
-  }
-
-  if(isAdmin()){
-   store.auditoria_sc=ck(await db.from("auditoria_sc")
-    .select("*")
-    .order("realizado_em",{ascending:false})
-    .limit(500));
-  }else store.auditoria_sc=[];
-
-  render();
-  message("");
- }catch(err){
-  message("Erro ao carregar banco: "+err.message);
- }
-}
-
-/* LOGIN */
-async function session(){
- const r=await db.auth.getUser();
- if(r.error||!r.data.user){
-  profile=null;
-  $("loginScreen").classList.remove("hidden");
-  $("system").classList.add("hidden");
-  return;
- }
- try{
-  profile=ck(await db.from("profiles").select("*")
-   .eq("user_id",r.data.user.id).single());
-  setPhoto();
-  $("loginScreen").classList.add("hidden");
-  $("system").classList.remove("hidden");
-  await loadData();
- }catch(err){
-  $("loginMessage").textContent=
-   "Erro ao carregar perfil: "+err.message;
- }
-}
-async function login(){
- $("loginMessage").textContent="";
- $("loginButton").disabled=true;
- try{
-  ck(await db.auth.signInWithPassword({
-   email:$("email").value.trim(),
-   password:$("password").value
-  }));
-  await session();
- }catch(err){
-  $("loginMessage").textContent=err.message;
- }finally{
-  $("loginButton").disabled=false;
- }
-}
-
-/* EXPORTAÇÃO */
-function exportData(){
- const data={exportado_em:new Date().toISOString(),...store};
- const url=URL.createObjectURL(new Blob(
-  [JSON.stringify(data,null,2)],
-  {type:"application/json"}
- ));
- const a=document.createElement("a");
- a.href=url;
- a.download="servis_sc_exportacao.json";
- a.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-
-/* EVENTOS */
-document.addEventListener("DOMContentLoaded",async()=>{
- renderProcesses();
-
- document.querySelectorAll("[data-page]").forEach(b=>{
-  b.addEventListener("click",()=>page(b.dataset.page));
- });
- document.querySelectorAll("[data-page-direct]").forEach(b=>{
-  b.addEventListener("click",()=>page(b.dataset.pageDirect));
- });
-
- for(const id of [
-  "condoSearch","condoOwner","demandSearch",
-  "demandStatus","surveySearch","pendingSearch","pendingStatus"
- ])$(id).addEventListener("input",render);
-
- $("processSearch").addEventListener("input",renderProcesses);
- $("processArea").addEventListener("change",renderProcesses);
- $("auditFilter").addEventListener("change",renderAudit);
- $("resultOwner").addEventListener("change",renderPortfolioResults);
- $("resultPeriod").addEventListener("change",renderPortfolioResults);
- $("refreshPortfolio").addEventListener("click",loadData);
-
- document.body.addEventListener("click",async e=>{
-  const b=e.target.closest(
-   "[data-new],[data-edit],[data-delete],[data-detail]"
-  );
-  if(!b)return;
-  if(b.dataset.new)openRecord(b.dataset.new);
-  else if(b.dataset.edit)openRecord(b.dataset.edit,b.dataset.id);
-  else if(b.dataset.delete)
-   await deleteRecord(b.dataset.delete,b.dataset.id);
-  else if(b.dataset.detail)showDetail(b.dataset.detail);
- });
-
- $("recordForm").addEventListener("submit",saveRecord);
- $("modalCancel").addEventListener("click",closeRecord);
- $("modalClose").addEventListener("click",closeRecord);
- $("closePending").addEventListener("click",()=>{
-  $("pendingDetail").classList.add("hidden");
- });
- $("bell").addEventListener("click",()=>{
-  $("notificationPanel").classList.toggle("hidden");
- });
- $("readAll").addEventListener("click",async()=>{
-  if(!profile)return;
-  try{
-   ck(await db.from("notificacoes_sc")
-    .update({lida:true})
-    .eq("usuario_id",profile.user_id)
-    .eq("lida",false));
-   await loadData();
-  }catch(err){
-   message("Erro nas notificações: "+err.message);
-  }
- });
- $("reload").addEventListener("click",loadData);
- $("auditReload").addEventListener("click",loadData);
- $("exportBtn").addEventListener("click",exportData);
-
- if(!window.supabase){
-  $("loginMessage").textContent=
-   "Não foi possível carregar a biblioteca do Supabase.";
-  return;
- }
-
- db=window.supabase.createClient(URL_DB,KEY);
-
- $("loginButton").addEventListener("click",login);
- $("password").addEventListener("keydown",e=>{
-  if(e.key==="Enter")login();
- });
- $("logout").addEventListener("click",async()=>{
-  await db.auth.signOut();
-  profile=null;dialog=null;
-  Object.keys(store).forEach(k=>store[k]=[]);
-  $("password").value="";
-  $("loginScreen").classList.remove("hidden");
-  $("system").classList.add("hidden");
- });
-
- await session();
-});
-</script>
-</body>
-</html>
+async function loadData(){message('Atualizando dados...');try{let keys=['condominios','demandas','pesquisas','pendencias_sc','notificacoes_sc'];for(const t of keys){let q=db.from(t).select('*').limit(1000);if(t==='condominios')q=q.order('nome');if(['pendencias_sc','notificacoes_sc'].includes(t))q=q.order('criado_em',{ascending:false});store[t]=ck(await q)}if(isAdmin()){store.auditoria_sc=ck(await db.from('auditoria_sc').select('*').order('realizado_em',{ascending:false}).limit(500))}else{store.auditoria_sc=[]}render();message('')}catch(e){message('Falha ao carregar dados: '+e.message)}}
+async function session(){let r=await db.auth.getUser();if(r.error||!r.data.user){$('loginScreen').classList.remove('hidden');$('system').classList.add('hidden');return}try{profile=ck(await db.from('profiles').select('*').eq('user_id',r.data.user.id).single());setPhoto();$('loginScreen').classList.add('hidden');$('system').classList.remove('hidden');await loadData()}catch(e){$('loginMessage').textContent='Erro no perfil: '+e.message}}
+async function login(){$('loginMessage').textContent='';try{ck(await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value}));await session()}catch(e){$('loginMessage').textContent=e.message}}
+function exportData(){const data={exportado_em:new Date().toISOString(),...store};let url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));let a=document.createElement('a');a.href=url;a.download='servis_sc_exportacao.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),500)}
+document.addEventListener('DOMContentLoaded',async()=>{renderProcesses();document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));for(const id of ['condoSearch','condoOwner','demandSearch','demandStatus','surveySearch','pendingSearch','pendingStatus'])$(id).addEventListener('input',render);$('processSearch').addEventListener('input',renderProcesses);$('processArea').addEventListener('change',renderProcesses);$('resultOwner').addEventListener('change',renderPortfolioResults);$('resultPeriod').addEventListener('change',renderPortfolioResults);$('importFile').addEventListener('change',e=>handleImportFile(e.target.files[0]));$('importRows').addEventListener('change',e=>{const key=e.target.dataset.importEdit;const i=Number(e.target.dataset.index);if(!key||!importDraft[i])return;importDraft[i][key]=key==='nota'?parseHistoricalScore(e.target.value):e.target.value;const r=importDraft[i];r.issue=!r.condominio_id?'Condomínio não identificado':r.nota===null?'Nota ausente/inválida':!r.data?'Data não reconhecida':'';r.duplicate=false;renderImportReview()});$('importConfirm').addEventListener('click',saveHistoricalImport);$('importCancel').addEventListener('click',()=>{$('importReview').classList.add('hidden');importDraft=[];$('importFile').value='';$('importInfo').textContent='Importação cancelada.'});$('auditFilter').addEventListener('change',renderAudit);document.body.addEventListener('click',async e=>{let el=e.target.closest('[data-new],[data-edit],[data-delete],[data-detail]');if(!el)return;if(el.dataset.new)openRecord(el.dataset.new);else if(el.dataset.edit)openRecord(el.dataset.edit,el.dataset.id);else if(el.dataset.delete)await deleteRecord(el.dataset.delete,el.dataset.id);else if(el.dataset.detail)showDetail(el.dataset.detail)});$('recordForm').addEventListener('submit',saveRecord);$('modalCancel').addEventListener('click',closeRecord);$('modalClose').addEventListener('click',closeRecord);$('closePending').addEventListener('click',()=>{$('pendingDetail').classList.add('hidden');chosenPending=null});$('bell').addEventListener('click',()=>$('notificationPanel').classList.toggle('hidden'));$('readAll').addEventListener('click',async()=>{try{ck(await db.from('notificacoes_sc').update({lida:true}).eq('usuario_id',profile.user_id).eq('lida',false));await loadData()}catch(e){message(e.message)}});$('reload').addEventListener('click',loadData);$('auditReload').addEventListener('click',loadData);$('exportBtn').addEventListener('click',exportData);if(!window.supabase){$('loginMessage').textContent='Biblioteca Supabase indisponível.';return}db=window.supabase.createClient(URL_DB,KEY);$('loginButton').addEventListener('click',login);$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login()});$('logout').addEventListener('click',async()=>{await db.auth.signOut();profile=null;Object.keys(store).forEach(k=>store[k]=[]);$('password').value='';$('loginScreen').classList.remove('hidden');$('system').classList.add('hidden')});await session()});
+</script></body></html>
