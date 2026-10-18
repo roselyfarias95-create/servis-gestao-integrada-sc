@@ -3,6 +3,16 @@
 <style>
 :root{--bg:#081525;--side:#0b1b2e;--panel:#102136;--pane2:#192f48;--line:#29425d;--text:#e8f2ff;--muted:#a4bad3;--teal:#37d5c8;--blue:#55aaff;--danger:#ff8a91}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:var(--blue)}.hidden{display:none!important}.sidebar{position:fixed;inset:0 auto 0 0;background:var(--side);width:240px;padding:16px 12px;border-right:1px solid var(--line);overflow:auto}.brand{text-align:center;margin:3px 0 16px}.logo{width:116px;height:116px;margin:auto;background:white;border-radius:16px;padding:9px}.logo img{width:100%;height:100%;object-fit:contain}.brand small{display:block;margin:10px;color:var(--muted);letter-spacing:2px;font-size:10px}.profile{background:#1b3855;border:1px solid var(--line);border-radius:30px;display:flex;align-items:center;gap:8px;padding:8px;margin-bottom:15px}.avatar{width:42px;height:42px;object-fit:cover;border-radius:50%;border:2px solid var(--blue)}.profile small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.menu button{width:100%;display:block;background:transparent;color:#c4d6e8;border:0;border-radius:9px;padding:13px;text-align:left;margin:3px 0;font-weight:600}.menu button.active,.menu button:hover{background:#1b3855;color:white}.main{margin-left:240px;padding:27px 35px 70px}.topline,.actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.actions{justify-content:flex-start}.eyebrow{font-size:11px;letter-spacing:1.5px;color:var(--teal);font-weight:bold}h1{margin:9px 0;font-size:28px}h1 span{color:var(--blue)}h2{font-size:19px;margin:0 0 12px}h3{font-size:16px}.muted,small{color:var(--muted)}.panel{margin:15px 0;padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:14px}.btn{background:#203b58;color:white;border:1px solid var(--line);border-radius:9px;padding:10px 15px;text-decoration:none;display:inline-block}.btn.primary{background:#118e91;border-color:#118e91}.btn.danger{background:#843a49;border-color:#a75362}.btn.small{padding:6px 9px;font-size:11px}.btn:disabled{opacity:.5;cursor:not-allowed}input,select,textarea{width:100%;background:var(--pane2);border:1px solid #365573;border-radius:9px;padding:10px;color:white}input[type=checkbox]{width:auto}.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.form label{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:12px}.form .full{grid-column:1/-1}.search{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}.search input{max-width:360px}.search select{max-width:210px}.tag{display:inline-block;border:1px solid #365b73;border-radius:20px;color:var(--teal);padding:8px 12px;font-size:12px;margin:5px 5px 5px 0}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.kpi{border:1px solid var(--line);border-top:3px solid var(--teal);border-radius:12px;background:var(--panel);padding:18px}.kpi b{display:block;font-size:27px;margin:12px 0 0}.page{display:none}.page.active{display:block}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid var(--line);padding:11px 10px;font-size:12px;text-align:left;vertical-align:top}th{background:#172f47;color:#bdd7ed}.scroll{overflow:auto}.status{color:#ffc27d;white-space:pre-wrap}.login{min-height:100vh;display:grid;place-items:center;padding:20px}.login .panel{width:400px;max-width:100%;text-align:center}.login label{text-align:left;display:block;margin:12px 0}.notification-wrap{position:relative}.notification-panel{position:absolute;top:48px;right:0;background:#17304a;border:1px solid var(--line);width:390px;max-width:calc(100vw - 30px);max-height:480px;overflow:auto;z-index:20;border-radius:12px;padding:15px;box-shadow:0 18px 40px #0009}.notification-item{padding:12px 3px;border-bottom:1px solid var(--line)}.notification-item p{color:var(--muted);font-size:12px}.count{background:#ff8585;color:#102136;padding:2px 7px;border-radius:12px}.detail{border-color:var(--teal)}.details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:15px 0}.details div{padding:12px;background:var(--pane2);border-radius:9px;overflow-wrap:anywhere}.details small{display:block;margin-bottom:6px}.note{background:var(--pane2);padding:14px;border-radius:9px;white-space:pre-wrap;line-height:1.6}.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.process-card{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:15px}.process-card strong{display:block;margin:10px 0}.audit-row{padding:13px;border-bottom:1px solid var(--line)}.audit-row b{color:var(--teal)}.audit-row p{margin:5px 0}.pill{font-size:11px;border-radius:15px;background:#29465f;padding:5px 8px}.modal{position:fixed;inset:0;background:#000b;z-index:30;display:flex;justify-content:center;align-items:center;padding:16px}.modal-card{width:720px;max-width:100%;max-height:94vh;overflow:auto;background:#132740;border:1px solid var(--line);padding:22px;border-radius:15px}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}#notice{margin:12px 0}@media(max-width:1050px){.grid{grid-template-columns:repeat(2,1fr)}.process-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.sidebar{position:relative;width:100%;height:auto}.menu{display:flex;overflow-x:auto}.menu button{width:auto;white-space:nowrap}.main{margin-left:0;padding:18px}.grid,.details,.process-grid,.form{grid-template-columns:1fr}h1{font-size:23px}}
 .formlabel{display:block;color:var(--muted);margin-bottom:8px}.import-control{min-width:155px}.import-comment{min-width:230px}.import-invalid{background:#502c37}.import-valid{color:#83e6b1}.import-issue{color:#ffc27d}
+
+/* Pesquisa rápida com sugestões nos cadastros existentes */
+.lookup{position:relative;min-width:190px}
+.lookup-input{width:100%;min-width:0}
+.lookup-options{position:absolute;z-index:100;left:0;right:0;top:calc(100% + 3px);max-height:245px;overflow:auto;background:#19344f;border:1px solid #50b5c2;border-radius:9px;box-shadow:0 12px 24px #0009}
+.lookup-option{display:block;width:100%;padding:10px 12px;text-align:left;background:transparent;color:#e8f2ff;border:0;border-bottom:1px solid #29425d;white-space:normal}
+.lookup-option:hover,.lookup-option:focus{background:#275372}
+.lookup-option small{display:block;margin-top:2px;font-size:10px}
+.lookup-help{display:block;font-size:10px;color:#94aec4;margin-top:4px}
+.lookup input:focus{border-color:var(--teal)}
 </style><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head><body>
@@ -75,8 +85,76 @@ function renderNotices(){let a=store.notificacoes_sc,n=a.filter(x=>!x.lida).leng
 function showDetail(id){let q=store.pendencias_sc.find(x=>String(x.id)===String(id));page('pendencias');if(!q){message('Pendência não disponível para seu perfil.');return}chosenPending=id;let survey=store.pesquisas.find(x=>String(x.id)===String(q.pesquisa_id));let pairs=[['Condomínio',condoName(q.condominio_id)],['Responsável',q.responsavel],['Supervisão',q.supervisor_sc],['Prioridade',q.prioridade],['Status',q.status],['Nota',survey?.nota??'—'],['Criada',dateText(q.criado_em)],['Última edição',lastActorText('pendencias_sc',q.id)]];$('pendingContent').innerHTML=`<div class="details">${pairs.map(([k,v])=>`<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div><h3>${esc(q.titulo)}</h3><div class="note">${esc(survey?.comentario||q.descricao||'Sem descrição')}</div>`;$('pendingDetail').classList.remove('hidden');$('pendingDetail').scrollIntoView({behavior:'smooth'})}
 function lastActorText(t,id){let x=store.auditoria_sc.find(a=>a.tabela===t&&a.registro_id===String(id));return x?x.usuario_nome+' em '+dateText(x.realizado_em):'Sem registro anterior'}
 function optCondo(selected,filter){let list=store.condominios.filter(filter),options=list.map(c=>`<option value="${esc(c.id)}" ${String(selected)===String(c.id)?'selected':''}>${esc(c.nome)}</option>`).join('');return options||(selected?`<option value="${esc(selected)}">${esc(condoName(selected))}</option>`:'<option value="">Nenhum condomínio autorizado</option>')}
-function inputField(key,label,type='text',value='',options=null,required=false,full=false){let control=options?`<select name="${esc(key)}" ${required?'required':''}>${options.map(o=>`<option value="${esc(o)}" ${String(o)===String(value)?'selected':''}>${esc(o)}</option>`).join('')}</select>`:type==='textarea'?`<textarea name="${esc(key)}" rows="3">${esc(value)}</textarea>`:type==='checkbox'?`<input type="checkbox" name="${esc(key)}" ${value?'checked':''}>`:`<input type="${esc(type)}" name="${esc(key)}" value="${esc(value)}" ${required?'required':''}>`;return `<label style="${full?'grid-column:1/-1;':''}">${esc(label)}${control}</label>`}
-function selectCondoField(value,filter){return `<label style="grid-column:1/-1">Condomínio<select name="condominio_id" required>${optCondo(value,filter)}</select></label>`}
+function inputField(key,label,type='text',value='',options=null,required=false,full=false){
+ if(key==='responsavel_sc'&&options){
+  const id='suggest-responsavel-sc';
+  const control=`<input name="${esc(key)}" list="${id}" value="${esc(value)}" placeholder="Digite Jos... para Josy" autocomplete="off" ${required?'required':''}><datalist id="${id}">${options.map(o=>`<option value="${esc(o)}"></option>`).join('')}</datalist>`;
+  return `<label style="${full?'grid-column:1/-1;':''}">${esc(label)}${control}</label>`;
+ }
+ if(['tecnico','supervisor_tecnico','responsavel','supervisor_sc'].includes(key)&&!options){
+  const candidates=[...new Set(store.condominios.map(c=>c[key==='responsavel'?'responsavel_sc':key==='supervisor_sc'?'supervisor_tecnico':key]).filter(x=>typeof x==='string'&&x.trim()))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  const id='suggest-'+key;
+  const control=`<input name="${esc(key)}" list="${id}" value="${esc(value)}" autocomplete="off" placeholder="Digite para buscar ou informe outro nome"><datalist id="${id}">${candidates.map(o=>`<option value="${esc(o)}"></option>`).join('')}</datalist>`;
+  return `<label style="${full?'grid-column:1/-1;':''}">${esc(label)}${control}</label>`;
+ }
+ let control=options?`<select name="${esc(key)}" ${required?'required':''}>${options.map(o=>`<option value="${esc(o)}" ${String(o)===String(value)?'selected':''}>${esc(o)}</option>`).join('')}</select>`:type==='textarea'?`<textarea name="${esc(key)}" rows="3">${esc(value)}</textarea>`:type==='checkbox'?`<input type="checkbox" name="${esc(key)}" ${value?'checked':''}>`:`<input type="${esc(type)}" name="${esc(key)}" value="${esc(value)}" ${required?'required':''}>`;return `<label style="${full?'grid-column:1/-1;':''}">${esc(label)}${control}</label>`}
+/* Um único campo de pesquisa para qualquer condomínio cadastrado.
+   O texto digitado nunca é gravado como ID: só a seleção de um resultado define o condomínio. */
+function lookupCondo(value,options={}){
+ const {mode='form',index=null,filter=null}=options;
+ const selected=store.condominios.find(c=>String(c.id)===String(value));
+ const pool=store.condominios.filter(c=>!filter||filter(c));
+ const label=selected?selected.nome:'';
+ return `<div class="lookup" data-lookup-mode="${esc(mode)}" ${index===null?'':`data-lookup-index="${index}"`}>
+  <input class="lookup-input" type="text" autocomplete="off" placeholder="Digite parte do nome (ex.: PAR para PARMA)" aria-label="Buscar condomínio" value="${esc(label)}" role="combobox" aria-expanded="false">
+  <input class="lookup-id" type="hidden" ${mode==='form'?'name="condominio_id"':''} value="${esc(value||'')}">
+  <div class="lookup-options hidden" role="listbox"></div>
+  <small class="lookup-help">${pool.length} condomínio(s) disponíveis. Digite para buscar e clique no resultado.</small>
+ </div>`;
+}
+function selectCondoField(value,filter){return `<label style="grid-column:1/-1">Condomínio${lookupCondo(value,{filter})}</label>`}
+function lookupPool(box){
+ const arr=store.condominios;
+ if(box.dataset.lookupMode==='import')return arr;
+ if(!dialog)return arr;
+ if(dialog.t==='pesquisas')return arr.filter(canSurvey).concat(arr.filter(c=>String(c.id)===box.querySelector('.lookup-id').value&&!canSurvey(c)));
+ return arr.filter(canOperate).concat(arr.filter(c=>String(c.id)===box.querySelector('.lookup-id').value&&!canOperate(c)));
+}
+function lookupSuggestions(box){
+ const input=box.querySelector('.lookup-input'),query=canonical(input.value),panel=box.querySelector('.lookup-options');
+ const pool=lookupPool(box);
+ const matches=pool.filter(c=>!query||canonical(c.nome).includes(query)||canonical(c.codigo_origem).includes(query))
+  .sort((a,b)=>{
+   const aStart=canonical(a.nome).startsWith(query),bStart=canonical(b.nome).startsWith(query);
+   return Number(bStart)-Number(aStart)||a.nome.localeCompare(b.nome,'pt-BR');
+  }).slice(0,25);
+ panel.innerHTML=matches.length?matches.map(c=>`<button type="button" class="lookup-option" role="option" data-lookup-choose="${esc(c.id)}"><strong>${esc(c.nome)}</strong><small>${esc(c.filial||'')} ${c.codigo_origem?' • '+esc(c.codigo_origem):''}</small></button>`).join(''):'<div style="padding:10px;color:#ffc27d">Nenhum condomínio encontrado. Confira o nome ou cadastre o condomínio.</div>';
+ panel.classList.remove('hidden');input.setAttribute('aria-expanded','true');
+}
+function closeLookup(box){if(!box)return;box.querySelector('.lookup-options').classList.add('hidden');box.querySelector('.lookup-input').setAttribute('aria-expanded','false')}
+function applyLookupSelection(box,id){
+ const selected=store.condominios.find(c=>String(c.id)===String(id));
+ if(!selected)return;
+ box.querySelector('.lookup-id').value=String(selected.id);
+ box.querySelector('.lookup-input').value=selected.nome;
+ closeLookup(box);
+ if(box.dataset.lookupMode==='import'){
+  const i=Number(box.dataset.lookupIndex),r=importDraft[i];if(!r)return;
+  r.condominio_id=selected.id;
+  validateImportDraft();
+  renderImportReview();
+ }
+}
+function validateImportDraft(){
+ const existing=new Set(store.pesquisas.filter(p=>p.importacao_historica).map(p=>importKey({condominio_id:p.condominio_id,data:p.data_pesquisa||'',nota:p.nota,comentario:p.comentario})));
+ const batch=new Set();
+ for(const r of importDraft){
+  r.issue=!r.condominio_id?'Condomínio não identificado':r.nota===null?'Nota ausente/inválida':!r.data?'Data não reconhecida':'';
+  const key=importKey(r);r.duplicate=!r.issue&&(existing.has(key)||batch.has(key));
+  if(!r.issue)batch.add(key);
+ }
+}
+
 function openRecord(t,id=null){const data=id?store[t].find(x=>String(x.id)===String(id)):null;if(id&&!data){message('Registro não localizado.');return}if(t==='condominios'&&!isAdmin()){message('Cadastro de condomínios reservado à administradora.');return}if(t==='pesquisas'&&id&&!isAdmin()){message('Edição de pesquisas reservada à administradora.');return}if(data&&!isAdmin()&&!canOperate(getCondo(data.condominio_id))){message('Sem permissão para editar este registro.');return}dialog={t,id};$('modalError').textContent='';let f='';let c=data||{};
 if(t==='condominios'){f+=inputField('nome','Nome do condomínio','text',c.nome||'',null,true,true)+inputField('codigo_origem','Código de origem (opcional)','text',c.codigo_origem||'')+inputField('filial','Filial','select',c.filial||'Ceará',['Ceará','Secopi','Manaus','Maranhão'],true)+inputField('responsavel_sc','Responsável SC','select',c.responsavel_sc||'A definir',['A definir','Josy','Nicole','Paula','Tayane','Juliana'])+inputField('supervisor_tecnico','Supervisor técnico (preenchimento automático)','text',c.supervisor_tecnico||'')+inputField('tecnico','Técnico (sugestão por carteira; confirme antes de salvar)','text',c.tecnico||'')+inputField('ativo','Cliente ativo','checkbox',c.ativo??true)}
 if(t==='demandas'){f+=selectCondoField(c.condominio_id,x=>canOperate(x))+inputField('tipo','Tipo','text',c.tipo||'O.S.',null,true)+inputField('numero_os','Número da O.S.','text',c.numero_os||'')+inputField('titulo','Problema / Título','text',c.titulo||'',null,true,true)+inputField('setor','Setor responsável','text',c.setor||'')+inputField('prazo','Prazo','date',c.prazo||'')+inputField('descricao','Descrição inicial','textarea',c.descricao||'',null,false,true)+inputField('tratativa_tecnica','Tratativa técnica','textarea',c.tratativa_tecnica||'',null,false,true)+inputField('retorno_sindico','Retorno dado ao síndico','textarea',c.retorno_sindico||'',null,false,true)+inputField('data_retorno_sindico','Data do retorno','date',c.data_retorno_sindico||'')+inputField('canal_retorno','Canal do retorno','text',c.canal_retorno||'')+inputField('status','Status','select',c.status||'Aberta',['Aberta','Em tratativa','Aguardando retorno','Concluída']);}
@@ -131,7 +209,7 @@ function prepareCondoAutofill(editing){
 }
 
 function closeRecord(){dialog=null;$('recordModal').classList.add('hidden');$('recordForm').reset()}
-async function saveRecord(e){e.preventDefault();if(!dialog)return;const {t,id}=dialog;let original=id?store[t].find(x=>String(x.id)===String(id)):null;let form=new FormData($('recordForm')),value=Object.fromEntries(form.entries());if(t==='condominios'){value.ativo=$('recordForm').elements.namedItem('ativo')?.checked??false;if(!value.codigo_origem)delete value.codigo_origem}
+async function saveRecord(e){e.preventDefault();if(!dialog)return;const {t,id}=dialog;let original=id?store[t].find(x=>String(x.id)===String(id)):null;let form=new FormData($('recordForm')),value=Object.fromEntries(form.entries());if(t!=='condominios'&&!value.condominio_id){$('modalError').textContent='Escolha um condomínio na lista de sugestões antes de salvar.';return;}if(t==='condominios'){value.ativo=$('recordForm').elements.namedItem('ativo')?.checked??false;if(!value.codigo_origem)delete value.codigo_origem}
 if(t==='pesquisas'){value.tem_reclamacao=$('recordForm').elements.namedItem('tem_reclamacao')?.checked??false;value.nota=value.nota===''?null:Number(value.nota);if(value.nota!==null&&(!Number.isFinite(value.nota)||value.nota<0||value.nota>10)){$('modalError').textContent='A nota deve estar entre 0 e 10.';return}}
 if(t==='demandas'){for(const k of ['prazo','data_retorno_sindico','canal_retorno','numero_os','setor'])if(!value[k])value[k]=null;if(value.tipo==='O.S.'&&value.status==='Concluída'&&!(value.tratativa_tecnica?.trim()&&value.retorno_sindico?.trim()&&value.data_retorno_sindico&&value.canal_retorno)){$('modalError').textContent='Para concluir a O.S.: preencha tratativa técnica, retorno ao síndico, data e canal.';return}}
 if(t==='pendencias_sc'){if(!value.prazo)value.prazo=null;if(!value.responsavel?.trim()&&!original){let c=getCondo(value.condominio_id);value.responsavel=c?.filial==='Secopi'?'Paula':c?.filial==='Manaus'?'Tayane':c?.filial==='Maranhão'?'Juliana':c?.responsavel_sc||'Rosely';value.supervisor_sc=c?.filial==='Maranhão'?'Nicole':['Secopi','Manaus'].includes(c?.filial)?'Josy':'Rosely'}if(!id)value.origem='Manual'}
@@ -280,7 +358,7 @@ function renderImportReview(){
  $('importSummary').textContent=`${importDraft.length} linhas analisadas • ${valid} prontas • ${importDraft.filter(r=>r.issue).length} a revisar • ${importDraft.filter(r=>r.duplicate).length} possíveis duplicatas`;
  $('importRows').innerHTML=importDraft.slice(0,500).map((r,i)=>`
  <tr class="${r.issue?'import-invalid':''}"><td>${i+1}</td>
- <td><select class="import-control" data-import-edit="condominio_id" data-index="${i}"><option value="">Selecione condomínio</option>${store.condominios.map(c=>`<option value="${esc(c.id)}" ${c.id===r.condominio_id?'selected':''}>${esc(c.nome)}</option>`).join('')}</select><small>Original: ${esc(r.name)}</small></td>
+ <td>${lookupCondo(r.condominio_id,{mode:'import',index:i})}<small>Original: ${esc(r.name)}</small></td>
  <td><input style="max-width:80px" type="number" min="0" max="10" step="0.5" data-import-edit="nota" data-index="${i}" value="${r.nota??''}"></td>
  <td><input class="import-control" type="date" data-import-edit="data" data-index="${i}" value="${esc(r.data)}"></td>
  <td><select data-import-edit="canal" data-index="${i}">${['WhatsApp','Ligação','E-mail','Presencial','Outro'].map(v=>`<option ${v===r.canal?'selected':''}>${esc(v)}</option>`).join('')}</select></td>
@@ -358,5 +436,33 @@ async function loadData(){message('Atualizando dados...');try{let keys=['condomi
 async function session(){let r=await db.auth.getUser();if(r.error||!r.data.user){$('loginScreen').classList.remove('hidden');$('system').classList.add('hidden');return}try{profile=ck(await db.from('profiles').select('*').eq('user_id',r.data.user.id).single());setPhoto();$('loginScreen').classList.add('hidden');$('system').classList.remove('hidden');await loadData()}catch(e){$('loginMessage').textContent='Erro no perfil: '+e.message}}
 async function login(){$('loginMessage').textContent='';try{ck(await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value}));await session()}catch(e){$('loginMessage').textContent=e.message}}
 function exportData(){const data={exportado_em:new Date().toISOString(),...store};let url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));let a=document.createElement('a');a.href=url;a.download='servis_sc_exportacao.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),500)}
+document.addEventListener('input',e=>{
+ if(!e.target.matches('.lookup-input'))return;
+ const box=e.target.closest('.lookup');
+ box.querySelector('.lookup-id').value='';
+ if(box.dataset.lookupMode==='import'){
+  const i=Number(box.dataset.lookupIndex);if(importDraft[i]){importDraft[i].condominio_id='';importDraft[i].issue='Condomínio não identificado';}
+ }
+ lookupSuggestions(box);
+});
+document.addEventListener('focusin',e=>{
+ if(e.target.matches('.lookup-input'))lookupSuggestions(e.target.closest('.lookup'));
+});
+document.addEventListener('click',e=>{
+ const choice=e.target.closest('[data-lookup-choose]');
+ if(choice){applyLookupSelection(choice.closest('.lookup'),choice.dataset.lookupChoose);return}
+ if(!e.target.closest('.lookup'))document.querySelectorAll('.lookup').forEach(closeLookup);
+});
+document.addEventListener('keydown',e=>{
+ if(!e.target.matches('.lookup-input'))return;
+ const box=e.target.closest('.lookup');
+ if(e.key==='Escape'){closeLookup(box);return}
+ if(e.key==='Enter'){
+  const first=box.querySelector('[data-lookup-choose]');
+  if(first&&!box.querySelector('.lookup-options').classList.contains('hidden')){
+   e.preventDefault();applyLookupSelection(box,first.dataset.lookupChoose);
+  }else{e.preventDefault()}
+ }
+});
 document.addEventListener('DOMContentLoaded',async()=>{renderProcesses();document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));for(const id of ['condoSearch','condoOwner','condoBranch','demandSearch','demandStatus','surveySearch','pendingSearch','pendingStatus'])$(id).addEventListener('input',render);document.body.addEventListener('click',e=>{const b=e.target.closest('[data-branch-pick]');if(b){$('condoBranch').value=b.dataset.branchPick;render()}});$('processSearch').addEventListener('input',renderProcesses);$('processArea').addEventListener('change',renderProcesses);$('resultOwner').addEventListener('change',renderPortfolioResults);$('resultPeriod').addEventListener('change',renderPortfolioResults);$('importFile').addEventListener('change',e=>handleImportFile(e.target.files[0]));$('importRows').addEventListener('change',e=>{const key=e.target.dataset.importEdit;const i=Number(e.target.dataset.index);if(!key||!importDraft[i])return;importDraft[i][key]=key==='nota'?parseHistoricalScore(e.target.value):e.target.value;const r=importDraft[i];r.issue=!r.condominio_id?'Condomínio não identificado':r.nota===null?'Nota ausente/inválida':!r.data?'Data não reconhecida':'';r.duplicate=false;renderImportReview()});$('importConfirm').addEventListener('click',saveHistoricalImport);$('importCreateRegional').addEventListener('click',createRegionalCondominiums);$('importCancel').addEventListener('click',()=>{$('importReview').classList.add('hidden');importDraft=[];$('importFile').value='';$('importInfo').textContent='Importação cancelada.'});$('auditFilter').addEventListener('change',renderAudit);document.body.addEventListener('click',async e=>{let el=e.target.closest('[data-new],[data-edit],[data-delete],[data-detail]');if(!el)return;if(el.dataset.new)openRecord(el.dataset.new);else if(el.dataset.edit)openRecord(el.dataset.edit,el.dataset.id);else if(el.dataset.delete)await deleteRecord(el.dataset.delete,el.dataset.id);else if(el.dataset.detail)showDetail(el.dataset.detail)});$('recordForm').addEventListener('submit',saveRecord);$('modalCancel').addEventListener('click',closeRecord);$('modalClose').addEventListener('click',closeRecord);$('closePending').addEventListener('click',()=>{$('pendingDetail').classList.add('hidden');chosenPending=null});$('bell').addEventListener('click',()=>$('notificationPanel').classList.toggle('hidden'));$('readAll').addEventListener('click',async()=>{try{ck(await db.from('notificacoes_sc').update({lida:true}).eq('usuario_id',profile.user_id).eq('lida',false));await loadData()}catch(e){message(e.message)}});$('reload').addEventListener('click',loadData);$('auditReload').addEventListener('click',loadData);$('exportBtn').addEventListener('click',exportData);if(!window.supabase){$('loginMessage').textContent='Biblioteca Supabase indisponível.';return}db=window.supabase.createClient(URL_DB,KEY);$('loginButton').addEventListener('click',login);$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login()});$('logout').addEventListener('click',async()=>{await db.auth.signOut();profile=null;Object.keys(store).forEach(k=>store[k]=[]);$('password').value='';$('loginScreen').classList.remove('hidden');$('system').classList.add('hidden')});await session()});
 </script></body></html>
