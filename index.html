@@ -102,10 +102,43 @@ function parseHistoricalDate(value){
  return '';
 }
 function parseHistoricalScore(v){if(v===null||v===undefined||String(v).trim()==='')return null;const n=Number(String(v).replace(',','.').replace(/\s*\/\s*10$/,''));return Number.isFinite(n)&&n>=0&&n<=10?n:null}
+// A base real do Supabase continua sendo a fonte de identidade.
+// Apenas siglas, artigos e termos genéricos são normalizados.
+const approvedSurveyAliases=[
+ {name:'CONDOMINIO VILLA BELLAGIO',code:'IMPORT-CE-074'},
+ {name:'CONDOMINIO DO CONJUNTO HABITACIONAL LUCIANO CARNEIRO',code:'IMPORT-CE-046'},
+ {name:'CONDOMINIO QUEBEC RESIDENCE',code:'IMPORT-CE-142'},
+ {name:'ISLA VERDE CONDOMINIUM',code:'IMPORT-CE-041'},
+ {name:'EDIFICIO COIMBRA PRACTICAL HOME',code:'IMPORT-CE-026'},
+ {name:'COND. AMILCA ARAUJO\nSG GESTAO E ADMINISTRACAO DE IMOVEIS LTDA',code:'IMPORT-CE-016'},
+ {name:'CONDOMINIO EDIFICIO CRUZEIRO DO SUL BLOCO C E D',code:'IMPORT-CE-020'},
+ {name:'CONDOMINIO RESIDENCIAL SABLES BLANCS',code:'IMPORT-CE-150'},
+ {name:'CONDOMINIO APART HOTEL FLAT RESIDENCIAL DUNNAS XXI',code:'IMPORT-CE-022'},
+ {name:'CONDOMINIO BRISAS DO EUSEBIO',code:'IMPORT-CE-009'},
+ {name:'CONDOMINIO RESIDENCIAS DE ASSIS',code:'IMPORT-CE-145'},
+ {name:'VILLAGIO HARMONY RESIDENCES',code:'IMPORT-CE-077'},
+ {name:'CONDOMINIO VILLAGE ALGARVE',code:'IMPORT-CE-003'},
+ {name:'RESIDENCIAL RESERVA NATURA',code:'IMPORT-CE-144'},
+ {name:'RESIDENCIAL NOSSA SENHORA DE GUADALUPE',code:'IMPORT-CE-125'},
+ {name:'CONDOMINIO VILLAGE ST MARCOS',code:'IMPORT-CE-157'},
+ {name:'COND. PORTAL DO PASSARÉ (CE)',code:'IMPORT-CE-139'},
+ {name:'COND. EPIFANIO',code:'IMPORT-CE-096'}
+];
+function standardCondoName(v){
+ return canonical(v).replace(/\b(condominio|cond|edificio|edf|residencial|res|do|da|dos|das|de|conjunto|clube|the)\b/g,' ').replace(/\s+/g,' ').trim();
+}
 function resolveCondominium(v){
- const key=canonical(v);if(!key)return '';
+ const key=canonical(v),standard=standardCondoName(v);
+ if(!key)return '';
  const exact=store.condominios.filter(c=>canonical(c.nome)===key||canonical(c.codigo_origem)===key);
  if(exact.length===1)return exact[0].id;
+ const aliases=store.condominios.filter(c=>standardCondoName(c.nome)===standard);
+ if(aliases.length===1&&standard.length>=4)return aliases[0].id;
+ const configured=approvedSurveyAliases.find(a=>canonical(a.name)===key);
+ if(configured){
+  const found=store.condominios.filter(c=>c.codigo_origem===configured.code);
+  if(found.length===1)return found[0].id;
+ }
  return '';
 }
 function findCol(object,aliases){const keys=Object.keys(object);return keys.find(k=>aliases.some(x=>canonical(k)===canonical(x)))||keys.find(k=>aliases.some(x=>canonical(k).includes(canonical(x))))}
@@ -186,7 +219,7 @@ async function handleImportFile(file){
   if(!rows.length)throw Error('Não foram encontradas pesquisas. Confira as colunas e o formato do arquivo.');
   if(rows.length>500)throw Error('O arquivo contém mais de 500 pesquisas. Divida a importação em lotes de até 500 para revisar todas as linhas.');
   prepareImport(rows);
-  $('importInfo').textContent='Prévia gerada. Confira cada linha antes de importar.';
+  $('importInfo').textContent='Prévia gerada. Nomes equivalentes reconhecidos automaticamente; confira somente as linhas sinalizadas antes de importar.';
  }catch(e){$('importInfo').textContent='Não foi possível ler o arquivo: '+e.message}
 }
 async function saveHistoricalImport(){
