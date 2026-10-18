@@ -3,12 +3,13 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SERVIS | Gestão do Sucesso do Cliente</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SERVIS | Gestão Integrada de Sucesso do Cliente</title>
 <link rel="icon" href="logo-servis.png">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
 <style>
-:root {
+:root{
   --bg:#081525;
   --side:#0b1b2e;
   --panel:#102136;
@@ -20,208 +21,387 @@
   --teal:#37d5c8;
   --orange:#ffbf68;
   --red:#ff8585;
+  --green:#60d6a1;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;background:var(--bg);color:var(--text);
-  font:14px Arial,sans-serif
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:14px Arial,sans-serif;
 }
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 a{color:var(--blue)}
 .hidden{display:none!important}
 .sidebar{
-  position:fixed;left:0;top:0;bottom:0;width:240px;
-  background:var(--side);border-right:1px solid var(--line);
-  padding:18px 12px;overflow-y:auto
+  position:fixed;
+  top:0;left:0;bottom:0;
+  width:240px;
+  background:var(--side);
+  border-right:1px solid var(--line);
+  padding:18px 12px;
+  overflow-y:auto;
 }
-.brand{text-align:center;margin-bottom:20px}
+.brand{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-bottom:18px;
+}
 .logo-box{
-  width:120px;height:120px;margin:auto;
-  border-radius:17px;background:white;padding:10px
+  width:122px;
+  height:122px;
+  padding:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:white;
+  border-radius:17px;
 }
-.logo-box img{width:100%;height:100%;object-fit:contain}
-.brand-caption{
-  color:var(--muted);font-size:10px;
-  letter-spacing:2px;margin-top:10px
+.logo-box img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.logo-caption{
+  margin-top:10px;
+  color:#8fb2d2;
+  letter-spacing:2px;
+  font-size:10px;
 }
 .profile{
-  display:flex;align-items:center;gap:10px;
-  border:1px solid var(--line);background:var(--panel2);
-  border-radius:30px;padding:9px;margin-bottom:18px
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px;
+  margin-bottom:18px;
+  background:#1b3855;
+  border:1px solid var(--line);
+  border-radius:30px;
 }
 .avatar{
-  width:40px;height:40px;border-radius:50%;
-  object-fit:cover;border:2px solid var(--blue)
+  width:42px;
+  height:42px;
+  min-width:42px;
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center 35%;
+  border:2px solid var(--blue);
 }
 .profile-name{font-size:12px;font-weight:bold}
-.profile-role{font-size:10px;color:var(--muted)}
+.profile-role{font-size:10px;color:var(--muted);margin-top:3px}
 .menu button{
-  display:block;width:100%;border:0;background:none;
-  color:#c4d6e8;padding:13px;text-align:left;
-  border-radius:9px;margin-bottom:4px;font-weight:600
+  width:100%;
+  display:block;
+  padding:13px;
+  margin-bottom:5px;
+  text-align:left;
+  background:none;
+  border:0;
+  border-radius:9px;
+  color:#c4d6e8;
+  font-weight:600;
 }
-.menu button:hover,.menu button.active{
-  background:#1b3855;color:white
+.menu button.active,.menu button:hover{
+  background:#1b3855;
+  color:white;
 }
 .main{
-  margin-left:240px;padding:28px 36px;
-  min-height:100vh
+  margin-left:240px;
+  padding:26px 36px 55px;
+  min-height:100vh;
 }
 .topline{
-  display:flex;align-items:center;
-  justify-content:space-between;gap:14px;flex-wrap:wrap
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
 }
 .eyebrow{
-  color:var(--teal);font-weight:bold;
-  letter-spacing:2px;font-size:11px;text-transform:uppercase
+  font-size:11px;
+  letter-spacing:2px;
+  color:var(--teal);
+  font-weight:700;
+  text-transform:uppercase;
 }
 h1{font-size:28px;margin:8px 0}
 h1 span{color:var(--blue)}
 h2{font-size:19px;margin:0 0 10px}
-h3{margin:0 0 10px}
+h3{font-size:15px;margin:0 0 10px}
 .muted{color:var(--muted)}
-.panel{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:15px;padding:20px;margin:15px 0
-}
-.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.btn{
-  border:1px solid var(--line);border-radius:9px;
-  padding:10px 15px;color:white;background:#1b344f
-}
-.primary{background:#118e91;border-color:#118e91}
-.danger{background:#803744;border-color:#a84a5b}
-.btn:disabled{opacity:.5;cursor:not-allowed}
 .tag{
-  display:inline-block;padding:8px 12px;
-  border:1px solid #325368;border-radius:24px;
-  color:var(--teal);font-size:12px;margin:6px 6px 6px 0
+  display:inline-block;
+  padding:9px 13px;
+  margin:6px 6px 6px 0;
+  border:1px solid #325368;
+  border-radius:25px;
+  font-size:12px;
+  color:var(--teal);
 }
-.badge{
-  display:inline-block;border-radius:20px;
-  padding:5px 9px;background:#24415b;font-size:11px
+.panel{
+  margin:15px 0;
+  padding:20px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:15px;
 }
-.badge.critical{background:#522932;color:#ffd4d4}
-.badge.done{background:#174b40;color:#b2f8dd}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:12px;margin:18px 0
+.btn{
+  display:inline-block;
+  padding:10px 15px;
+  background:#1b344f;
+  color:white;
+  border:1px solid var(--line);
+  border-radius:9px;
+  text-decoration:none;
 }
-.kpi{
-  background:var(--panel);border:1px solid var(--line);
-  border-top:3px solid var(--teal);
-  border-radius:14px;padding:19px
+.btn:hover{filter:brightness(1.15)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.primary{
+  background:#118e91;
+  border-color:#118e91;
 }
-.kpi:nth-child(2n){border-top-color:var(--blue)}
-.kpi small{color:var(--muted)}
-.kpi b{display:block;font-size:29px;margin-top:14px}
-.process-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px
+.danger{
+  background:#803744;
+  border-color:#b54a59;
 }
-.process-card{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:13px;padding:17px;min-height:115px
+.small-btn{padding:7px 10px;font-size:11px}
+.actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
 }
-.process-card:hover{border-color:var(--teal)}
-.process-card small{
-  display:block;color:#90beed;
-  font-size:11px;margin-bottom:12px
+input,select,textarea{
+  width:100%;
+  padding:11px;
+  background:#1a3049;
+  border:1px solid #38516c;
+  border-radius:9px;
+  color:white;
+  outline:none;
 }
-.process-card strong{display:block;margin-bottom:12px}
-.process-card a{font-size:12px}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--teal);
+}
+input::placeholder,textarea::placeholder{color:#90a8c0}
+input[type=checkbox]{width:auto}
 .form-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px
+  gap:14px;
 }
 .form-grid label{
-  display:flex;flex-direction:column;gap:7px;
-  font-size:12px;color:var(--muted)
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  font-size:12px;
+  color:var(--muted);
+}
+.form-grid .checkbox-label{
+  flex-direction:row;
+  align-items:center;
 }
 .full{grid-column:1/-1}
-input,select,textarea{
-  background:#1a3049;border:1px solid #38516c;
-  color:white;border-radius:9px;padding:11px;
-  width:100%
-}
-input[type=checkbox]{width:auto}
-.checkbox-label{
-  display:flex!important;
-  flex-direction:row!important;
-  align-items:center;gap:8px!important
-}
 .search-row{
-  display:flex;gap:12px;flex-wrap:wrap;margin:15px 0
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:16px 0;
 }
 .search-row input{max-width:320px}
-.search-row select{max-width:240px}
-.table-scroll{overflow:auto}
+.search-row select{max-width:250px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin:18px 0;
+}
+.kpi{
+  padding:19px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-top:3px solid var(--teal);
+  border-radius:14px;
+}
+.kpi:nth-child(even){border-top-color:var(--blue)}
+.kpi small{color:var(--muted)}
+.kpi b{display:block;font-size:28px;margin-top:14px}
+.process-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.process-card{
+  padding:17px;
+  min-height:113px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:13px;
+}
+.process-card:hover{border-color:var(--teal)}
+.process-card small{
+  display:block;
+  color:#90beed;
+  margin-bottom:12px;
+  font-size:11px;
+}
+.process-card strong{display:block;margin-bottom:12px}
+.process-card a{font-size:12px}
+.table-scroll{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
 th,td{
-  padding:12px;text-align:left;vertical-align:top;
-  border-bottom:1px solid var(--line);font-size:12px
+  padding:12px;
+  text-align:left;
+  vertical-align:top;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
 }
-th{background:var(--panel2);color:#c0d8ef}
+th{
+  background:var(--panel2);
+  color:#c1dcf3;
+}
 .page{display:none}
 .page.active{display:block}
-.status{color:var(--orange);white-space:pre-wrap;margin:14px 0}
+.status{
+  color:var(--orange);
+  margin:14px 0;
+  white-space:pre-wrap;
+}
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  background:#24415b;
+  border-radius:20px;
+  font-size:11px;
+}
+.badge.critical{background:#542c37;color:#ffd2d2}
+.badge.done{background:#174b40;color:#b9f8dd}
+.badge.warning{background:#53432b;color:#ffe0a5}
 .login{
-  display:flex;justify-content:center;
-  align-items:center;min-height:100vh;padding:20px
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:20px;
 }
 .login-box{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:16px;padding:30px;width:410px;max-width:100%
+  width:410px;
+  max-width:100%;
+  padding:30px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
 }
 .login-box h2,.login-box p{text-align:center}
+.login-box .logo-box{margin:0 auto 20px}
 .login-box label{display:block;margin-top:12px}
 .login-box input{margin-top:7px}
-.login-box .btn{margin-top:17px;width:100%}
+.login-box .btn{width:100%;margin-top:18px}
 .notification-wrap{position:relative}
 .notification-panel{
-  position:absolute;right:0;top:48px;
-  width:370px;max-width:calc(100vw - 30px);
-  background:#152942;border:1px solid var(--line);
-  border-radius:13px;padding:14px;z-index:10;
+  position:absolute;
+  top:48px;
+  right:0;
+  z-index:20;
+  width:390px;
+  max-width:calc(100vw - 28px);
+  padding:15px;
+  max-height:480px;
+  overflow-y:auto;
+  background:#152942;
+  border:1px solid var(--line);
+  border-radius:13px;
   box-shadow:0 15px 40px #0008;
-  max-height:420px;overflow-y:auto
 }
 .notification-item{
+  padding:12px 4px;
   border-bottom:1px solid var(--line);
-  padding:12px 3px
 }
-.notification-item:last-child{border-bottom:0}
 .notification-item.unread{
   border-left:3px solid var(--teal);
-  padding-left:10px
+  padding-left:10px;
 }
-.notification-item strong{display:block;margin-bottom:5px}
-.notification-item p{font-size:12px;color:var(--muted)}
+.notification-item strong{
+  display:block;
+  margin-bottom:5px;
+}
+.notification-item p{
+  color:var(--muted);
+  line-height:1.5;
+  font-size:12px;
+}
 .notification-item small{color:#91acc7}
 .notification-count{
-  background:var(--red);color:#081525;
-  border-radius:20px;padding:2px 7px;font-weight:bold
+  padding:2px 7px;
+  background:var(--red);
+  color:#081525;
+  border-radius:20px;
+  font-weight:bold;
 }
-.inline-buttons{display:flex;gap:6px;flex-wrap:wrap}
-.small-btn{padding:6px 10px;font-size:11px}
-@media(max-width:1000px){
+.detail-panel{
+  border-color:var(--teal);
+  scroll-margin-top:20px;
+}
+.detail-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:15px;
+  margin:18px 0;
+}
+.detail-cell{
+  padding:13px;
+  background:#182f48;
+  border:1px solid var(--line);
+  border-radius:10px;
+}
+.detail-cell small{
+  display:block;
+  margin-bottom:7px;
+  color:var(--muted);
+}
+.detail-cell strong{overflow-wrap:anywhere}
+.detail-description{
+  padding:18px;
+  background:#1a3049;
+  border:1px solid var(--line);
+  border-radius:10px;
+  white-space:pre-wrap;
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+.edit-banner{
+  background:#183949;
+  border:1px solid var(--teal);
+  border-radius:10px;
+  padding:12px;
+  margin:13px 0;
+  color:var(--teal);
+}
+.empty{padding:20px;color:var(--muted)}
+@media(max-width:1050px){
   .grid{grid-template-columns:repeat(2,1fr)}
   .process-grid{grid-template-columns:repeat(2,1fr)}
+  .detail-grid{grid-template-columns:repeat(2,1fr)}
 }
-@media(max-width:700px){
-  .sidebar{position:relative;width:100%;height:auto}
-  .menu{display:flex;overflow:auto}
+@media(max-width:720px){
+  .sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+  }
+  .menu{display:flex;overflow-x:auto}
   .menu button{width:auto;white-space:nowrap}
   .main{margin-left:0;padding:20px}
-  .grid,.process-grid,.form-grid{grid-template-columns:1fr}
+  .grid,.process-grid,.form-grid,.detail-grid{
+    grid-template-columns:1fr;
+  }
   h1{font-size:23px}
 }
 </style>
 </head>
+
 <body>
 
 <section id="loginScreen" class="login">
@@ -229,28 +409,38 @@ th{background:var(--panel2);color:#c0d8ef}
     <div class="logo-box">
       <img src="logo-servis.png" alt="Servis">
     </div>
+
     <h2>SERVIS • Sucesso do Cliente</h2>
-    <p class="muted">Gestão integrada e acompanhamento de carteiras</p>
-    <p class="status" id="loginMessage"></p>
-    <label>E-mail</label>
-    <input type="email" id="email" autocomplete="username">
-    <label>Senha</label>
-    <input type="password" id="password" autocomplete="current-password">
-    <button class="btn primary" id="loginButton">Entrar</button>
+    <p class="muted">
+      Gestão integrada e acompanhamento de carteiras
+    </p>
+
+    <p id="loginMessage" class="status" role="alert"></p>
+
+    <label for="email">E-mail</label>
+    <input id="email" type="email" autocomplete="username">
+
+    <label for="password">Senha</label>
+    <input id="password" type="password"
+           autocomplete="current-password">
+
+    <button id="loginButton" class="btn primary">Entrar</button>
   </div>
 </section>
 
 <div id="system" class="hidden">
+
 <aside class="sidebar">
   <div class="brand">
     <div class="logo-box">
-      <img src="logo-servis.png" alt="Servis">
+      <img src="logo-servis.png" alt="Logo Servis">
     </div>
-    <p class="brand-caption">SUCESSO DO CLIENTE</p>
+    <div class="logo-caption">SUCESSO DO CLIENTE</div>
   </div>
 
   <div class="profile">
-    <img id="teamAvatar" class="avatar" src="logo-servis.png" alt="Perfil">
+    <img id="teamAvatar" class="avatar"
+         src="logo-servis.png" alt="Foto de perfil">
     <div>
       <div id="userName" class="profile-name"></div>
       <div id="userRole" class="profile-role"></div>
@@ -269,10 +459,12 @@ th{background:var(--panel2);color:#c0d8ef}
     <button data-page="estrutura">♧ Estrutura & regras</button>
     <button data-page="exportacao">⚙ Dados & exportação</button>
   </nav>
+
   <button id="logout" class="btn">Sair</button>
 </aside>
 
 <main class="main">
+
   <div class="topline">
     <div>
       <div class="eyebrow">Painel gerencial • Sucesso do Cliente</div>
@@ -281,24 +473,31 @@ th{background:var(--panel2);color:#c0d8ef}
         Saúde das carteiras, pendências, fiscalização e relacionamento
       </p>
     </div>
+
     <div class="actions">
       <div class="notification-wrap">
-        <button class="btn" id="bellButton">
-          ♧ Notificações
-          <span id="bellCount" class="notification-count hidden">0</span>
+        <button id="bellButton" class="btn" type="button">
+          🔔 Notificações
+          <span id="bellCount"
+                class="notification-count hidden">0</span>
         </button>
 
-        <div id="notificationPanel" class="notification-panel hidden">
+        <div id="notificationPanel"
+             class="notification-panel hidden">
           <div class="topline">
             <h3>Notificações da gestão</h3>
-            <button class="btn small-btn" id="readAllButton">
+            <button id="readAllButton"
+                    class="btn small-btn" type="button">
               Marcar como lidas
             </button>
           </div>
           <div id="notificationList"></div>
         </div>
       </div>
-      <button class="btn" id="reloadButton">↻ Atualizar</button>
+
+      <button id="reloadButton" class="btn" type="button">
+        ↻ Atualizar
+      </button>
     </div>
   </div>
 
@@ -307,28 +506,33 @@ th{background:var(--panel2);color:#c0d8ef}
     <span class="tag">Dados do Supabase</span>
   </div>
 
-  <p id="notice" class="status"></p>
+  <p id="notice" class="status" role="status"></p>
 
+  <!-- VISÃO EXECUTIVA -->
   <section id="visao" class="page active">
     <div class="panel">
       <h2>Visão consolidada da operação</h2>
       <p class="muted">
-        Indicadores dos condomínios e pendências visíveis ao seu perfil.
+        Indicadores baseados nos registros acessíveis ao seu perfil.
       </p>
     </div>
+
     <div id="kpis" class="grid"></div>
+
     <div class="panel">
       <h2>Distribuição de carteiras</h2>
       <div id="distribution"></div>
     </div>
   </section>
 
+  <!-- CARTEIRAS -->
   <section id="carteiras" class="page">
     <div class="panel">
       <h2>Carteiras de condomínios</h2>
+
       <div class="search-row">
         <input id="condoSearch"
-          placeholder="Buscar condomínio, técnico ou supervisor">
+               placeholder="Buscar condomínio, técnico ou supervisor">
         <select id="condoOwner">
           <option value="">Todos os responsáveis</option>
           <option>Josy</option>
@@ -336,26 +540,34 @@ th{background:var(--panel2);color:#c0d8ef}
           <option>A definir</option>
         </select>
       </div>
+
       <p id="condoCount" class="muted"></p>
+
       <div class="table-scroll">
         <table>
-          <thead><tr>
-            <th>Condomínio</th><th>Filial</th><th>SC</th>
-            <th>Supervisor</th><th>Técnico</th>
-          </tr></thead>
+          <thead>
+            <tr>
+              <th>Condomínio</th>
+              <th>Filial</th>
+              <th>SC</th>
+              <th>Supervisor</th>
+              <th>Técnico</th>
+            </tr>
+          </thead>
           <tbody id="condoRows"></tbody>
         </table>
       </div>
     </div>
   </section>
 
+  <!-- PROCESSOS -->
   <section id="processos" class="page">
     <div class="panel">
       <div class="topline">
         <div>
           <h2>Biblioteca de processos do Sucesso do Cliente</h2>
           <p class="muted">
-            45 processos em cinco áreas de atuação.
+            45 processos organizados em cinco áreas de atuação.
           </p>
         </div>
         <a class="btn"
@@ -364,8 +576,10 @@ th{background:var(--panel2);color:#c0d8ef}
           Abrir processos originais ↗
         </a>
       </div>
+
       <div class="search-row">
-        <input id="processSearch" placeholder="Buscar processo">
+        <input id="processSearch"
+               placeholder="Buscar processo">
         <select id="processArea">
           <option value="">Todas as áreas</option>
           <option>Jornada do cliente</option>
@@ -375,22 +589,29 @@ th{background:var(--panel2);color:#c0d8ef}
           <option>Gestão e indicadores</option>
         </select>
       </div>
-      <p id="processCount" class="muted">45 de 45 processos</p>
+
+      <p id="processCount" class="muted"></p>
     </div>
+
     <div id="processGrid" class="process-grid"></div>
   </section>
 
+  <!-- DEMANDAS -->
   <section id="demandas" class="page">
     <div class="panel">
       <h2>Nova demanda ou O.S.</h2>
+
       <form id="demandForm" class="form-grid">
-        <label class="full">Condomínio
+        <label class="full">
+          Condomínio
           <select id="dCondo" required></select>
         </label>
-        <label>Título
+        <label>
+          Título
           <input id="dTitle" required>
         </label>
-        <label>Tipo
+        <label>
+          Tipo
           <select id="dType">
             <option>Demanda</option>
             <option>O.S.</option>
@@ -399,97 +620,166 @@ th{background:var(--panel2);color:#c0d8ef}
             <option>Melhoria</option>
           </select>
         </label>
-        <label>Setor<input id="dSector"></label>
-        <label>Prazo<input id="dDeadline" type="date"></label>
-        <label class="full">Descrição
+        <label>
+          Setor
+          <input id="dSector">
+        </label>
+        <label>
+          Prazo
+          <input id="dDeadline" type="date">
+        </label>
+        <label class="full">
+          Descrição
           <textarea id="dDescription" rows="3"></textarea>
         </label>
+
         <div class="full">
-          <button class="btn primary">Salvar demanda</button>
+          <button class="btn primary" type="submit">
+            Salvar demanda
+          </button>
         </div>
       </form>
     </div>
+
     <div class="panel">
       <h2>Demandas registradas</h2>
       <div class="table-scroll">
         <table>
-          <thead><tr>
-            <th>Condomínio</th><th>Demanda</th>
-            <th>Setor</th><th>Status</th>
-          </tr></thead>
+          <thead>
+            <tr>
+              <th>Condomínio</th>
+              <th>Demanda</th>
+              <th>Tipo</th>
+              <th>Setor</th>
+              <th>Status</th>
+            </tr>
+          </thead>
           <tbody id="demandRows"></tbody>
         </table>
       </div>
     </div>
   </section>
 
+  <!-- PESQUISAS -->
   <section id="pesquisas" class="page">
     <div class="panel">
       <h2 id="surveyHeading">Pesquisa de satisfação</h2>
+
       <p class="muted">
-        Nota crítica ou reclamação relevante gera pendência automática.
+        Pesquisas críticas podem gerar pendência automática
+        para a responsável da carteira.
       </p>
 
+      <div id="surveyEditBanner"
+           class="edit-banner hidden">
+        Você está editando uma pesquisa já cadastrada.
+      </div>
+
       <form id="surveyForm" class="form-grid">
-        <label class="full">Condomínio
+        <label class="full">
+          Condomínio
           <select id="sCondo" required></select>
         </label>
-        <label>Nota
-          <input id="sScore" type="number" min="0" max="10" step="0.5">
+
+        <label>
+          Nota
+          <input id="sScore"
+                 type="number" min="0" max="10" step="0.5">
         </label>
-        <label>Canal
+
+        <label>
+          Canal
           <select id="sChannel">
             <option>WhatsApp</option>
             <option>Ligação</option>
           </select>
         </label>
-        <label class="full">Elogios, reclamações e pendências
+
+        <label class="full">
+          Elogios, reclamações e pendências
           <textarea id="sComment" rows="4"></textarea>
         </label>
+
         <label class="full checkbox-label">
-          <input type="checkbox" id="sComplaint">
+          <input id="sComplaint" type="checkbox">
           Existe reclamação relevante que exige tratativa
         </label>
+
         <div class="full actions">
-          <button id="saveSurveyButton" class="btn primary">
+          <button id="saveSurveyButton"
+                  class="btn primary" type="submit">
             Salvar pesquisa
           </button>
-          <button type="button" id="cancelSurveyButton"
-            class="btn hidden">Cancelar edição</button>
+
+          <button id="cancelSurveyButton"
+                  class="btn hidden" type="button">
+            Cancelar edição
+          </button>
         </div>
       </form>
     </div>
 
     <div class="panel">
       <h2>Pesquisas registradas</h2>
-      <input id="surveySearch" placeholder="Buscar condomínio ou comentário">
-      <div class="table-scroll" style="margin-top:15px">
+
+      <div class="search-row">
+        <input id="surveySearch"
+               placeholder="Buscar condomínio ou comentário">
+      </div>
+
+      <div class="table-scroll">
         <table>
-          <thead><tr>
-            <th>Condomínio</th><th>Nota</th>
-            <th>Canal</th><th>Comentário</th><th>Ações</th>
-          </tr></thead>
+          <thead>
+            <tr>
+              <th>Condomínio</th>
+              <th>Nota</th>
+              <th>Canal</th>
+              <th>Comentário</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
           <tbody id="surveyRows"></tbody>
         </table>
       </div>
     </div>
   </section>
 
+  <!-- PENDÊNCIAS -->
   <section id="pendencias" class="page">
+
+    <!-- DETALHES DA PENDÊNCIA -->
+    <div id="pendingDetail" class="panel detail-panel hidden">
+      <div class="topline">
+        <div>
+          <div class="eyebrow">Acompanhamento da tratativa</div>
+          <h2>Detalhes da reclamação ou pendência</h2>
+        </div>
+
+        <button id="closePendingDetail"
+                class="btn" type="button">
+          Fechar detalhes
+        </button>
+      </div>
+
+      <div id="pendingDetailContent"></div>
+    </div>
+
     <div class="panel">
       <div class="topline">
         <div>
           <h2>Gestão de pendências da equipe</h2>
           <p class="muted">
-            Distribuição automática, acompanhamento e encerramento.
+            Responsável, fiscalização, prioridade e andamento.
           </p>
         </div>
-        <span class="tag" id="pendingCount">0 pendências</span>
+
+        <span id="pendingCount" class="tag">0 pendências</span>
       </div>
 
       <div class="search-row">
         <input id="pendingSearch"
-          placeholder="Buscar condomínio, responsável ou demanda">
+               placeholder="Buscar condomínio ou responsável">
+
         <select id="pendingStatus">
           <option value="">Todos os status</option>
           <option>Aberta</option>
@@ -501,27 +791,36 @@ th{background:var(--panel2);color:#c0d8ef}
 
       <div class="table-scroll">
         <table>
-          <thead><tr>
-            <th>Condomínio</th><th>Pendência</th>
-            <th>Responsável</th><th>Fiscalização</th>
-            <th>Prioridade</th><th>Status</th><th>Ações</th>
-          </tr></thead>
+          <thead>
+            <tr>
+              <th>Condomínio</th>
+              <th>Pendência</th>
+              <th>Responsável</th>
+              <th>Fiscalização</th>
+              <th>Prioridade</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
           <tbody id="pendingRows"></tbody>
         </table>
       </div>
     </div>
   </section>
 
+  <!-- FISCALIZAÇÃO -->
   <section id="fiscalizacao" class="page">
     <div class="panel">
       <h2>Fiscalização das filiais</h2>
       <p class="muted">
-        Josy acompanha Secopi e Manaus; Nicole acompanha Maranhão.
+        Josy acompanha Secopi e Manaus.
+        Nicole acompanha Maranhão.
       </p>
       <div id="oversight"></div>
     </div>
   </section>
 
+  <!-- GESTÃO ESTRATÉGICA -->
   <section id="estrategica" class="page">
     <div class="panel">
       <h2>Gestão estratégica</h2>
@@ -529,35 +828,41 @@ th{background:var(--panel2);color:#c0d8ef}
     </div>
   </section>
 
+  <!-- ESTRUTURA -->
   <section id="estrutura" class="page">
     <div class="panel">
       <h2>Estrutura e regras</h2>
-      <p><strong>Rosely:</strong> gestão geral, retenção, contratos e casos críticos.</p>
-      <p><strong>Josy:</strong> carteira Ceará, fiscalização Secopi e Manaus.</p>
-      <p><strong>Nicole:</strong> carteira Ceará, fiscalização Maranhão.</p>
-      <p><strong>Paula, Tayane e Juliana:</strong> execução nas filiais locais.</p>
-      <p class="muted">
-        A fiscalização acompanha, mas não substitui a execução operacional.
-      </p>
+      <p><strong>Rosely:</strong> gestão, contratos, retenção,
+        negociações e acompanhamento de casos críticos.</p>
+      <p><strong>Josy:</strong> carteira Ceará,
+        fiscalização de Secopi e Manaus.</p>
+      <p><strong>Nicole:</strong> carteira Ceará,
+        fiscalização de Maranhão.</p>
+      <p><strong>Filiais:</strong> execução das demandas locais.</p>
     </div>
   </section>
 
+  <!-- EXPORTAÇÃO -->
   <section id="exportacao" class="page">
     <div class="panel">
       <h2>Dados e exportação</h2>
       <p class="muted">
-        Exporta os registros que seu perfil está autorizado a consultar.
+        Exportação dos registros que seu perfil pode consultar.
       </p>
-      <button class="btn primary" id="exportButton">
-        Exportar JSON
+      <button id="exportButton"
+              class="btn primary" type="button">
+        Exportar backup JSON
       </button>
     </div>
   </section>
+
 </main>
 </div>
 
 <script>
 "use strict";
+
+/* CONFIGURAÇÃO DO SUPABASE */
 
 const SUPABASE_URL =
   "https://fkwnsegmibfmmdzancev.supabase.co";
@@ -575,7 +880,9 @@ let demandas=[];
 let pesquisas=[];
 let pendencias=[];
 let notificacoes=[];
-let editSurveyId=null;
+
+let editingSurveyId=null;
+let currentPendingDetailId=null;
 
 const $=id=>document.getElementById(id);
 
@@ -589,25 +896,39 @@ function safe(value){
   })[c]);
 }
 
-function check(r){
-  if(r.error)throw r.error;
-  return r.data;
+function check(result){
+  if(result.error)throw result.error;
+  return result.data;
 }
 
 function notice(message){
   $("notice").textContent=message||"";
 }
 
-function admin(){
+function isAdmin(){
   return profile?.papel==="admin";
 }
 
 function findCondo(id){
-  return condominios.find(c=>c.id===id);
+  return condominios.find(c=>String(c.id)===String(id));
 }
 
+function formatDate(value){
+  if(!value)return "Não disponível";
+  const date=new Date(value);
+  return Number.isNaN(date.getTime())
+    ?"Não disponível"
+    :date.toLocaleString("pt-BR");
+}
+
+function displayName(id){
+  return findCondo(id)?.nome||"Condomínio não disponível";
+}
+
+/* PERFIL E FOTOS */
+
 function setPhoto(){
-  const photos=profile?.papel==="admin"
+  const photoNames=profile?.papel==="admin"
     ?["foto-rosely.jpg","foto-rosely.jpg.jpeg"]
     :profile?.papel==="josy"
       ?["foto-josy.jpg"]
@@ -621,50 +942,99 @@ function setPhoto(){
               ?["foto-juliana.jpg"]
               :[];
 
+  const image=$("teamAvatar");
   let index=0;
-  const img=$("teamAvatar");
 
-  img.onerror=()=>{
-    if(index<photos.length){
-      img.src=photos[index++];
+  function nextImage(){
+    if(index<photoNames.length){
+      image.src=photoNames[index++];
     }else{
-      img.onerror=null;
-      img.src="logo-servis.png";
+      image.onerror=null;
+      image.src="logo-servis.png";
     }
-  };
+  }
 
-  img.onerror();
+  image.onerror=nextImage;
+  nextImage();
 
-  $("userName").textContent=profile.nome;
-  $("userRole").textContent=admin()
-    ?"Administradora"
-    :profile.papel==="filial"
-      ?profile.filial
-      :"Sucesso do Cliente";
+  $("userName").textContent=profile?.nome||"Usuário";
+
+  $("userRole").textContent=
+    isAdmin()?"Administradora":
+    profile?.papel==="filial"?
+      (profile.filial||"Filial"):
+      "Sucesso do Cliente";
 }
 
+/* NAVEGAÇÃO */
+
+function showPage(id){
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.toggle("active",p.id===id);
+  });
+
+  document.querySelectorAll("[data-page]").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===id);
+  });
+
+  const button=document.querySelector(
+    `[data-page="${id}"]`
+  );
+
+  $("currentSection").textContent=
+    button?.textContent||"";
+
+  $("notificationPanel").classList.add("hidden");
+}
+
+/* PROCESSOS DO SC */
+
 const processNames=[
- "Entrada de novo condomínio","Entrega oficial",
- "Apresentação do SC","Relacionamento preventivo",
- "Pesquisa de satisfação","Pesquisa com moradores",
- "Retorno da pesquisa","Visitas","Pós-visita",
- "Adoção digital","Cadastros","Testes de ligação",
- "Comunicação com o cliente","Retorno ao cliente",
- "Gestão de reclamações","Reclamação da Central",
- "Reclamações técnicas","Ordem de Serviço",
- "OS reincidentes","Preventivas","Demandas",
- "Melhorias","Ampliações","Financeiro",
- "Comunicação de indisponibilidades",
- "Reuniões internas","Eventos de segurança",
- "Dupla passagem","Porta aberta ou violada",
- "Renovações","Aditivos","Fechamento do pedido",
- "Retenção","Cancelamento","Clientes críticos",
- "Plano de ação para críticos",
- "Indicadores da Central","Indicadores do SC",
- "Fechamento mensal","Pareto das reclamações",
- "Distribuição interna da equipe","Rotina diária",
- "Rotina semanal","Escalonamento",
- "Critério de encerramento"
+  "Entrada de novo condomínio",
+  "Entrega oficial",
+  "Apresentação do SC",
+  "Relacionamento preventivo",
+  "Pesquisa de satisfação",
+  "Pesquisa com moradores",
+  "Retorno da pesquisa",
+  "Visitas",
+  "Pós-visita",
+  "Adoção digital",
+  "Cadastros",
+  "Testes de ligação",
+  "Comunicação com o cliente",
+  "Retorno ao cliente",
+  "Gestão de reclamações",
+  "Reclamação da Central",
+  "Reclamações técnicas",
+  "Ordem de Serviço",
+  "OS reincidentes",
+  "Preventivas",
+  "Demandas",
+  "Melhorias",
+  "Ampliações",
+  "Financeiro",
+  "Comunicação de indisponibilidades",
+  "Reuniões internas",
+  "Eventos de segurança",
+  "Dupla passagem",
+  "Porta aberta ou violada",
+  "Renovações",
+  "Aditivos",
+  "Fechamento do pedido",
+  "Retenção",
+  "Cancelamento",
+  "Clientes críticos",
+  "Plano de ação para críticos",
+  "Indicadores da Central",
+  "Indicadores do SC",
+  "Fechamento mensal",
+  "Pareto das reclamações",
+  "Distribuição interna da equipe",
+  "Rotina diária",
+  "Rotina semanal",
+  "Escalonamento",
+  "Critério de encerramento"
 ];
 
 function processArea(i){
@@ -676,24 +1046,10 @@ function processArea(i){
 }
 
 const processes=processNames.map((title,i)=>({
-  id:i+1,title,area:processArea(i)
+  id:i+1,
+  title,
+  area:processArea(i)
 }));
-
-function showPage(id){
-  document.querySelectorAll(".page").forEach(x=>{
-    x.classList.toggle("active",x.id===id);
-  });
-
-  document.querySelectorAll("[data-page]").forEach(x=>{
-    x.classList.toggle("active",x.dataset.page===id);
-  });
-
-  $("currentSection").textContent=
-    document.querySelector(`[data-page="${id}"]`)
-      ?.textContent||"";
-
-  $("notificationPanel").classList.add("hidden");
-}
 
 function renderProcesses(){
   const text=$("processSearch").value.toLowerCase().trim();
@@ -716,56 +1072,81 @@ function renderProcesses(){
       <strong>${safe(p.title)}</strong>
       <a href="${ORIGINAL_PROCESSES}"
          target="_blank" rel="noopener noreferrer">
-        Consultar procedimento original ↗
+         Consultar procedimento original ↗
       </a>
     </article>
   `).join("");
 }
 
-function canOperate(c){
-  if(!c||!profile)return false;
-  if(admin())return true;
+/* PERMISSÕES DE INTERFACE */
+
+function canOperate(condo){
+  if(!condo||!profile)return false;
+  if(isAdmin())return true;
 
   if(profile.papel==="josy"){
-    return c.filial==="Ceará"
-      &&c.responsavel_sc==="Josy";
+    return condo.filial==="Ceará"
+      &&condo.responsavel_sc==="Josy";
   }
+
   if(profile.papel==="nicole"){
-    return c.filial==="Ceará"
-      &&c.responsavel_sc==="Nicole";
+    return condo.filial==="Ceará"
+      &&condo.responsavel_sc==="Nicole";
   }
+
   if(profile.papel==="filial"){
-    return c.filial===profile.filial;
+    return condo.filial===profile.filial;
   }
-  return false;
-}
-
-function canSurvey(c){
-  if(!c||!profile)return false;
-  if(admin())return true;
-
-  if(profile.papel==="josy")
-    return ["Secopi","Manaus"].includes(c.filial);
-
-  if(profile.papel==="nicole")
-    return c.filial==="Maranhão";
 
   return false;
 }
+
+function canSurvey(condo){
+  if(!condo||!profile)return false;
+  if(isAdmin())return true;
+
+  if(profile.papel==="josy"){
+    return ["Secopi","Manaus"].includes(condo.filial);
+  }
+
+  if(profile.papel==="nicole"){
+    return condo.filial==="Maranhão";
+  }
+
+  return false;
+}
+
+/* VISÃO EXECUTIVA */
 
 function renderOverview(){
   const active=condominios.filter(c=>c.ativo);
-  const pending=pendencias.filter(p=>p.status!=="Concluída");
-  const critical=pending.filter(p=>p.prioridade==="Crítica");
 
-  const cards=[
+  const openPendencias=pendencias.filter(p=>
+    p.status!=="Concluída"
+  );
+
+  const critical=openPendencias.filter(p=>
+    p.prioridade==="Crítica"
+  );
+
+  const scores=pesquisas
+    .map(p=>p.nota)
+    .filter(n=>n!==null&&n!==undefined&&n!=="")
+    .map(Number)
+    .filter(n=>Number.isFinite(n)&&n>=0&&n<=10);
+
+  const average=scores.length
+    ?(scores.reduce((a,b)=>a+b,0)/scores.length)
+      .toFixed(1).replace(".",",")
+    :"—";
+
+  const indicators=[
     ["Condomínios ativos",active.length],
-    ["Demandas",demandas.length],
-    ["Pesquisas",pesquisas.length],
-    ["Pendências abertas",pending.length],
+    ["Demandas registradas",demandas.length],
+    ["Pesquisas realizadas",pesquisas.length],
+    ["Média de satisfação",average],
+    ["Pendências abertas",openPendencias.length],
     ["Pendências críticas",critical.length],
-    ["Notificações não lidas",
-      notificacoes.filter(n=>!n.lida).length],
     ["Carteira Josy",active.filter(c=>
       c.filial==="Ceará"&&c.responsavel_sc==="Josy"
     ).length],
@@ -774,32 +1155,38 @@ function renderOverview(){
     ).length]
   ];
 
-  $("kpis").innerHTML=cards.map(([title,value])=>`
-    <div class="kpi">
+  $("kpis").innerHTML=indicators.map(([title,value])=>`
+    <article class="kpi">
       <small>${safe(title)}</small>
       <b>${safe(value)}</b>
-    </div>
+    </article>
   `).join("");
 
-  const grouped={};
+  const owners={};
+
   active.forEach(c=>{
-    const key=c.responsavel_sc||"A definir";
-    grouped[key]=(grouped[key]||0)+1;
+    const owner=c.responsavel_sc||"A definir";
+    owners[owner]=(owners[owner]||0)+1;
   });
 
-  $("distribution").innerHTML=
-    Object.entries(grouped).map(([k,v])=>`
-      <span class="tag">${safe(k)}: ${v}</span>
+  $("distribution").innerHTML=Object.entries(owners)
+    .map(([owner,total])=>`
+      <span class="tag">
+        ${safe(owner)}: ${total}
+      </span>
     `).join("");
 
   $("strategic").innerHTML=`
     <p>Condomínios ativos: ${active.length}</p>
-    <p>Demandas cadastradas: ${demandas.length}</p>
-    <p>Pendências abertas: ${pending.length}</p>
+    <p>Demandas registradas: ${demandas.length}</p>
+    <p>Pesquisas registradas: ${pesquisas.length}</p>
+    <p>Média de satisfação: ${average}</p>
+    <p>Pendências abertas: ${openPendencias.length}</p>
     <p>Pendências críticas: ${critical.length}</p>
-    <p>Pesquisas cadastradas: ${pesquisas.length}</p>
   `;
 }
+
+/* CARTEIRAS */
 
 function renderCondominios(){
   const q=$("condoSearch").value.toLowerCase();
@@ -807,12 +1194,16 @@ function renderCondominios(){
 
   const list=condominios.filter(c=>
     c.ativo
-    &&[c.nome,c.supervisor_tecnico,c.tecnico]
-      .join(" ").toLowerCase().includes(q)
+    &&[
+      c.nome,
+      c.tecnico,
+      c.supervisor_tecnico
+    ].join(" ").toLowerCase().includes(q)
     &&(!owner||c.responsavel_sc===owner)
   );
 
-  $("condoCount").textContent=`${list.length} condomínios`;
+  $("condoCount").textContent=
+    `${list.length} condomínios visíveis`;
 
   $("condoRows").innerHTML=list.map(c=>`
     <tr>
@@ -825,42 +1216,72 @@ function renderCondominios(){
   `).join("");
 }
 
-function fillCondoSelect(id,list){
-  $(id).innerHTML=list.length
-    ?list.map(c=>`
-      <option value="${safe(c.id)}">${safe(c.nome)}</option>
+function fillSelect(id,items){
+  const previous=$(id).value;
+
+  $(id).innerHTML=items.length
+    ?items.map(c=>`
+      <option value="${safe(c.id)}">
+        ${safe(c.nome)}
+      </option>
     `).join("")
     :'<option value="">Nenhum condomínio autorizado</option>';
+
+  if(items.some(c=>String(c.id)===previous)){
+    $(id).value=previous;
+  }
 }
 
+/* DEMANDAS */
+
 function renderDemandas(){
-  fillCondoSelect(
+  fillSelect(
     "dCondo",
     condominios.filter(c=>c.ativo&&canOperate(c))
   );
 
   $("demandRows").innerHTML=demandas.map(d=>`
     <tr>
-      <td>${safe(findCondo(d.condominio_id)?.nome)}</td>
+      <td>${safe(displayName(d.condominio_id))}</td>
       <td>${safe(d.titulo)}</td>
+      <td>${safe(d.tipo)}</td>
       <td>${safe(d.setor)}</td>
       <td>${safe(d.status)}</td>
     </tr>
   `).join("");
 }
 
-function renderPesquisas(){
-  const original=$("sCondo").value;
+async function saveDemand(event){
+  event.preventDefault();
 
-  fillCondoSelect(
-    "sCondo",
-    condominios.filter(c=>c.ativo&&canSurvey(c))
-  );
+  try{
+    check(await db.from("demandas").insert({
+      condominio_id:$("dCondo").value,
+      titulo:$("dTitle").value.trim(),
+      tipo:$("dType").value,
+      setor:$("dSector").value||null,
+      prazo:$("dDeadline").value||null,
+      descricao:$("dDescription").value||null,
+      status:"Aberta"
+    }));
 
-  if([...$("sCondo").options].some(o=>o.value===original)){
-    $("sCondo").value=original;
+    $("demandForm").reset();
+    await loadData();
+
+    notice("Demanda cadastrada com sucesso.");
+  }catch(error){
+    notice("Erro ao salvar demanda: "+error.message);
   }
+}
 
+/* PESQUISAS */
+
+function renderPesquisas(){
+  const condos=editingSurveyId!==null&&isAdmin()
+    ?condominios.filter(c=>c.ativo)
+    :condominios.filter(c=>c.ativo&&canSurvey(c));
+
+  fillSelect("sCondo",condos);
   renderSurveyList();
 }
 
@@ -868,89 +1289,118 @@ function renderSurveyList(){
   const q=$("surveySearch").value.toLowerCase();
 
   const list=pesquisas.filter(p=>
-    [findCondo(p.condominio_id)?.nome,p.comentario]
-    .join(" ").toLowerCase().includes(q)
+    [
+      displayName(p.condominio_id),
+      p.comentario,
+      p.canal
+    ].join(" ").toLowerCase().includes(q)
   );
 
-  $("surveyRows").innerHTML=list.map(p=>`
-    <tr>
-      <td>${safe(findCondo(p.condominio_id)?.nome)}</td>
-      <td>${safe(p.nota??"—")}</td>
-      <td>${safe(p.canal)}</td>
-      <td>${safe(p.comentario)}</td>
-      <td>
-        <div class="inline-buttons">
-          ${admin()?`
-            <button class="btn small-btn"
-              data-edit-survey="${safe(p.id)}">Editar</button>
-            <button class="btn danger small-btn"
-              data-delete-survey="${safe(p.id)}">Excluir</button>
-          `:""}
-          <button class="btn small-btn"
-            data-manual-pending="${safe(p.id)}">
-            Abrir pendência
-          </button>
-        </div>
-      </td>
-    </tr>
-  `).join("");
+  $("surveyRows").innerHTML=list.length
+    ?list.map(p=>{
+      const condo=findCondo(p.condominio_id);
+      const hasPending=pendencias.some(item=>
+        String(item.pesquisa_id)===String(p.id)
+      );
+
+      return `
+        <tr>
+          <td>${safe(displayName(p.condominio_id))}</td>
+          <td>${safe(p.nota??"—")}</td>
+          <td>${safe(p.canal)}</td>
+          <td style="white-space:pre-wrap">${safe(p.comentario)}</td>
+          <td>
+            <div class="actions">
+              ${isAdmin()?`
+                <button class="btn small-btn"
+                  data-edit-survey="${safe(p.id)}">
+                  Editar
+                </button>
+                <button class="btn danger small-btn"
+                  data-delete-survey="${safe(p.id)}">
+                  Excluir
+                </button>
+              `:""}
+
+              ${hasPending?`
+                <button class="btn small-btn"
+                  data-show-survey-pending="${safe(p.id)}">
+                  Ver pendência
+                </button>
+              `:canOperate(condo)?`
+                <button class="btn small-btn"
+                  data-manual-pending="${safe(p.id)}">
+                  Abrir pendência
+                </button>
+              `:""}
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("")
+    :'<tr><td colspan="5" class="empty">Nenhuma pesquisa encontrada.</td></tr>';
 }
 
-function resetSurvey(){
-  editSurveyId=null;
+function resetSurveyEdit(){
+  editingSurveyId=null;
   $("surveyForm").reset();
   $("surveyHeading").textContent="Pesquisa de satisfação";
   $("saveSurveyButton").textContent="Salvar pesquisa";
   $("cancelSurveyButton").classList.add("hidden");
+  $("surveyEditBanner").classList.add("hidden");
+  renderPesquisas();
 }
 
 function editSurvey(id){
-  if(!admin())return;
+  if(!isAdmin()){
+    notice("Somente a administradora pode editar pesquisas.");
+    return;
+  }
 
-  const p=pesquisas.find(x=>String(x.id)===String(id));
-  if(!p)return;
+  const p=pesquisas.find(item=>String(item.id)===String(id));
 
-  editSurveyId=p.id;
+  if(!p){
+    notice("Pesquisa não localizada.");
+    return;
+  }
 
-  // A edição administrativa permite selecionar o condomínio original.
-  fillCondoSelect("sCondo",condominios.filter(c=>c.ativo));
-  $("sCondo").value=p.condominio_id;
+  editingSurveyId=p.id;
+  renderPesquisas();
+
+  const condoSelect=$("sCondo");
+
+  if(!Array.from(condoSelect.options).some(o=>
+    o.value===String(p.condominio_id)
+  )){
+    condoSelect.add(new Option(
+      displayName(p.condominio_id),
+      p.condominio_id
+    ));
+  }
+
+  condoSelect.value=p.condominio_id;
   $("sScore").value=p.nota??"";
   $("sChannel").value=p.canal||"WhatsApp";
   $("sComment").value=p.comentario||"";
   $("sComplaint").checked=!!p.tem_reclamacao;
 
-  $("surveyHeading").textContent="Editar pesquisa";
+  $("surveyHeading").textContent="Editar pesquisa de satisfação";
   $("saveSurveyButton").textContent="Salvar alterações";
   $("cancelSurveyButton").classList.remove("hidden");
-  $("surveyHeading").scrollIntoView({behavior:"smooth"});
+  $("surveyEditBanner").classList.remove("hidden");
+
+  showPage("pesquisas");
+
+  $("surveyHeading").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+  notice("Pesquisa selecionada para edição.");
 }
 
-async function deleteSurvey(id){
-  if(!admin())return;
-
-  if(!confirm(
-    "Deseja excluir permanentemente esta pesquisa?"
-  ))return;
-
-  try{
-    const rows=check(await db.from("pesquisas")
-      .delete().eq("id",id).select("id"));
-
-    if(!rows.length)
-      throw new Error("Exclusão não autorizada.");
-
-    if(String(editSurveyId)===String(id))resetSurvey();
-
-    await loadData();
-    notice("Pesquisa excluída.");
-  }catch(e){
-    notice("Erro ao excluir pesquisa: "+e.message);
-  }
-}
-
-async function saveSurvey(e){
-  e.preventDefault();
+async function saveSurvey(event){
+  event.preventDefault();
 
   const values={
     condominio_id:$("sCondo").value,
@@ -961,113 +1411,178 @@ async function saveSurvey(e){
     tem_reclamacao:$("sComplaint").checked
   };
 
-  try{
-    if(editSurveyId){
-      if(!admin())throw new Error("Operação não autorizada.");
-
-      const rows=check(await db.from("pesquisas")
-        .update(values)
-        .eq("id",editSurveyId)
-        .select("id"));
-
-      if(!rows.length)
-        throw new Error("Pesquisa não atualizada.");
-
-    }else{
-      check(await db.from("pesquisas").insert(values));
-    }
-
-    resetSurvey();
-    await loadData();
-    notice("Pesquisa salva. Pendências automáticas verificadas.");
-
-  }catch(err){
-    notice("Erro ao salvar pesquisa: "+err.message);
-  }
-}
-
-async function manualPending(surveyId){
-  const p=pesquisas.find(x=>
-    String(x.id)===String(surveyId)
-  );
-  if(!p)return;
-
-  const c=findCondo(p.condominio_id);
-  if(!c)return;
-
-  if(!canOperate(c)){
-    notice(
-      "A abertura manual deve ser realizada pela responsável " +
-      "operacional do condomínio."
-    );
+  if(!values.condominio_id){
+    notice("Selecione um condomínio.");
     return;
   }
 
-  const existing=pendencias.some(item=>
-    item.pesquisa_id===String(p.id)
+  try{
+    if(editingSurveyId!==null){
+      if(!isAdmin()){
+        throw new Error("Edição não autorizada.");
+      }
+
+      const updated=check(await db.from("pesquisas")
+        .update(values)
+        .eq("id",editingSurveyId)
+        .select("id"));
+
+      if(!updated.length){
+        throw new Error(
+          "Nenhum registro atualizado. Confira as permissões."
+        );
+      }
+
+      resetSurveyEdit();
+      await loadData();
+      notice("Pesquisa atualizada com sucesso.");
+
+    }else{
+      check(await db.from("pesquisas").insert(values));
+
+      $("surveyForm").reset();
+      await loadData();
+
+      notice(
+        "Pesquisa cadastrada. O Supabase verificou " +
+        "as regras de abertura automática de pendências."
+      );
+    }
+
+  }catch(error){
+    notice("Erro ao salvar pesquisa: "+error.message);
+  }
+}
+
+async function deleteSurvey(id){
+  if(!isAdmin()){
+    notice("Somente a administradora pode excluir pesquisas.");
+    return;
+  }
+
+  const survey=pesquisas.find(p=>String(p.id)===String(id));
+
+  if(!survey){
+    notice("Pesquisa não encontrada.");
+    return;
+  }
+
+  const condoName=displayName(survey.condominio_id);
+
+  if(!confirm(
+    `Deseja excluir permanentemente a pesquisa de ${condoName}?\n\n`+
+    `Esta ação não poderá ser desfeita.`
+  )){
+    return;
+  }
+
+  try{
+    const rows=check(await db.from("pesquisas")
+      .delete()
+      .eq("id",survey.id)
+      .select("id"));
+
+    if(!rows?.length){
+      throw new Error(
+        "Nenhuma pesquisa excluída. Confira as permissões RLS."
+      );
+    }
+
+    if(String(editingSurveyId)===String(survey.id)){
+      resetSurveyEdit();
+    }
+
+    await loadData();
+
+    notice("Pesquisa excluída com sucesso.");
+  }catch(error){
+    notice(
+      "Erro ao excluir pesquisa: "+error.message
+    );
+  }
+}
+
+/* PENDÊNCIAS */
+
+function responsibleForCondo(c){
+  if(c.filial==="Secopi")return "Paula";
+  if(c.filial==="Manaus")return "Tayane";
+  if(c.filial==="Maranhão")return "Juliana";
+  return c.responsavel_sc||"Rosely";
+}
+
+function supervisorForCondo(c){
+  if(["Secopi","Manaus"].includes(c.filial))return "Josy";
+  if(c.filial==="Maranhão")return "Nicole";
+  return "Rosely";
+}
+
+async function manualPending(surveyId){
+  const survey=pesquisas.find(p=>
+    String(p.id)===String(surveyId)
+  );
+
+  if(!survey){
+    notice("Pesquisa não encontrada.");
+    return;
+  }
+
+  const condo=findCondo(survey.condominio_id);
+
+  if(!condo||!canOperate(condo)){
+    notice("Seu perfil não pode abrir essa pendência.");
+    return;
+  }
+
+  const existing=pendencias.find(p=>
+    String(p.pesquisa_id)===String(survey.id)
   );
 
   if(existing){
-    notice("Essa pesquisa já possui pendência vinculada.");
-    showPage("pendencias");
+    openPendingDetail(existing.id);
     return;
   }
 
   if(!confirm(
-    "Criar pendência a partir desta pesquisa?"
-  ))return;
+    `Criar pendência para ${condo.nome}?\n\n`+
+    `Responsável: ${responsibleForCondo(condo)}`
+  )){
+    return;
+  }
 
   try{
-    const response=await db.rpc(
-      "responsavel_pendencia_sc",
-      {p_condominio_id:c.id}
-    );
-
-    // Caso a função não esteja exposta via RPC,
-    // usa o mesmo mapeamento de responsáveis no cliente.
-    const owner=response.error
-      ?(
-        c.filial==="Secopi"?"Paula":
-        c.filial==="Manaus"?"Tayane":
-        c.filial==="Maranhão"?"Juliana":
-        c.responsavel_sc||"Rosely"
-      )
-      :response.data;
-
-    const supervisor=
-      c.filial==="Secopi"||c.filial==="Manaus"
-        ?"Josy":
-      c.filial==="Maranhão"
-        ?"Nicole":"Rosely";
-
     check(await db.from("pendencias_sc").insert({
-      condominio_id:c.id,
-      pesquisa_id:String(p.id),
+      condominio_id:condo.id,
+      pesquisa_id:String(survey.id),
       titulo:"Tratativa de pesquisa de satisfação",
-      descricao:p.comentario||"",
-      responsavel:owner,
-      supervisor_sc:supervisor,
+      descricao:survey.comentario||"",
+      responsavel:responsibleForCondo(condo),
+      supervisor_sc:supervisorForCondo(condo),
       prioridade:"Alta",
       status:"Aberta",
       origem:"Pesquisa manual"
     }));
 
     await loadData();
-    notice("Pendência criada e gestão notificada.");
+
+    notice("Pendência criada. A gestão recebeu a notificação.");
     showPage("pendencias");
-  }catch(e){
-    notice("Erro ao criar pendência: "+e.message);
+
+  }catch(error){
+    notice("Erro ao abrir pendência: "+error.message);
   }
 }
 
 function renderPendencias(){
-  const q=$("pendingSearch").value.toLowerCase();
+  const q=$("pendingSearch").value.toLowerCase().trim();
   const status=$("pendingStatus").value;
 
   const list=pendencias.filter(p=>
     [
-      findCondo(p.condominio_id)?.nome,
-      p.responsavel,p.titulo,p.descricao
+      displayName(p.condominio_id),
+      p.titulo,
+      p.descricao,
+      p.responsavel
     ].join(" ").toLowerCase().includes(q)
     &&(!status||p.status===status)
   );
@@ -1075,49 +1590,61 @@ function renderPendencias(){
   $("pendingCount").textContent=
     `${list.length} pendências`;
 
-  $("pendingRows").innerHTML=list.map(p=>{
-    const c=findCondo(p.condominio_id);
+  $("pendingRows").innerHTML=list.length
+    ?list.map(p=>{
+      const condo=findCondo(p.condominio_id);
 
-    const editable=canOperate(c);
-    const statuses=[
-      "Aberta","Em tratativa",
-      "Aguardando retorno","Concluída"
-    ];
+      const editable=canOperate(condo);
 
-    return `
-      <tr>
-        <td>${safe(c?.nome)}</td>
-        <td>
-          <strong>${safe(p.titulo)}</strong>
-          <p class="muted">${safe(p.descricao)}</p>
-          <small class="muted">${safe(p.origem)}</small>
-        </td>
-        <td>${safe(p.responsavel)}</td>
-        <td>${safe(p.supervisor_sc)}</td>
-        <td>
-          <span class="badge ${p.prioridade==="Crítica"?"critical":""}">
-            ${safe(p.prioridade)}
-          </span>
-        </td>
-        <td>
-          <span class="badge ${p.status==="Concluída"?"done":""}">
-            ${safe(p.status)}
-          </span>
-        </td>
-        <td>
-          ${editable?`
-            <select data-status-id="${safe(p.id)}">
-              ${statuses.map(s=>`
-                <option ${p.status===s?"selected":""}>
-                  ${safe(s)}
-                </option>
-              `).join("")}
-            </select>
-          `:"<span class='muted'>Acompanhamento</span>"}
-        </td>
-      </tr>
-    `;
-  }).join("");
+      const statusOptions=[
+        "Aberta",
+        "Em tratativa",
+        "Aguardando retorno",
+        "Concluída"
+      ];
+
+      return `
+        <tr>
+          <td>${safe(displayName(p.condominio_id))}</td>
+          <td>
+            <strong>${safe(p.titulo)}</strong>
+            <p class="muted">${safe(p.descricao)}</p>
+          </td>
+          <td>${safe(p.responsavel)}</td>
+          <td>${safe(p.supervisor_sc||"—")}</td>
+          <td>
+            <span class="badge ${p.prioridade==="Crítica"?"critical":"warning"}">
+              ${safe(p.prioridade)}
+            </span>
+          </td>
+          <td>
+            <span class="badge ${p.status==="Concluída"?"done":""}">
+              ${safe(p.status)}
+            </span>
+          </td>
+          <td>
+            <div class="actions">
+              <button class="btn small-btn"
+                data-open-pending="${safe(p.id)}">
+                Detalhes
+              </button>
+
+              ${editable?`
+                <select data-status-id="${safe(p.id)}">
+                  ${statusOptions.map(s=>`
+                    <option value="${safe(s)}"
+                      ${p.status===s?"selected":""}>
+                      ${safe(s)}
+                    </option>
+                  `).join("")}
+                </select>
+              `:""}
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("")
+    :'<tr><td colspan="7" class="empty">Nenhuma pendência encontrada.</td></tr>';
 }
 
 async function updatePendingStatus(id,status){
@@ -1130,16 +1657,138 @@ async function updatePendingStatus(id,status){
       .eq("id",id)
       .select("id"));
 
-    if(!rows.length)
+    if(!rows.length){
       throw new Error("Atualização não autorizada.");
+    }
 
     await loadData();
+
+    if(String(currentPendingDetailId)===String(id)){
+      openPendingDetail(id,false);
+    }
+
     notice("Status da pendência atualizado.");
-  }catch(e){
-    notice("Erro ao atualizar pendência: "+e.message);
+  }catch(error){
+    notice("Erro ao atualizar pendência: "+error.message);
     await loadData();
   }
 }
+
+/* DETALHES DA RECLAMAÇÃO OU PENDÊNCIA */
+
+function openPendingDetail(id,scroll=true){
+  const pending=pendencias.find(p=>
+    String(p.id)===String(id)
+  );
+
+  showPage("pendencias");
+
+  if(!pending){
+    $("pendingDetail").classList.add("hidden");
+    currentPendingDetailId=null;
+
+    notice(
+      "A pendência não foi encontrada ou seu perfil " +
+      "não possui acesso a ela."
+    );
+    return;
+  }
+
+  currentPendingDetailId=pending.id;
+
+  const condo=findCondo(pending.condominio_id);
+
+  const survey=pesquisas.find(p=>
+    String(p.id)===String(pending.pesquisa_id)
+  );
+
+  const values=[
+    ["Condomínio",condo?.nome||"Não disponível"],
+    ["Filial",condo?.filial||"—"],
+    ["Responsável",pending.responsavel||"—"],
+    ["Fiscalização",pending.supervisor_sc||"—"],
+    ["Prioridade",pending.prioridade||"—"],
+    ["Status",pending.status||"—"],
+    ["Nota da pesquisa",survey?.nota??"Não disponível"],
+    ["Canal da pesquisa",survey?.canal||"Não disponível"],
+    ["Origem",pending.origem||"—"],
+    ["Abertura",formatDate(pending.criado_em)],
+    ["Prazo",pending.prazo||"Não informado"],
+    ["Última atualização",formatDate(pending.atualizado_em)]
+  ];
+
+  const description=
+    survey?.comentario||
+    pending.descricao||
+    "Nenhuma descrição cadastrada.";
+
+  const surveyNote=survey?.tem_reclamacao
+    ?'<p class="badge critical">Reclamação relevante sinalizada na pesquisa</p>'
+    :"";
+
+  $("pendingDetailContent").innerHTML=`
+    <div style="margin-top:17px">
+      <h3>${safe(pending.titulo)}</h3>
+      <p class="muted">
+        Acompanhe o motivo, a responsável e a situação da tratativa.
+      </p>
+    </div>
+
+    <div class="detail-grid">
+      ${values.map(([label,value])=>`
+        <div class="detail-cell">
+          <small>${safe(label)}</small>
+          <strong>${safe(value)}</strong>
+        </div>
+      `).join("")}
+    </div>
+
+    <h3>Reclamação ou pendência registrada</h3>
+    <div class="detail-description">${safe(description)}</div>
+
+    ${surveyNote}
+
+    ${!survey?`
+      <p class="muted" style="font-size:12px;margin-top:12px">
+        A pesquisa original não está disponível neste perfil
+        ou foi excluída. Os detalhes acima foram recuperados
+        do registro da pendência.
+      </p>
+    `:""}
+
+    <div style="margin-top:17px">
+      <span class="tag">
+        Responsável: ${safe(pending.responsavel)}
+      </span>
+      <span class="tag">
+        Status: ${safe(pending.status)}
+      </span>
+    </div>
+  `;
+
+  $("pendingDetail").classList.remove("hidden");
+
+  if(scroll){
+    $("pendingDetail").scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  }
+}
+
+function openPendingFromSurvey(surveyId){
+  const pending=pendencias.find(p=>
+    String(p.pesquisa_id)===String(surveyId)
+  );
+
+  if(pending){
+    openPendingDetail(pending.id);
+  }else{
+    notice("Não há pendência vinculada a essa pesquisa.");
+  }
+}
+
+/* NOTIFICAÇÕES */
 
 function renderNotifications(){
   const unread=notificacoes.filter(n=>!n.lida).length;
@@ -1152,21 +1801,24 @@ function renderNotifications(){
       <article class="notification-item ${n.lida?"":"unread"}">
         <strong>${safe(n.titulo)}</strong>
         <p>${safe(n.mensagem)}</p>
-        <small>${new Date(n.criado_em).toLocaleString("pt-BR")}</small>
+
+        <small>${safe(formatDate(n.criado_em))}</small>
+
         ${n.pendencia_id?`
-          <p><button class="btn small-btn"
-            data-go-pending="${safe(n.pendencia_id)}">
-            Ver pendência
-          </button></p>
+          <div style="margin-top:10px">
+            <button class="btn small-btn"
+              data-go-pending="${safe(n.pendencia_id)}">
+              Ver reclamação completa
+            </button>
+          </div>
         `:""}
       </article>
     `).join("")
-    :'<p class="muted">Nenhuma notificação.</p>';
+    :'<p class="empty">Nenhuma notificação disponível.</p>';
 }
 
 async function readAllNotifications(){
-  const unread=notificacoes.filter(n=>!n.lida);
-  if(!unread.length)return;
+  if(!profile)return;
 
   try{
     check(await db.from("notificacoes_sc")
@@ -1175,10 +1827,16 @@ async function readAllNotifications(){
       .eq("lida",false));
 
     await loadData();
-  }catch(e){
-    notice("Erro ao marcar notificações: "+e.message);
+
+    notice("Notificações marcadas como lidas.");
+  }catch(error){
+    notice(
+      "Erro ao atualizar notificações: "+error.message
+    );
   }
 }
+
+/* FISCALIZAÇÃO */
 
 function renderFiscalizacao(){
   const regionais=condominios.filter(c=>
@@ -1187,10 +1845,15 @@ function renderFiscalizacao(){
 
   $("oversight").innerHTML=regionais.length
     ?regionais.map(c=>`
-      <p>${safe(c.filial)} — ${safe(c.nome)}</p>
+      <p>
+        <strong>${safe(c.filial)}</strong>
+        — ${safe(c.nome)}
+      </p>
     `).join("")
-    :"<p class='muted'>Sem registros regionais disponíveis.</p>";
+    :'<p class="empty">Nenhum condomínio regional disponível.</p>';
 }
+
+/* CARREGAMENTO GERAL */
 
 function renderAll(){
   renderOverview();
@@ -1203,38 +1866,60 @@ function renderAll(){
 }
 
 async function loadData(){
-  notice("Atualizando dados...");
+  notice("Atualizando informações...");
 
   try{
     condominios=check(await db.from("condominios")
-      .select("*").order("nome").limit(1000));
+      .select("*")
+      .order("nome")
+      .limit(1000));
 
     demandas=check(await db.from("demandas")
-      .select("*").limit(1000));
+      .select("*")
+      .limit(1000));
 
     pesquisas=check(await db.from("pesquisas")
-      .select("*").limit(1000));
+      .select("*")
+      .limit(1000));
 
     pendencias=check(await db.from("pendencias_sc")
-      .select("*").order("criado_em",{ascending:false})
+      .select("*")
+      .order("criado_em",{ascending:false})
       .limit(1000));
 
     notificacoes=check(await db.from("notificacoes_sc")
-      .select("*").order("criado_em",{ascending:false})
+      .select("*")
+      .order("criado_em",{ascending:false})
       .limit(100));
 
     renderAll();
-    notice("");
 
-  }catch(e){
-    notice("Erro ao consultar banco: "+e.message);
+    if(currentPendingDetailId!==null){
+      const exists=pendencias.some(p=>
+        String(p.id)===String(currentPendingDetailId)
+      );
+
+      if(exists){
+        openPendingDetail(currentPendingDetailId,false);
+      }else{
+        $("pendingDetail").classList.add("hidden");
+        currentPendingDetailId=null;
+      }
+    }
+
+    notice("");
+  }catch(error){
+    notice("Erro ao consultar banco: "+error.message);
   }
 }
+
+/* LOGIN E AUTENTICAÇÃO */
 
 async function checkSession(){
   const result=await db.auth.getUser();
 
   if(result.error||!result.data.user){
+    profile=null;
     $("loginScreen").classList.remove("hidden");
     $("system").classList.add("hidden");
     return;
@@ -1252,9 +1937,12 @@ async function checkSession(){
     $("system").classList.remove("hidden");
 
     await loadData();
-  }catch(e){
+  }catch(error){
     $("loginMessage").textContent=
-      "Erro ao carregar perfil: "+e.message;
+      "Erro ao carregar perfil: "+error.message;
+
+    $("loginScreen").classList.remove("hidden");
+    $("system").classList.add("hidden");
   }
 }
 
@@ -1267,70 +1955,62 @@ async function login(){
       email:$("email").value.trim(),
       password:$("password").value
     }));
+
     await checkSession();
-  }catch(e){
-    $("loginMessage").textContent=e.message;
+  }catch(error){
+    $("loginMessage").textContent=error.message;
   }finally{
     $("loginButton").disabled=false;
   }
 }
 
-async function saveDemand(e){
-  e.preventDefault();
-
-  try{
-    check(await db.from("demandas").insert({
-      condominio_id:$("dCondo").value,
-      titulo:$("dTitle").value,
-      tipo:$("dType").value,
-      setor:$("dSector").value||null,
-      prazo:$("dDeadline").value||null,
-      descricao:$("dDescription").value||null,
-      status:"Aberta"
-    }));
-
-    $("demandForm").reset();
-    await loadData();
-    notice("Demanda salva.");
-  }catch(err){
-    notice("Erro ao salvar demanda: "+err.message);
-  }
-}
+/* EXPORTAÇÃO */
 
 function exportData(){
-  const data={
+  const payload={
     exportado_em:new Date().toISOString(),
-    condominios,demandas,pesquisas,pendencias,notificacoes
+    condominios,
+    demandas,
+    pesquisas,
+    pendencias,
+    notificacoes
   };
 
-  const url=URL.createObjectURL(
-    new Blob([JSON.stringify(data,null,2)],{
-      type:"application/json"
-    })
+  const blob=new Blob(
+    [JSON.stringify(payload,null,2)],
+    {type:"application/json"}
   );
 
-  const a=document.createElement("a");
-  a.href=url;
-  a.download="backup_servis_sc.json";
-  a.click();
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+
+  link.href=url;
+  link.download="backup_servis_sc.json";
+  link.click();
 
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
+/* INICIALIZAÇÃO */
+
 document.addEventListener("DOMContentLoaded",async()=>{
+
   renderProcesses();
 
-  document.querySelectorAll("[data-page]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      showPage(btn.dataset.page);
+  document.querySelectorAll("[data-page]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      showPage(button.dataset.page);
     });
   });
 
   $("processSearch").addEventListener("input",renderProcesses);
   $("processArea").addEventListener("change",renderProcesses);
+
   $("condoSearch").addEventListener("input",renderCondominios);
   $("condoOwner").addEventListener("change",renderCondominios);
+
   $("surveySearch").addEventListener("input",renderSurveyList);
+
   $("pendingSearch").addEventListener("input",renderPendencias);
   $("pendingStatus").addEventListener("change",renderPendencias);
 
@@ -1338,36 +2018,65 @@ document.addEventListener("DOMContentLoaded",async()=>{
   $("demandForm").addEventListener("submit",saveDemand);
 
   $("cancelSurveyButton").addEventListener("click",()=>{
-    resetSurvey();
-    renderPesquisas();
+    resetSurveyEdit();
+    notice("Edição cancelada.");
   });
 
-  $("surveyRows").addEventListener("click",async e=>{
-    const edit=e.target.closest("[data-edit-survey]");
-    const del=e.target.closest("[data-delete-survey]");
-    const pending=e.target.closest("[data-manual-pending]");
+  $("surveyRows").addEventListener("click",async event=>{
+    const edit=event.target.closest("[data-edit-survey]");
+    const del=event.target.closest("[data-delete-survey]");
+    const manual=event.target.closest("[data-manual-pending]");
+    const view=event.target.closest("[data-show-survey-pending]");
 
-    if(edit)editSurvey(edit.dataset.editSurvey);
-    if(del)await deleteSurvey(del.dataset.deleteSurvey);
-    if(pending)await manualPending(pending.dataset.manualPending);
-  });
-
-  $("pendingRows").addEventListener("change",async e=>{
-    const element=e.target.closest("[data-status-id]");
-    if(element){
-      await updatePendingStatus(element.dataset.statusId,element.value);
+    if(edit){
+      editSurvey(edit.dataset.editSurvey);
+    }else if(del){
+      await deleteSurvey(del.dataset.deleteSurvey);
+    }else if(manual){
+      await manualPending(manual.dataset.manualPending);
+    }else if(view){
+      openPendingFromSurvey(view.dataset.showSurveyPending);
     }
+  });
+
+  $("pendingRows").addEventListener("click",event=>{
+    const button=event.target.closest("[data-open-pending]");
+
+    if(button){
+      openPendingDetail(button.dataset.openPending);
+    }
+  });
+
+  $("pendingRows").addEventListener("change",async event=>{
+    const input=event.target.closest("[data-status-id]");
+
+    if(input){
+      await updatePendingStatus(
+        input.dataset.statusId,
+        input.value
+      );
+    }
+  });
+
+  $("closePendingDetail").addEventListener("click",()=>{
+    currentPendingDetailId=null;
+    $("pendingDetail").classList.add("hidden");
   });
 
   $("bellButton").addEventListener("click",()=>{
     $("notificationPanel").classList.toggle("hidden");
   });
 
-  $("readAllButton").addEventListener("click",readAllNotifications);
+  $("readAllButton").addEventListener(
+    "click",
+    readAllNotifications
+  );
 
-  $("notificationList").addEventListener("click",e=>{
-    if(e.target.closest("[data-go-pending]")){
-      showPage("pendencias");
+  $("notificationList").addEventListener("click",event=>{
+    const button=event.target.closest("[data-go-pending]");
+
+    if(button){
+      openPendingDetail(button.dataset.goPending);
     }
   });
 
@@ -1375,7 +2084,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
 
   if(!window.supabase){
     $("loginMessage").textContent=
-      "Falha ao carregar biblioteca do Supabase.";
+      "Não foi possível carregar a biblioteca do Supabase.";
     return;
   }
 
@@ -1386,15 +2095,21 @@ document.addEventListener("DOMContentLoaded",async()=>{
 
   $("loginButton").addEventListener("click",login);
 
-  $("password").addEventListener("keydown",e=>{
-    if(e.key==="Enter")login();
+  $("password").addEventListener("keydown",event=>{
+    if(event.key==="Enter"){
+      login();
+    }
   });
 
   $("reloadButton").addEventListener("click",loadData);
 
   $("logout").addEventListener("click",async()=>{
     await db.auth.signOut();
+
     profile=null;
+    editingSurveyId=null;
+    currentPendingDetailId=null;
+
     $("password").value="";
     $("loginScreen").classList.remove("hidden");
     $("system").classList.add("hidden");
@@ -1403,5 +2118,6 @@ document.addEventListener("DOMContentLoaded",async()=>{
   await checkSession();
 });
 </script>
+
 </body>
 </html>
