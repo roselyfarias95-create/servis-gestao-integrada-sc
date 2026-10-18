@@ -10,18 +10,10 @@
 
 <style>
 :root{
- --bg:#081525;
- --side:#0b1b2e;
- --panel:#102136;
- --panel2:#192f48;
- --line:#29425d;
- --text:#e8f2ff;
- --muted:#a4bad3;
- --teal:#37d5c8;
- --blue:#55aaff;
- --red:#ff8585;
- --orange:#ffc27d;
- --green:#70deb0;
+ --bg:#081525;--side:#0b1b2e;--panel:#102136;
+ --panel2:#192f48;--line:#29425d;--text:#e8f2ff;
+ --muted:#a4bad3;--teal:#37d5c8;--blue:#55aaff;
+ --red:#ff8585;--orange:#ffc27d;--green:#70deb0
 }
 *{box-sizing:border-box}
 body{
@@ -53,12 +45,11 @@ a{color:var(--blue)}
  border-radius:30px;margin-bottom:17px
 }
 .avatar{
- width:42px;height:42px;border-radius:50%;
- object-fit:cover;border:2px solid var(--blue)
+ width:44px;height:44px;min-width:44px;
+ border-radius:50%;object-fit:cover;
+ object-position:center 35%;border:2px solid var(--blue)
 }
-.profile small{
- display:block;color:var(--muted);margin-top:4px
-}
+.profile small{display:block;color:var(--muted);margin-top:4px}
 .menu button{
  display:block;width:100%;padding:13px;border:0;
  border-radius:9px;background:none;color:#c4d6e8;
@@ -103,11 +94,10 @@ input,select,textarea{
 input:focus,select:focus,textarea:focus{
  border-color:var(--teal)
 }
-input[type="checkbox"]{width:auto}
+input[type=checkbox]{width:auto}
 input::placeholder,textarea::placeholder{color:#8fa8c2}
 .form{
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
  gap:13px
 }
 .form label{
@@ -126,9 +116,8 @@ input::placeholder,textarea::placeholder{color:#8fa8c2}
  color:var(--teal);font-size:12px
 }
 .grid{
- display:grid;
- grid-template-columns:repeat(4,minmax(0,1fr));
- gap:12px
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:12px;margin:15px 0
 }
 .kpi{
  padding:18px;border:1px solid var(--line);
@@ -136,7 +125,7 @@ input::placeholder,textarea::placeholder{color:#8fa8c2}
  background:var(--panel);border-radius:12px
 }
 .kpi:nth-child(even){border-top-color:var(--blue)}
-.kpi small{display:block;color:var(--muted)}
+.kpi small{display:block}
 .kpi b{display:block;font-size:27px;margin-top:12px}
 .page{display:none}
 .page.active{display:block}
@@ -171,8 +160,7 @@ th{background:#172f47;color:#bdd7ed}
  padding:12px 3px;border-bottom:1px solid var(--line)
 }
 .notification-item.unread{
- border-left:3px solid var(--teal);
- padding-left:10px
+ border-left:3px solid var(--teal);padding-left:10px
 }
 .notification-item p{
  color:var(--muted);font-size:12px
@@ -183,8 +171,7 @@ th{background:#172f47;color:#bdd7ed}
 }
 .detail{border-color:var(--teal)}
 .details{
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
  gap:12px;margin:15px 0
 }
 .details div{
@@ -195,11 +182,10 @@ th{background:#172f47;color:#bdd7ed}
 .note{
  padding:14px;background:var(--panel2);
  border-radius:9px;white-space:pre-wrap;
- line-height:1.6
+ line-height:1.6;overflow-wrap:anywhere
 }
 .process-grid{
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
  gap:12px
 }
 .process-card{
@@ -218,7 +204,6 @@ th{background:#172f47;color:#bdd7ed}
 }
 .pill.critical{background:#66323c;color:#ffd2d2}
 .pill.success{background:#174b40;color:#bbf7d8}
-.pill.warning{background:#624b2c;color:#ffe0aa}
 .modal{
  position:fixed;inset:0;z-index:30;
  display:flex;justify-content:center;align-items:center;
@@ -235,19 +220,11 @@ th{background:#172f47;color:#bdd7ed}
  border:1px solid #28616a;border-radius:10px;
  color:#b5d7df;font-size:12px;line-height:1.6
 }
-.result-name{font-weight:bold;color:var(--teal)}
-.quality-row{
- display:flex;align-items:center;gap:12px;
- flex-wrap:wrap;margin-top:12px
-}
 .progress{
- height:8px;border-radius:8px;overflow:hidden;
- background:#29435d;min-width:120px;flex:1
+ height:9px;border-radius:8px;overflow:hidden;
+ background:#29435d;margin-top:8px
 }
-.progress-fill{
- height:100%;background:var(--teal);
- transition:width .2s
-}
+.progress-fill{height:100%;background:var(--teal)}
 .empty{text-align:center;color:var(--muted);padding:20px}
 @media(max-width:1050px){
  .grid{grid-template-columns:repeat(2,1fr)}
@@ -266,37 +243,26 @@ th{background:#172f47;color:#bdd7ed}
 
 <body>
 
-<!-- LOGIN -->
 <section id="loginScreen" class="login">
  <div class="panel">
   <div class="logo">
-   <img src="logo-servis.png" alt="Logo Servis">
+   <img src="logo-servis.png" alt="Servis">
   </div>
-
-  <h2 style="margin-top:18px">
-   SERVIS • Sucesso do Cliente
-  </h2>
+  <h2 style="margin-top:18px">SERVIS • Sucesso do Cliente</h2>
   <p class="muted">Acesso restrito à equipe</p>
-  <p id="loginMessage" class="status" role="alert"></p>
-
+  <p id="loginMessage" class="status"></p>
   <label>E-mail
    <input id="email" type="email" autocomplete="username">
   </label>
-
   <label>Senha
-   <input id="password" type="password"
-          autocomplete="current-password">
+   <input id="password" type="password" autocomplete="current-password">
   </label>
-
-  <button id="loginButton" class="btn primary">
-   Entrar
-  </button>
+  <button id="loginButton" class="btn primary">Entrar</button>
  </div>
 </section>
 
 <div id="system" class="hidden">
 
-<!-- MENU LATERAL -->
 <aside class="sidebar">
  <div class="brand">
   <div class="logo">
@@ -307,7 +273,7 @@ th{background:#172f47;color:#bdd7ed}
 
  <div class="profile">
   <img id="avatar" class="avatar"
-       src="logo-servis.png" alt="Foto de perfil">
+       src="logo-servis.png" alt="Foto do perfil">
   <div>
    <strong id="who"></strong>
    <small id="role"></small>
@@ -315,52 +281,26 @@ th{background:#172f47;color:#bdd7ed}
  </div>
 
  <nav class="menu">
-  <button data-page="visao" class="active">
-   ▦ Visão executiva
-  </button>
-  <button data-page="carteiras">
-   ▤ Carteiras Ceará
-  </button>
-  <button data-page="resultados">
-   ◈ Resultados por Carteira
-  </button>
-  <button data-page="processos">
-   ▣ Processos do SC
-  </button>
-  <button data-page="demandas">
-   ☷ Demandas & O.S.
-  </button>
-  <button data-page="pesquisas">
-   ☆ Pesquisas
-  </button>
-  <button data-page="pendencias">
-   ⚑ Pendências da equipe
-  </button>
-  <button data-page="fiscalizacao">
-   ◎ Fiscalização
-  </button>
-  <button data-page="estrategica">
-   ◇ Gestão estratégica
-  </button>
-  <button data-page="estrutura">
-   ♧ Estrutura & regras
-  </button>
-  <button data-page="exportacao">
-   ⚙ Dados & exportação
-  </button>
+  <button data-page="visao" class="active">▦ Visão executiva</button>
+  <button data-page="carteiras">▤ Carteiras Ceará</button>
+  <button data-page="resultados">◈ Resultados por Carteira</button>
+  <button data-page="processos">▣ Processos do SC</button>
+  <button data-page="demandas">☷ Demandas & O.S.</button>
+  <button data-page="pesquisas">☆ Pesquisas</button>
+  <button data-page="pendencias">⚑ Pendências da equipe</button>
+  <button data-page="fiscalizacao">◎ Fiscalização</button>
+  <button data-page="estrategica">◇ Gestão estratégica</button>
+  <button data-page="estrutura">♧ Estrutura & regras</button>
+  <button data-page="exportacao">⚙ Dados & exportação</button>
  </nav>
 
  <button id="logout" class="btn">Sair</button>
 </aside>
 
-<!-- ÁREA PRINCIPAL -->
 <main class="main">
-
  <div class="topline">
   <div>
-   <div class="eyebrow">
-    Painel gerencial • Sucesso do Cliente
-   </div>
+   <div class="eyebrow">Painel gerencial • Sucesso do Cliente</div>
    <h1>Dashboard Executivo <span>| Servis</span></h1>
    <p class="muted">
     Carteiras, resultados, O.S., pesquisas,
@@ -387,16 +327,11 @@ th{background:#172f47;color:#bdd7ed}
     </div>
    </div>
 
-   <button id="reload" class="btn">
-    ↻ Atualizar
-   </button>
+   <button id="reload" class="btn">↻ Atualizar</button>
   </div>
  </div>
 
- <span id="currentPage" class="tag">
-  Visão executiva
- </span>
-
+ <span id="currentPage" class="tag">Visão executiva</span>
  <p id="notice" class="status" role="status"></p>
 
  <!-- VISÃO EXECUTIVA -->
@@ -404,28 +339,21 @@ th{background:#172f47;color:#bdd7ed}
   <div class="panel">
    <h2>Visão executiva</h2>
    <p class="muted">
-    Indicadores calculados automaticamente
-    pelos registros disponíveis no Supabase.
+    Indicadores calculados com os dados cadastrados.
    </p>
   </div>
-
   <div id="kpis" class="grid"></div>
-
   <div class="panel">
    <h2>Distribuição das carteiras</h2>
    <div id="distribution"></div>
   </div>
-
   <div class="panel">
-   <h2>Acompanhamento de resultados</h2>
+   <h2>Acompanhar resultados individuais</h2>
    <p class="muted">
-    Na aba Resultados por Carteira, consulte
-    satisfação, O.S., pendências e condomínios
-    que precisam de atenção.
+    Consulte satisfação, O.S. e pendências de cada carteira.
    </p>
-   <button class="btn primary"
-           data-page-direct="resultados">
-    Ver resultados das carteiras
+   <button class="btn primary" data-page-direct="resultados">
+    Ver Resultados por Carteira
    </button>
   </div>
  </section>
@@ -436,21 +364,15 @@ th{background:#172f47;color:#bdd7ed}
    <div class="topline">
     <div>
      <h2>Cadastro e distribuição de condomínios</h2>
-     <p class="muted">
-      Condomínios, responsáveis e supervisores
-     </p>
+     <p class="muted">Condomínios, responsáveis e supervisores</p>
     </div>
-
     <button class="btn primary admin-only"
-            data-new="condominios">
-     + Novo condomínio
-    </button>
+            data-new="condominios">+ Novo condomínio</button>
    </div>
 
    <div class="search">
     <input id="condoSearch"
            placeholder="Pesquisar condomínio ou técnico">
-
     <select id="condoOwner">
      <option value="">Todas as responsáveis</option>
      <option>Josy</option>
@@ -463,12 +385,9 @@ th{background:#172f47;color:#bdd7ed}
     <table>
      <thead>
       <tr>
-       <th>Condomínio</th>
-       <th>Filial</th>
-       <th>Responsável</th>
-       <th>Supervisor</th>
-       <th>Técnico</th>
-       <th>Ações</th>
+       <th>Condomínio</th><th>Filial</th>
+       <th>Responsável</th><th>Supervisor</th>
+       <th>Técnico</th><th>Ações</th>
       </tr>
      </thead>
      <tbody id="condoRows"></tbody>
@@ -479,20 +398,17 @@ th{background:#172f47;color:#bdd7ed}
 
  <!-- RESULTADOS POR CARTEIRA -->
  <section id="resultados" class="page">
-
   <div class="panel">
    <div class="topline">
     <div>
      <h2>Resultados do Sucesso do Cliente por Carteira</h2>
      <p class="muted">
-      Visão individual e comparativa de Josy, Nicole,
+      Acompanhamento individual de Josy, Nicole,
       Paula, Tayane e Juliana.
      </p>
     </div>
-
-    <button id="refreshPortfolio"
-            class="btn" type="button">
-     ↻ Atualizar indicadores
+    <button id="refreshPortfolio" class="btn">
+     ↻ Atualizar resultados
     </button>
    </div>
 
@@ -515,40 +431,31 @@ th{background:#172f47;color:#bdd7ed}
    </div>
 
    <div class="result-explanation">
-    O total de condomínios corresponde à carteira atual
-    visível para a conta conectada. Os indicadores de
-    pesquisa, O.S. e pendências respeitam o período
-    selecionado, usando a data de criação dos registros.
-
-    Os dados dependem dos cadastros existentes no Supabase.
-    Uma filial sem condomínios cadastrados aparecerá
-    com resultados zerados, o que não significa
-    ausência de atividade.
+    Os resultados são calculados com os condomínios e
+    registros acessíveis à sua conta. O total de clientes
+    considera a carteira atual; os demais indicadores
+    respeitam o período selecionado, quando há data disponível.
+    Ausência de registros não significa desempenho negativo.
    </div>
   </div>
 
   <div id="portfolioKpis" class="grid"></div>
 
   <div class="panel">
-   <h2>Comparativo de resultados das carteiras</h2>
-   <p class="muted">
-    Comparação de volumes e satisfação.
-    As carteiras podem ter tamanhos diferentes.
-   </p>
-
+   <h2>Comparativo das carteiras</h2>
    <div class="scroll">
     <table>
      <thead>
       <tr>
        <th>Responsável</th>
-       <th>Carteira</th>
+       <th>Filial</th>
        <th>Condomínios</th>
        <th>Pesquisas</th>
        <th>Nota média</th>
        <th>O.S. abertas</th>
        <th>O.S. concluídas</th>
        <th>Pendências abertas</th>
-       <th>Críticas abertas</th>
+       <th>Críticas</th>
       </tr>
      </thead>
      <tbody id="portfolioComparison"></tbody>
@@ -558,19 +465,14 @@ th{background:#172f47;color:#bdd7ed}
 
   <div class="panel">
    <h2>Satisfação por carteira</h2>
-   <p class="muted">
-    Nota média das pesquisas válidas no período selecionado.
-   </p>
    <div id="portfolioSatisfaction"></div>
   </div>
 
   <div class="panel">
    <h2>Condomínios que precisam de atenção</h2>
    <p class="muted">
-    São destacados condomínios com última pesquisa
-    de nota 0 a 6 ou pendências críticas ainda abertas.
+    Última nota crítica ou pendência crítica em aberto.
    </p>
-
    <div class="scroll">
     <table>
      <thead>
@@ -579,29 +481,13 @@ th{background:#172f47;color:#bdd7ed}
        <th>Responsável</th>
        <th>Última nota</th>
        <th>Pendências abertas</th>
-       <th>Motivo da atenção</th>
+       <th>Motivo</th>
       </tr>
      </thead>
      <tbody id="portfolioAttention"></tbody>
     </table>
    </div>
   </div>
-
-  <div class="panel">
-   <h2>Critérios de acompanhamento</h2>
-   <p class="muted">
-    Nota média: média das pesquisas com notas válidas
-    de 0 a 10. O.S. abertas: registros do tipo O.S.
-    com status diferente de Concluída.
-    Pendências críticas: registros de prioridade Crítica
-    que ainda não foram concluídos.
-
-    A classificação apresentada é operacional
-    e não representa, isoladamente, uma avaliação
-    de desempenho individual da integrante.
-   </p>
-  </div>
-
  </section>
 
  <!-- PROCESSOS -->
@@ -610,11 +496,8 @@ th{background:#172f47;color:#bdd7ed}
    <div class="topline">
     <div>
      <h2>Biblioteca de processos do SC</h2>
-     <p class="muted">
-      45 procedimentos de referência organizados em cinco áreas.
-     </p>
+     <p class="muted">45 procedimentos de referência</p>
     </div>
-
     <a class="btn"
        href="https://servis-processos-sc-rose.roselyfarias95.chatgpt.site/"
        target="_blank" rel="noopener noreferrer">
@@ -623,9 +506,7 @@ th{background:#172f47;color:#bdd7ed}
    </div>
 
    <div class="search">
-    <input id="processSearch"
-           placeholder="Buscar processo">
-
+    <input id="processSearch" placeholder="Buscar processo">
     <select id="processArea">
      <option value="">Todas as áreas</option>
      <option>Jornada do cliente</option>
@@ -635,10 +516,8 @@ th{background:#172f47;color:#bdd7ed}
      <option>Gestão e indicadores</option>
     </select>
    </div>
-
    <p id="processCount" class="muted"></p>
   </div>
-
   <div id="processGrid" class="process-grid"></div>
  </section>
 
@@ -649,10 +528,9 @@ th{background:#172f47;color:#bdd7ed}
     <div>
      <h2>Demandas e Ordens de Serviço</h2>
      <p class="muted">
-      Acompanhamento técnico e devolutivas aos síndicos
+      Tratativa técnica e retorno ao síndico
      </p>
     </div>
-
     <button class="btn primary" data-new="demandas">
      + Nova demanda / O.S.
     </button>
@@ -661,7 +539,6 @@ th{background:#172f47;color:#bdd7ed}
    <div class="search">
     <input id="demandSearch"
            placeholder="Buscar condomínio ou O.S.">
-
     <select id="demandStatus">
      <option value="">Todos os status</option>
      <option>Aberta</option>
@@ -675,12 +552,9 @@ th{background:#172f47;color:#bdd7ed}
     <table>
      <thead>
       <tr>
-       <th>Condomínio</th>
-       <th>Nº O.S.</th>
-       <th>Problema</th>
-       <th>Status</th>
-       <th>Última alteração</th>
-       <th>Ações</th>
+       <th>Condomínio</th><th>Nº O.S.</th>
+       <th>Problema</th><th>Status</th>
+       <th>Última alteração</th><th>Ações</th>
       </tr>
      </thead>
      <tbody id="demandRows"></tbody>
@@ -696,10 +570,9 @@ th{background:#172f47;color:#bdd7ed}
     <div>
      <h2>Pesquisas de satisfação</h2>
      <p class="muted">
-      Registro de notas, reclamações e acompanhamentos
+      Notas, reclamações e registros por condomínio
      </p>
     </div>
-
     <button class="btn primary" data-new="pesquisas">
      + Nova pesquisa
     </button>
@@ -714,12 +587,9 @@ th{background:#172f47;color:#bdd7ed}
     <table>
      <thead>
       <tr>
-       <th>Condomínio</th>
-       <th>Nota</th>
-       <th>Canal</th>
-       <th>Comentário</th>
-       <th>Última alteração</th>
-       <th>Ações</th>
+       <th>Condomínio</th><th>Nota</th>
+       <th>Canal</th><th>Comentário</th>
+       <th>Última alteração</th><th>Ações</th>
       </tr>
      </thead>
      <tbody id="surveyRows"></tbody>
@@ -733,11 +603,8 @@ th{background:#172f47;color:#bdd7ed}
   <div id="pendingDetail" class="panel detail hidden">
    <div class="topline">
     <h2>Detalhes da reclamação ou pendência</h2>
-    <button id="closePending" class="btn">
-     Fechar
-    </button>
+    <button id="closePending" class="btn">Fechar</button>
    </div>
-
    <div id="pendingDetailContent"></div>
   </div>
 
@@ -746,10 +613,9 @@ th{background:#172f47;color:#bdd7ed}
     <div>
      <h2>Pendências da equipe</h2>
      <p class="muted">
-      Distribuição, fiscalização e acompanhamento
+      Responsáveis, prioridades e acompanhamentos
      </p>
     </div>
-
     <button class="btn primary" data-new="pendencias_sc">
      + Nova pendência
     </button>
@@ -757,7 +623,6 @@ th{background:#172f47;color:#bdd7ed}
 
    <div class="search">
     <input id="pendingSearch" placeholder="Buscar pendência">
-
     <select id="pendingStatus">
      <option value="">Todos os status</option>
      <option>Aberta</option>
@@ -771,12 +636,9 @@ th{background:#172f47;color:#bdd7ed}
     <table>
      <thead>
       <tr>
-       <th>Condomínio</th>
-       <th>Título</th>
-       <th>Responsável</th>
-       <th>Prioridade</th>
-       <th>Status</th>
-       <th>Ações</th>
+       <th>Condomínio</th><th>Título</th>
+       <th>Responsável</th><th>Prioridade</th>
+       <th>Status</th><th>Ações</th>
       </tr>
      </thead>
      <tbody id="pendingRows"></tbody>
@@ -789,13 +651,11 @@ th{background:#172f47;color:#bdd7ed}
  <section id="fiscalizacao" class="page">
   <div class="panel">
    <h2>Fiscalização das filiais</h2>
-
    <p class="muted">
     Josy fiscaliza Secopi e Manaus.
     Nicole fiscaliza Maranhão.
-    A execução operacional permanece com as representantes locais.
+    As representantes locais executam as demandas.
    </p>
-
    <div id="oversight"></div>
   </div>
  </section>
@@ -810,18 +670,15 @@ th{background:#172f47;color:#bdd7ed}
   <div class="panel">
    <div class="topline">
     <div>
-     <h2>Quem criou, editou ou excluiu</h2>
+     <h2>Histórico de alterações</h2>
      <p class="muted">
-      Histórico registrado pelo Supabase,
-      vinculado à conta que realizou a alteração.
+      Identificação de quem criou, editou ou excluiu.
      </p>
     </div>
-
     <button id="auditReload" class="btn">
      ↻ Atualizar histórico
     </button>
    </div>
-
    <div class="search">
     <select id="auditFilter">
      <option value="">Todos os módulos</option>
@@ -831,7 +688,6 @@ th{background:#172f47;color:#bdd7ed}
      <option value="pendencias_sc">Pendências</option>
     </select>
    </div>
-
    <div id="auditList"></div>
   </div>
  </section>
@@ -840,20 +696,14 @@ th{background:#172f47;color:#bdd7ed}
  <section id="estrutura" class="page">
   <div class="panel">
    <h2>Estrutura e regras do Sucesso do Cliente</h2>
-
    <p><strong>Rosely:</strong> gestão estratégica,
     contratos, retenção, fiscalização e casos críticos.</p>
-
-   <p><strong>Josy:</strong> carteira Ceará
-    e fiscalização de Secopi e Manaus.</p>
-
-   <p><strong>Nicole:</strong> carteira Ceará
-    e fiscalização do Maranhão.</p>
-
-   <p><strong>Paula:</strong> execução operacional da Secopi.</p>
-
+   <p><strong>Josy:</strong> carteira Ceará,
+    fiscalização de Secopi e Manaus.</p>
+   <p><strong>Nicole:</strong> carteira Ceará,
+    fiscalização do Maranhão.</p>
+   <p><strong>Paula:</strong> execução operacional de Secopi.</p>
    <p><strong>Tayane:</strong> execução operacional de Manaus.</p>
-
    <p><strong>Juliana:</strong> execução operacional do Maranhão.</p>
   </div>
  </section>
@@ -862,24 +712,20 @@ th{background:#172f47;color:#bdd7ed}
  <section id="exportacao" class="page">
   <div class="panel">
    <h2>Dados e exportação</h2>
-
    <p class="muted">
-    Exporta os registros acessíveis à conta autenticada.
+    Exportação dos registros acessíveis ao usuário.
    </p>
-
    <button id="exportBtn" class="btn primary">
     Exportar backup JSON
    </button>
   </div>
  </section>
-
 </main>
 </div>
 
-<!-- FORMULÁRIO DE CADASTRO E EDIÇÃO -->
+<!-- FORMULÁRIO UNIVERSAL -->
 <div id="recordModal" class="modal hidden">
  <div class="modal-card">
-
   <div class="topline">
    <h2 id="modalTitle">Cadastrar registro</h2>
    <button id="modalClose" class="btn" type="button">
@@ -889,57 +735,33 @@ th{background:#172f47;color:#bdd7ed}
 
   <form id="recordForm">
    <div id="recordFields" class="form"></div>
-
    <p id="modalError" class="status"></p>
 
    <div class="actions" style="margin-top:18px">
-    <button id="modalSave"
-            class="btn primary" type="submit">
-     Salvar
-    </button>
-
-    <button id="modalCancel"
-            class="btn" type="button">
-     Cancelar
-    </button>
+    <button id="modalSave" type="submit"
+            class="btn primary">Salvar</button>
+    <button id="modalCancel" type="button"
+            class="btn">Cancelar</button>
    </div>
   </form>
-
  </div>
 </div>
 
 <script>
 "use strict";
 
-/* =============================================
-   CONFIGURAÇÃO SUPABASE
-   ============================================= */
-
-const URL_DB =
- "https://fkwnsegmibfmmdzancev.supabase.co";
-
-const KEY =
- "sb_publishable_ZELUMCyPtWkdQPmDcFmf_Q_xtHZcnMi";
-
-const ORIGINAL =
- "https://servis-processos-sc-rose.roselyfarias95.chatgpt.site/";
+/* SUPABASE */
+const URL_DB="https://fkwnsegmibfmmdzancev.supabase.co";
+const KEY="sb_publishable_ZELUMCyPtWkdQPmDcFmf_Q_xtHZcnMi";
+const ORIGINAL="https://servis-processos-sc-rose.roselyfarias95.chatgpt.site/";
 
 const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#39;"
+})[c]);
 
-const esc=v=>String(v??"").replace(
- /[&<>"']/g,
- c=>({
-  "&":"&amp;",
-  "<":"&lt;",
-  ">":"&gt;",
-  '"':"&quot;",
-  "'":"&#39;"
- })[c]
-);
-
-let db;
-let profile=null;
-let dialog=null;
+let db,profile=null,dialog=null;
 
 const store={
  condominios:[],
@@ -950,319 +772,205 @@ const store={
  auditoria_sc:[]
 };
 
-function ck(result){
- if(result.error)throw result.error;
- return result.data;
+function ck(r){
+ if(r.error)throw r.error;
+ return r.data;
 }
-
-function message(text){
- $("notice").textContent=text||"";
-}
-
-function isAdmin(){
- return profile?.papel==="admin";
-}
-
+function message(t){$("notice").textContent=t||""}
+function isAdmin(){return profile?.papel==="admin"}
 function getCondo(id){
- return store.condominios.find(c=>
-  String(c.id)===String(id)
- );
+ return store.condominios.find(c=>String(c.id)===String(id));
 }
-
 function condoName(id){
- return getCondo(id)?.nome||
-  "Condomínio não disponível";
+ return getCondo(id)?.nome||"Condomínio não disponível";
 }
-
-function dateText(value){
- if(!value)return "—";
- const date=new Date(value);
- return Number.isNaN(date.getTime())
-  ?"—":date.toLocaleString("pt-BR");
+function dateText(s){
+ if(!s)return "—";
+ const d=new Date(s);
+ return Number.isNaN(d.getTime())?"—":d.toLocaleString("pt-BR");
 }
-
 function canOperate(c){
  if(!c||!profile)return false;
-
  if(isAdmin())return true;
-
- if(profile.papel==="josy"){
-  return c.filial==="Ceará"&&
-   c.responsavel_sc==="Josy";
- }
-
- if(profile.papel==="nicole"){
-  return c.filial==="Ceará"&&
-   c.responsavel_sc==="Nicole";
- }
-
- return profile.papel==="filial"&&
-  profile.filial===c.filial;
+ if(profile.papel==="josy")
+  return c.filial==="Ceará"&&c.responsavel_sc==="Josy";
+ if(profile.papel==="nicole")
+  return c.filial==="Ceará"&&c.responsavel_sc==="Nicole";
+ return profile.papel==="filial"&&profile.filial===c.filial;
 }
-
 function canSurvey(c){
  if(!c||!profile)return false;
-
  if(isAdmin())return true;
-
- if(profile.papel==="josy"){
+ if(profile.papel==="josy")
   return ["Secopi","Manaus"].includes(c.filial);
- }
-
- if(profile.papel==="nicole"){
+ if(profile.papel==="nicole")
   return c.filial==="Maranhão";
- }
-
  return false;
 }
 
-/* =============================================
-   FOTO DO PERFIL
-   ============================================= */
+/* =====================================
+   FOTOS DA EQUIPE — NOMES DO GITHUB
+   ===================================== */
 
 function setPhoto(){
- const photos=isAdmin()
-  ?["foto-rosely.jpg","foto-rosely.jpg.jpeg"]
-  :profile.papel==="josy"
-   ?["foto-josy.jpg"]
-   :profile.papel==="nicole"
-    ?["foto-nicole.jpg"]
-    :profile.filial==="Secopi"
-     ?["foto-paula.jpg"]
-     :profile.filial==="Manaus"
-      ?["foto-tayane.jpg"]
-      :profile.filial==="Maranhão"
-       ?["foto-juliana.jpg"]
-       :[];
+ let photos=[];
 
- const img=$("avatar");
- let index=0;
+ if(isAdmin()){
+  photos=[
+   "foto-rosely.jpg.jpeg",
+   "foto-rosely.jpg",
+   "logo-servis.png"
+  ];
+ }else if(profile.papel==="josy"){
+  photos=[
+   "foto-josy.jpg.jpg",
+   "foto-josy.jpg",
+   "logo-servis.png"
+  ];
+ }else if(profile.papel==="nicole"){
+  photos=[
+   "foto-nicole.jpg.jpg",
+   "foto-nicole.jpg",
+   "logo-servis.png"
+  ];
+ }else if(profile.filial==="Secopi"){
+  photos=["foto-paula.jpg","logo-servis.png"];
+ }else if(profile.filial==="Manaus"){
+  photos=["foto-tayane.jpg","logo-servis.png"];
+ }else if(profile.filial==="Maranhão"){
+  photos=["foto-juliana.jpg","logo-servis.png"];
+ }else{
+  photos=["logo-servis.png"];
+ }
 
- function next(){
-  if(index<photos.length){
-   img.src=photos[index++];
+ const image=$("avatar");
+ let position=0;
+
+ function tryPhoto(){
+  if(position<photos.length){
+   image.src=photos[position++];
   }else{
-   img.onerror=null;
-   img.src="logo-servis.png";
+   image.onerror=null;
+   image.src="logo-servis.png";
   }
  }
 
- img.onerror=next;
- next();
+ image.onerror=tryPhoto;
+ tryPhoto();
 
  $("who").textContent=profile.nome||"Usuário";
-
  $("role").textContent=isAdmin()
-  ?"Administradora"
-  :profile.papel==="filial"
-   ?profile.filial
-   :"Sucesso do Cliente";
+  ?"Administradora":
+  profile.papel==="filial"?
+  (profile.filial||"Filial"):
+  "Sucesso do Cliente";
 }
 
-/* =============================================
-   NAVEGAÇÃO
-   ============================================= */
-
+/* NAVEGAÇÃO */
 function page(id){
  document.querySelectorAll(".page").forEach(el=>{
   el.classList.toggle("active",el.id===id);
  });
-
  document.querySelectorAll("[data-page]").forEach(el=>{
-  el.classList.toggle(
-   "active",
-   el.dataset.page===id
-  );
+  el.classList.toggle("active",el.dataset.page===id);
  });
-
  $("currentPage").textContent=
-  document.querySelector(`[data-page="${id}"]`)
-   ?.textContent||"";
-
+  document.querySelector(`[data-page="${id}"]`)?.textContent||"";
  $("notificationPanel").classList.add("hidden");
-
- if(id==="resultados"){
-  renderPortfolioResults();
- }
+ if(id==="resultados")renderPortfolioResults();
 }
 
-/* =============================================
-   PROCESSOS
-   ============================================= */
-
+/* PROCESSOS */
 const processNames=[
- "Entrada de novo condomínio",
- "Entrega oficial",
- "Apresentação do SC",
- "Relacionamento preventivo",
- "Pesquisa de satisfação",
- "Pesquisa com moradores",
- "Retorno da pesquisa",
- "Visitas",
- "Pós-visita",
- "Adoção digital",
- "Cadastros",
- "Testes de ligação",
- "Comunicação com o cliente",
- "Retorno ao cliente",
- "Gestão de reclamações",
- "Reclamação da Central",
- "Reclamações técnicas",
- "Ordem de Serviço",
- "OS reincidentes",
- "Preventivas",
- "Demandas",
- "Melhorias",
- "Ampliações",
- "Financeiro",
+ "Entrada de novo condomínio","Entrega oficial",
+ "Apresentação do SC","Relacionamento preventivo",
+ "Pesquisa de satisfação","Pesquisa com moradores",
+ "Retorno da pesquisa","Visitas","Pós-visita",
+ "Adoção digital","Cadastros","Testes de ligação",
+ "Comunicação com o cliente","Retorno ao cliente",
+ "Gestão de reclamações","Reclamação da Central",
+ "Reclamações técnicas","Ordem de Serviço",
+ "OS reincidentes","Preventivas","Demandas",
+ "Melhorias","Ampliações","Financeiro",
  "Comunicação de indisponibilidades",
- "Reuniões internas",
- "Eventos de segurança",
- "Dupla passagem",
- "Porta aberta ou violada",
- "Renovações",
- "Aditivos",
- "Fechamento do pedido",
- "Retenção",
- "Cancelamento",
- "Clientes críticos",
- "Plano de ação para críticos",
- "Indicadores da Central",
- "Indicadores do SC",
- "Fechamento mensal",
- "Pareto das reclamações",
- "Distribuição interna da equipe",
- "Rotina diária",
- "Rotina semanal",
- "Escalonamento",
+ "Reuniões internas","Eventos de segurança",
+ "Dupla passagem","Porta aberta ou violada",
+ "Renovações","Aditivos","Fechamento do pedido",
+ "Retenção","Cancelamento","Clientes críticos",
+ "Plano de ação para críticos","Indicadores da Central",
+ "Indicadores do SC","Fechamento mensal",
+ "Pareto das reclamações","Distribuição interna da equipe",
+ "Rotina diária","Rotina semanal","Escalonamento",
  "Critério de encerramento"
 ];
-
 function area(i){
- return i<14
-  ?"Jornada do cliente"
-  :i<26
-   ?"Operação e qualidade"
-   :i<29
-    ?"Segurança e ocorrências"
-    :i<36
-     ?"Contratos e retenção"
-     :"Gestão e indicadores";
+ return i<14?"Jornada do cliente":
+  i<26?"Operação e qualidade":
+  i<29?"Segurança e ocorrências":
+  i<36?"Contratos e retenção":"Gestão e indicadores";
 }
-
 function renderProcesses(){
- const query=$("processSearch").value.toLowerCase();
- const selectedArea=$("processArea").value;
-
- const list=processNames.map((title,i)=>({
-  title,
-  number:i+1,
-  area:area(i)
+ const q=$("processSearch").value.toLowerCase();
+ const a=$("processArea").value;
+ const items=processNames.map((title,i)=>({
+  title,number:i+1,area:area(i)
  })).filter(p=>
-  (p.title+" "+p.area)
-   .toLowerCase().includes(query)&&
-  (!selectedArea||p.area===selectedArea)
+  (p.title+" "+p.area).toLowerCase().includes(q)&&
+  (!a||p.area===a)
  );
-
- $("processCount").textContent=
-  `${list.length} de 45 processos`;
-
- $("processGrid").innerHTML=list.map(p=>`
+ $("processCount").textContent=items.length+" de 45 processos";
+ $("processGrid").innerHTML=items.map(p=>`
   <article class="process-card">
-   <small>
-    PROCESSO ${String(p.number).padStart(2,"0")}
-    · ${esc(p.area)}
-   </small>
+   <small>PROCESSO ${String(p.number).padStart(2,"0")}
+    · ${esc(p.area)}</small>
    <strong>${esc(p.title)}</strong>
-   <a href="${ORIGINAL}"
-      target="_blank" rel="noopener noreferrer">
+   <a href="${ORIGINAL}" target="_blank"
+      rel="noopener noreferrer">
     Consultar procedimento original ↗
    </a>
   </article>
  `).join("");
 }
 
-/* =============================================
-   AUDITORIA E ÚLTIMO RESPONSÁVEL
-   ============================================= */
-
+/* AUDITORIA */
 function lastActor(table,id){
- const item=store.auditoria_sc.find(a=>
-  a.tabela===table&&
-  String(a.registro_id)===String(id)
+ const a=store.auditoria_sc.find(x=>
+  x.tabela===table&&String(x.registro_id)===String(id)
  );
-
- return item
-  ?`${esc(item.usuario_nome||"Não identificado")}
-    <small style="display:block">
-     ${esc(dateText(item.realizado_em))}
-    </small>`
+ return a
+  ?`${esc(a.usuario_nome||"Não identificado")}
+    <br><small>${esc(dateText(a.realizado_em))}</small>`
   :"<small>Sem auditoria disponível</small>";
 }
-
 function renderAudit(){
- const filter=$("auditFilter").value;
-
- const list=store.auditoria_sc.filter(a=>
-  !filter||a.tabela===filter
- );
-
- $("auditList").innerHTML=list.length
-  ?list.map(a=>{
-   const data=a.depois||a.antes||{};
-
-   return `
-    <div class="audit-row">
-     <b>${esc(a.usuario_nome||"Não identificado")}</b>
-     · ${esc(a.acao)}
-     · ${esc(a.tabela)}
-
-     <p>
-      ${esc(
-       data.nome||
-       data.titulo||
-       data.numero_os||
-       data.comentario||
-       a.registro_id
-      )}
-     </p>
-
-     <small>
-      ${esc(dateText(a.realizado_em))}
-     </small>
-    </div>
-   `;
-  }).join("")
-  :'<p class="muted">Nenhuma alteração disponível.</p>';
+ const f=$("auditFilter").value;
+ const items=store.auditoria_sc.filter(a=>!f||a.tabela===f);
+ $("auditList").innerHTML=items.map(a=>{
+  const data=a.depois||a.antes||{};
+  return `<div class="audit-row">
+   <b>${esc(a.usuario_nome||"Não identificado")}</b>
+   · ${esc(a.acao)} · ${esc(a.tabela)}
+   <p>${esc(data.nome||data.titulo||
+    data.numero_os||data.comentario||a.registro_id)}</p>
+   <small>${esc(dateText(a.realizado_em))}</small>
+  </div>`;
+ }).join("")||'<p class="muted">Nenhuma alteração encontrada.</p>';
 }
 
-/* =============================================
-   VISÃO EXECUTIVA
-   ============================================= */
-
+/* VISÃO EXECUTIVA */
 function renderOverview(){
  const active=store.condominios.filter(c=>c.ativo);
-
  const openOS=store.demandas.filter(d=>
   d.tipo==="O.S."&&d.status!=="Concluída"
  );
-
  const pending=store.pendencias_sc.filter(p=>
   p.status!=="Concluída"
  );
-
- const scores=store.pesquisas
-  .map(p=>p.nota)
-  .filter(v=>
-   v!==null&&v!==undefined&&v!==""
-  )
-  .map(Number)
-  .filter(n=>Number.isFinite(n)&&n>=0&&n<=10);
-
+ const scores=store.pesquisas.filter(validScore)
+  .map(p=>Number(p.nota));
  const avg=scores.length
   ?(scores.reduce((a,b)=>a+b,0)/scores.length)
-    .toFixed(1).replace(".",",")
-  :"—";
+   .toFixed(1).replace(".",","):"—";
 
  const items=[
   ["Condomínios ativos",active.length],
@@ -1272,48 +980,35 @@ function renderOverview(){
   ["Nota média",avg],
   ["Pendências abertas",pending.length],
   ["Pendências críticas",pending.filter(p=>
-   p.prioridade==="Crítica"
-  ).length],
+   p.prioridade==="Crítica").length],
   ["O.S. concluídas",store.demandas.filter(d=>
-   d.tipo==="O.S."&&d.status==="Concluída"
-  ).length]
+   d.tipo==="O.S."&&d.status==="Concluída").length]
  ];
 
- $("kpis").innerHTML=items.map(([title,value])=>`
-  <div class="kpi">
-   <small>${esc(title)}</small>
-   <b>${esc(value)}</b>
-  </div>
+ $("kpis").innerHTML=items.map(([k,v])=>`
+  <div class="kpi"><small>${esc(k)}</small><b>${esc(v)}</b></div>
  `).join("");
 
  const counts={};
-
  active.forEach(c=>{
-  const key=c.responsavel_sc||"A definir";
-  counts[key]=(counts[key]||0)+1;
+  const k=c.responsavel_sc||"A definir";
+  counts[k]=(counts[k]||0)+1;
  });
-
  $("distribution").innerHTML=Object.entries(counts)
-  .map(([key,value])=>`
-   <span class="tag">
-    ${esc(key)}: ${value}
-   </span>
-  `).join("");
+  .map(([k,n])=>`<span class="tag">${esc(k)}: ${n}</span>`)
+  .join("");
 
  $("strategic").innerHTML=`
   <p>Condomínios ativos: ${active.length}</p>
-  <p>Demandas: ${store.demandas.length}</p>
-  <p>O.S. abertas: ${openOS.length}</p>
-  <p>Pesquisas: ${store.pesquisas.length}</p>
+  <p>Demandas cadastradas: ${store.demandas.length}</p>
+  <p>O.S. em aberto: ${openOS.length}</p>
+  <p>Pesquisas realizadas: ${store.pesquisas.length}</p>
   <p>Nota média: ${avg}</p>
-  <p>Pendências em aberto: ${pending.length}</p>
+  <p>Pendências abertas: ${pending.length}</p>
  `;
 }
 
-/* =============================================
-   NOVA ABA: RESULTADOS POR CARTEIRA
-   ============================================= */
-
+/* RESULTADOS POR CARTEIRA */
 const portfolioDefinitions=[
  {name:"Josy",branch:"Ceará"},
  {name:"Nicole",branch:"Ceará"},
@@ -1322,373 +1017,177 @@ const portfolioDefinitions=[
  {name:"Juliana",branch:"Maranhão"}
 ];
 
-function portfolioCondominios(owner,branch){
- return store.condominios.filter(c=>{
-  if(c.filial!==branch)return false;
-
-  if(branch==="Ceará"){
-   return c.responsavel_sc===owner;
-  }
-
-  return true;
- });
+function validScore(p){
+ return p.nota!==null&&p.nota!==undefined&&
+  p.nota!==""&&Number.isFinite(Number(p.nota))&&
+  Number(p.nota)>=0&&Number(p.nota)<=10;
 }
-
-function portfolioInPeriod(item,period){
+function inPeriod(item,period){
  if(period==="all")return true;
-
  if(!item.criado_em)return false;
-
- const time=new Date(item.criado_em).getTime();
-
- if(!Number.isFinite(time))return false;
-
- const minimum=Date.now()-
-  Number(period)*24*60*60*1000;
-
- return time>=minimum&&time<=Date.now();
+ const t=new Date(item.criado_em).getTime();
+ return Number.isFinite(t)&&
+  t>=Date.now()-Number(period)*86400000&&
+  t<=Date.now();
 }
-
-function validSurveyScore(p){
- return p.nota!==null&&
-  p.nota!==undefined&&
-  p.nota!==""&&
-  Number.isFinite(Number(p.nota))&&
-  Number(p.nota)>=0&&
-  Number(p.nota)<=10;
-}
-
-function latestSurvey(surveys){
- return surveys
-  .filter(p=>
-   p.criado_em&&
-   Number.isFinite(new Date(p.criado_em).getTime())
-  )
-  .sort((a,b)=>
-   new Date(b.criado_em)-new Date(a.criado_em)
-  )[0]||null;
-}
-
-function portfolioMetrics(owner,branch,period){
- const condos=portfolioCondominios(owner,branch);
+function portfolioMetrics(definition,period){
+ const condos=store.condominios.filter(c=>
+  c.filial===definition.branch&&
+  (definition.branch!=="Ceará"||
+   c.responsavel_sc===definition.name)
+ );
  const ids=new Set(condos.map(c=>String(c.id)));
-
- const demands=store.demandas.filter(d=>
-  ids.has(String(d.condominio_id))&&
-  portfolioInPeriod(d,period)
+ const filtered=(table)=>table.filter(r=>
+  ids.has(String(r.condominio_id))&&inPeriod(r,period)
  );
-
- const surveys=store.pesquisas.filter(p=>
-  ids.has(String(p.condominio_id))&&
-  portfolioInPeriod(p,period)
- );
-
- const pendings=store.pendencias_sc.filter(p=>
-  ids.has(String(p.condominio_id))&&
-  portfolioInPeriod(p,period)
- );
-
- const scores=surveys
-  .filter(validSurveyScore)
-  .map(p=>Number(p.nota));
-
- const average=scores.length
-  ?scores.reduce((a,b)=>a+b,0)/scores.length
-  :null;
-
- const openOS=demands.filter(d=>
-  d.tipo==="O.S."&&
-  d.status!=="Concluída"
- );
-
- const completedOS=demands.filter(d=>
-  d.tipo==="O.S."&&
-  d.status==="Concluída"
- );
-
- const openPendings=pendings.filter(p=>
-  p.status!=="Concluída"
- );
-
- const critical=openPendings.filter(p=>
-  p.prioridade==="Crítica"
- );
-
+ const demands=filtered(store.demandas);
+ const surveys=filtered(store.pesquisas);
+ const pendings=filtered(store.pendencias_sc);
+ const scores=surveys.filter(validScore).map(p=>Number(p.nota));
  return {
-  owner,
-  branch,
-  condos,
-  ids,
-  demands,
-  surveys,
-  pendings,
-  average,
-  scores,
-  openOS,
-  completedOS,
-  openPendings,
-  critical
+  ...definition,condos,demands,surveys,pendings,scores,
+  average:scores.length?
+   scores.reduce((a,b)=>a+b,0)/scores.length:null,
+  openOS:demands.filter(d=>
+   d.tipo==="O.S."&&d.status!=="Concluída"),
+  completedOS:demands.filter(d=>
+   d.tipo==="O.S."&&d.status==="Concluída"),
+  openPendings:pendings.filter(p=>p.status!=="Concluída"),
+  critical:pendings.filter(p=>
+   p.status!=="Concluída"&&p.prioridade==="Crítica")
  };
 }
-
-function portfolioAverage(value){
- return value===null
-  ?"Sem notas"
-  :value.toFixed(1).replace(".",",");
+function avgText(n){
+ return n===null?"Sem notas":n.toFixed(1).replace(".",",");
 }
-
 function renderPortfolioResults(){
- const ownerSelect=$("resultOwner");
- const periodSelect=$("resultPeriod");
-
- if(!ownerSelect||!periodSelect)return;
-
- const selection=ownerSelect.value;
- const period=periodSelect.value;
-
- const definitions=selection
+ if(!$("resultOwner"))return;
+ const selection=$("resultOwner").value;
+ const period=$("resultPeriod").value;
+ const defs=selection
   ?portfolioDefinitions.filter(p=>
-   `${p.name}|${p.branch}`===selection
-  )
+   `${p.name}|${p.branch}`===selection)
   :portfolioDefinitions;
+ const rows=defs.map(p=>portfolioMetrics(p,period));
 
- const results=definitions.map(p=>
-  portfolioMetrics(p.name,p.branch,period)
- );
+ const sum=(key)=>rows.reduce((a,r)=>a+r[key].length,0);
+ const allScores=rows.flatMap(r=>r.scores);
+ const average=allScores.length
+  ?allScores.reduce((a,b)=>a+b,0)/allScores.length:null;
 
- const totalCondos=results.reduce(
-  (sum,r)=>sum+r.condos.length,0
- );
-
- const totalSurveys=results.reduce(
-  (sum,r)=>sum+r.surveys.length,0
- );
-
- const totalOpenOS=results.reduce(
-  (sum,r)=>sum+r.openOS.length,0
- );
-
- const totalCompletedOS=results.reduce(
-  (sum,r)=>sum+r.completedOS.length,0
- );
-
- const totalPendings=results.reduce(
-  (sum,r)=>sum+r.openPendings.length,0
- );
-
- const totalCritical=results.reduce(
-  (sum,r)=>sum+r.critical.length,0
- );
-
- const allScores=results.flatMap(r=>r.scores);
-
- const overallAverage=allScores.length
-  ?allScores.reduce((a,b)=>a+b,0)/allScores.length
-  :null;
-
- const positiveScores=allScores.filter(n=>n>=9).length;
-
- const stats=[
-  ["Condomínios na carteira",totalCondos],
-  ["Pesquisas registradas",totalSurveys],
-  ["Nota média",portfolioAverage(overallAverage)],
-  ["O.S. abertas",totalOpenOS],
-  ["O.S. concluídas",totalCompletedOS],
-  ["Pendências abertas",totalPendings],
-  ["Pendências críticas",totalCritical],
-  ["Notas 9 ou 10",positiveScores]
+ const cards=[
+  ["Condomínios",sum("condos")],
+  ["Pesquisas",sum("surveys")],
+  ["Nota média",avgText(average)],
+  ["O.S. abertas",sum("openOS")],
+  ["O.S. concluídas",sum("completedOS")],
+  ["Pendências abertas",sum("openPendings")],
+  ["Pendências críticas",sum("critical")],
+  ["Notas 9 ou 10",allScores.filter(n=>n>=9).length]
  ];
 
- $("portfolioKpis").innerHTML=stats.map(
-  ([title,value])=>`
-   <article class="kpi">
-    <small>${esc(title)}</small>
-    <b>${esc(value)}</b>
-   </article>
-  `
- ).join("");
+ $("portfolioKpis").innerHTML=cards.map(([label,value])=>`
+  <div class="kpi">
+   <small>${esc(label)}</small><b>${esc(value)}</b>
+  </div>
+ `).join("");
 
- /* COMPARATIVO */
- $("portfolioComparison").innerHTML=results.length
-  ?results.map(r=>`
-   <tr>
-    <td>
-     <span class="result-name">
-      ${esc(r.owner)}
-     </span>
-    </td>
-    <td>${esc(r.branch)}</td>
-    <td>${r.condos.length}</td>
-    <td>${r.surveys.length}</td>
-    <td>${esc(portfolioAverage(r.average))}</td>
-    <td>${r.openOS.length}</td>
-    <td>${r.completedOS.length}</td>
-    <td>${r.openPendings.length}</td>
-    <td>${r.critical.length}</td>
-   </tr>
-  `).join("")
-  :'<tr><td colspan="9" class="empty">Nenhuma carteira disponível.</td></tr>';
+ $("portfolioComparison").innerHTML=rows.map(r=>`
+  <tr>
+   <td><strong>${esc(r.name)}</strong></td>
+   <td>${esc(r.branch)}</td>
+   <td>${r.condos.length}</td>
+   <td>${r.surveys.length}</td>
+   <td>${esc(avgText(r.average))}</td>
+   <td>${r.openOS.length}</td>
+   <td>${r.completedOS.length}</td>
+   <td>${r.openPendings.length}</td>
+   <td>${r.critical.length}</td>
+  </tr>
+ `).join("");
 
- /* GRÁFICOS SIMPLES DE SATISFAÇÃO */
- $("portfolioSatisfaction").innerHTML=results.map(r=>{
-  const average=r.average;
-  const percentage=average===null
-   ?0:Math.max(0,Math.min(100,average*10));
-
-  return `
-   <div style="margin:18px 0">
-    <div class="topline">
-     <strong>
-      ${esc(r.owner)} — ${esc(r.branch)}
-     </strong>
-     <span>
-      ${esc(portfolioAverage(average))}
-      ${average===null?"":"/10"}
-     </span>
-    </div>
-
-    <div class="quality-row">
-     <div class="progress">
-      <div class="progress-fill"
-           style="width:${percentage}%"></div>
-     </div>
-
-     <small>
-      ${r.scores.length} nota(s) válida(s)
-     </small>
+ $("portfolioSatisfaction").innerHTML=rows.map(r=>`
+  <div style="margin:18px 0">
+   <div class="topline">
+    <strong>${esc(r.name)} — ${esc(r.branch)}</strong>
+    <span>${esc(avgText(r.average))}
+     ${r.average===null?"":"/10"}</span>
+   </div>
+   <div class="progress">
+    <div class="progress-fill"
+     style="width:${r.average===null?0:r.average*10}%">
     </div>
    </div>
-  `;
- }).join("");
+   <small>${r.scores.length} nota(s) válida(s)</small>
+  </div>
+ `).join("");
 
- /* CONDOMÍNIOS EM ATENÇÃO */
  const attention=[];
-
- results.forEach(r=>{
+ rows.forEach(r=>{
   r.condos.forEach(c=>{
-   const condoSurveys=r.surveys.filter(p=>
+   const surveys=r.surveys.filter(p=>
+    String(p.condominio_id)===String(c.id)
+   ).filter(p=>p.criado_em).sort((a,b)=>
+    new Date(b.criado_em)-new Date(a.criado_em)
+   );
+   const last=surveys[0]||null;
+   const low=last&&validScore(last)&&Number(last.nota)<=6;
+   const pending=r.openPendings.filter(p=>
     String(p.condominio_id)===String(c.id)
    );
-
-   const latest=latestSurvey(condoSurveys);
-
-   const condoPendings=r.openPendings.filter(p=>
-    String(p.condominio_id)===String(c.id)
-   );
-
-   const critical=condoPendings.filter(p=>
+   const critical=pending.filter(p=>
     p.prioridade==="Crítica"
    );
-
-   const lowScore=
-    latest!==null&&
-    validSurveyScore(latest)&&
-    Number(latest.nota)<=6;
-
-   if(!lowScore&&!critical.length)return;
-
-   const reasons=[];
-
-   if(lowScore){
-    reasons.push("Nota crítica");
-   }
-
-   if(critical.length){
-    reasons.push(
-     `${critical.length} pendência(s) crítica(s)`
-    );
-   }
-
+   if(!low&&!critical.length)return;
    attention.push({
-    name:c.nome,
-    owner:r.owner,
-    score:latest&&validSurveyScore(latest)
-     ?latest.nota:"—",
-    count:condoPendings.length,
-    reason:reasons.join(" / ")
+    name:c.nome,owner:r.name,
+    score:last&&validScore(last)?last.nota:"—",
+    total:pending.length,
+    reason:[
+     low?"Nota crítica":"",
+     critical.length?`${critical.length} pendência(s) crítica(s)`:""
+    ].filter(Boolean).join(" / ")
    });
   });
  });
 
  $("portfolioAttention").innerHTML=attention.length
-  ?attention.map(item=>`
+  ?attention.map(a=>`
    <tr>
-    <td>${esc(item.name)}</td>
-    <td>${esc(item.owner)}</td>
-    <td>${esc(item.score)}</td>
-    <td>${item.count}</td>
-    <td>
-     <span class="pill critical">
-      ${esc(item.reason)}
-     </span>
-    </td>
+    <td>${esc(a.name)}</td>
+    <td>${esc(a.owner)}</td>
+    <td>${esc(a.score)}</td>
+    <td>${a.total}</td>
+    <td><span class="pill critical">${esc(a.reason)}</span></td>
    </tr>
   `).join("")
-  :`<tr>
-     <td colspan="5" class="empty">
-      Nenhum caso identificado pelos critérios
-      nos registros disponíveis.
-     </td>
-    </tr>`;
+  :'<tr><td colspan="5" class="empty">Nenhum caso identificado nos registros disponíveis.</td></tr>';
 }
 
-/* =============================================
-   BOTÕES EDITAR / EXCLUIR
-   ============================================= */
-
+/* BOTÕES */
 function actions(table,record,editable){
- let output='<div class="actions">';
-
- if(editable){
-  output+=`
-   <button class="btn small"
-    data-edit="${table}"
-    data-id="${esc(record.id)}">
-    Editar
-   </button>
-  `;
- }
-
- if(isAdmin()){
-  output+=`
-   <button class="btn danger small"
-    data-delete="${table}"
-    data-id="${esc(record.id)}">
-    Excluir
-   </button>
-  `;
- }
-
- if(table==="pendencias_sc"){
-  output+=`
-   <button class="btn small"
-    data-detail="${esc(record.id)}">
-    Detalhes
-   </button>
-  `;
- }
-
- return output+"</div>";
+ let s='<div class="actions">';
+ if(editable)s+=`
+  <button class="btn small" data-edit="${table}"
+   data-id="${esc(record.id)}">Editar</button>`;
+ if(isAdmin())s+=`
+  <button class="btn danger small" data-delete="${table}"
+   data-id="${esc(record.id)}">Excluir</button>`;
+ if(table==="pendencias_sc")s+=`
+  <button class="btn small"
+   data-detail="${esc(record.id)}">Detalhes</button>`;
+ return s+"</div>";
 }
 
-/* =============================================
-   CARTEIRAS
-   ============================================= */
-
+/* CARTEIRAS */
 function renderCondos(){
- const query=$("condoSearch").value.toLowerCase();
+ const q=$("condoSearch").value.toLowerCase();
  const owner=$("condoOwner").value;
-
  const list=store.condominios.filter(c=>
-  [
-   c.nome,
-   c.responsavel_sc,
-   c.tecnico,
-   c.supervisor_tecnico
-  ].join(" ").toLowerCase().includes(query)&&
+  [c.nome,c.responsavel_sc,c.tecnico,c.supervisor_tecnico]
+   .join(" ").toLowerCase().includes(q)&&
   (!owner||c.responsavel_sc===owner)
  );
-
  $("condoRows").innerHTML=list.map(c=>`
   <tr>
    <td>${esc(c.nome)}</td>
@@ -1696,31 +1195,20 @@ function renderCondos(){
    <td>${esc(c.responsavel_sc)}</td>
    <td>${esc(c.supervisor_tecnico)}</td>
    <td>${esc(c.tecnico)}</td>
-   <td>
-    ${actions("condominios",c,isAdmin())}
-   </td>
+   <td>${actions("condominios",c,isAdmin())}</td>
   </tr>
  `).join("");
 }
 
-/* =============================================
-   DEMANDAS E O.S.
-   ============================================= */
-
+/* DEMANDAS */
 function renderDemands(){
- const query=$("demandSearch").value.toLowerCase();
+ const q=$("demandSearch").value.toLowerCase();
  const status=$("demandStatus").value;
-
  const list=store.demandas.filter(d=>
-  [
-   condoName(d.condominio_id),
-   d.numero_os,
-   d.titulo,
-   d.descricao
-  ].join(" ").toLowerCase().includes(query)&&
+  [condoName(d.condominio_id),d.numero_os,d.titulo,d.descricao]
+   .join(" ").toLowerCase().includes(q)&&
   (!status||d.status===status)
  );
-
  $("demandRows").innerHTML=list.map(d=>`
   <tr>
    <td>${esc(condoName(d.condominio_id))}</td>
@@ -1728,101 +1216,62 @@ function renderDemands(){
    <td>${esc(d.titulo)}</td>
    <td>${esc(d.status)}</td>
    <td>${lastActor("demandas",d.id)}</td>
-   <td>
-    ${actions(
-     "demandas",
-     d,
-     canOperate(getCondo(d.condominio_id))
-    )}
-   </td>
+   <td>${actions("demandas",d,
+    canOperate(getCondo(d.condominio_id)))}</td>
   </tr>
  `).join("");
 }
 
-/* =============================================
-   PESQUISAS
-   ============================================= */
-
+/* PESQUISAS */
 function renderSurveys(){
- const query=$("surveySearch").value.toLowerCase();
-
+ const q=$("surveySearch").value.toLowerCase();
  const list=store.pesquisas.filter(p=>
-  [
-   condoName(p.condominio_id),
-   p.comentario
-  ].join(" ").toLowerCase().includes(query)
+  [condoName(p.condominio_id),p.comentario]
+   .join(" ").toLowerCase().includes(q)
  );
-
  $("surveyRows").innerHTML=list.map(p=>`
   <tr>
    <td>${esc(condoName(p.condominio_id))}</td>
    <td>${esc(p.nota??"—")}</td>
    <td>${esc(p.canal)}</td>
-   <td style="white-space:pre-wrap">
-    ${esc(p.comentario)}
-   </td>
+   <td style="white-space:pre-wrap">${esc(p.comentario)}</td>
    <td>${lastActor("pesquisas",p.id)}</td>
-   <td>
-    ${actions("pesquisas",p,isAdmin())}
-   </td>
+   <td>${actions("pesquisas",p,isAdmin())}</td>
   </tr>
  `).join("");
 }
 
-/* =============================================
-   PENDÊNCIAS
-   ============================================= */
-
+/* PENDÊNCIAS */
 function renderPendings(){
- const query=$("pendingSearch").value.toLowerCase();
+ const q=$("pendingSearch").value.toLowerCase();
  const status=$("pendingStatus").value;
-
  const list=store.pendencias_sc.filter(p=>
-  [
-   condoName(p.condominio_id),
-   p.titulo,
-   p.responsavel
-  ].join(" ").toLowerCase().includes(query)&&
+  [condoName(p.condominio_id),p.titulo,p.responsavel]
+   .join(" ").toLowerCase().includes(q)&&
   (!status||p.status===status)
  );
-
  $("pendingRows").innerHTML=list.map(p=>`
   <tr>
    <td>${esc(condoName(p.condominio_id))}</td>
    <td>${esc(p.titulo)}</td>
    <td>${esc(p.responsavel)}</td>
-   <td>
-    <span class="pill ${p.prioridade==="Crítica"?"critical":""}">
-     ${esc(p.prioridade)}
-    </span>
-   </td>
+   <td><span class="pill ${p.prioridade==="Crítica"?
+    "critical":""}">${esc(p.prioridade)}</span></td>
    <td>${esc(p.status)}</td>
-   <td>
-    ${actions(
-     "pendencias_sc",
-     p,
-     canOperate(getCondo(p.condominio_id))
-    )}
-   </td>
+   <td>${actions("pendencias_sc",p,
+    canOperate(getCondo(p.condominio_id)))}</td>
   </tr>
  `).join("");
 }
-
 function showDetail(id){
  const p=store.pendencias_sc.find(x=>
   String(x.id)===String(id)
  );
-
- if(!p){
-  message("Pendência não localizada.");
-  return;
- }
-
+ if(!p){message("Pendência não localizada.");return}
  const survey=store.pesquisas.find(x=>
   String(x.id)===String(p.pesquisa_id)
  );
-
- const fields=[
+ const items=[
   ["Condomínio",condoName(p.condominio_id)],
   ["Responsável",p.responsavel],
   ["Fiscalização",p.supervisor_sc],
@@ -1832,84 +1281,55 @@ function showDetail(id){
   ["Canal",survey?.canal||"—"],
   ["Abertura",dateText(p.criado_em)]
  ];
-
  $("pendingDetailContent").innerHTML=`
   <div class="details">
-   ${fields.map(([key,value])=>`
-    <div>
-     <small>${esc(key)}</small>
-     <strong>${esc(value)}</strong>
-    </div>
+   ${items.map(([k,v])=>`
+    <div><small>${esc(k)}</small>
+    <strong>${esc(v)}</strong></div>
    `).join("")}
   </div>
-
   <h3>${esc(p.titulo)}</h3>
-
-  <div class="note">
-   ${esc(survey?.comentario||
-    p.descricao||"Sem descrição.")}
-  </div>
+  <div class="note">${esc(survey?.comentario||
+   p.descricao||"Sem descrição.")}</div>
  `;
-
  page("pendencias");
  $("pendingDetail").classList.remove("hidden");
- $("pendingDetail").scrollIntoView({
-  behavior:"smooth",
-  block:"start"
- });
+ $("pendingDetail").scrollIntoView({behavior:"smooth"});
 }
 
-/* =============================================
-   NOTIFICAÇÕES
-   ============================================= */
-
+/* NOTIFICAÇÕES */
 function renderNotifications(){
  const unread=store.notificacoes_sc.filter(n=>!n.lida).length;
-
  $("bellCount").textContent=unread;
  $("bellCount").classList.toggle("hidden",unread===0);
-
  $("notificationList").innerHTML=
   store.notificacoes_sc.map(n=>`
    <div class="notification-item ${n.lida?"":"unread"}">
     <strong>${esc(n.titulo)}</strong>
     <p>${esc(n.mensagem)}</p>
     <small>${esc(dateText(n.criado_em))}</small>
-
     ${n.pendencia_id?`
-     <p>
-      <button class="btn small"
+     <p><button class="btn small"
        data-detail="${esc(n.pendencia_id)}">
        Ver reclamação completa
-      </button>
-     </p>
-    `:""}
+     </button></p>`:""}
    </div>
-  `).join("")||
-  '<p class="muted">Nenhuma notificação.</p>';
+  `).join("")||'<p class="muted">Nenhuma notificação.</p>';
 }
 
-/* =============================================
-   FISCALIZAÇÃO
-   ============================================= */
-
+/* FISCALIZAÇÃO */
 function renderOversight(){
- const list=store.condominios.filter(c=>
-  c.filial!=="Ceará"
- );
-
+ const list=store.condominios.filter(c=>c.filial!=="Ceará");
  $("oversight").innerHTML=list.map(c=>`
   <p>${esc(c.filial)} — ${esc(c.nome)}</p>
  `).join("")||
  '<p class="muted">Nenhum condomínio regional disponível.</p>';
 }
 
-/* =============================================
-   ATUALIZAÇÃO DE TODAS AS ABAS
-   ============================================= */
-
+/* ATUALIZAÇÕES */
 function render(){
  renderOverview();
+ renderPortfolioResults();
  renderCondos();
  renderDemands();
  renderSurveys();
@@ -1917,805 +1337,417 @@ function render(){
  renderNotifications();
  renderOversight();
  renderAudit();
- renderPortfolioResults();
-
  document.querySelectorAll(".admin-only").forEach(el=>{
   el.classList.toggle("hidden",!isAdmin());
  });
 }
 
-/* =============================================
-   FORMULÁRIO DE CRIAÇÃO E EDIÇÃO
-   ============================================= */
-
-function field(
- name,
- label,
- type="text",
- value="",
- options=null,
- required=false
-){
- const requirement=required?"required":"";
-
- if(type==="textarea"){
-  return `
-   <label class="full">
-    ${esc(label)}
-    <textarea name="${name}"
-      rows="3" ${requirement}>${esc(value)}</textarea>
-   </label>
-  `;
- }
-
- if(type==="checkbox"){
-  return `
-   <label>
-    ${esc(label)}
-    <input type="checkbox"
-     name="${name}"
-     ${value?"checked":""}>
-   </label>
-  `;
- }
-
- if(type==="select"){
-  return `
-   <label>
-    ${esc(label)}
-    <select name="${name}">
-     ${(options||[]).map(o=>`
-      <option value="${esc(o)}"
+/* FORMULÁRIOS */
+function field(name,label,type="text",value="",options=null,required=false){
+ const req=required?"required":"";
+ if(type==="textarea")return `
+  <label class="full">${esc(label)}
+   <textarea name="${name}" rows="3" ${req}>${esc(value)}</textarea>
+  </label>`;
+ if(type==="checkbox")return `
+  <label>${esc(label)}
+   <input type="checkbox" name="${name}" ${value?"checked":""}>
+  </label>`;
+ if(type==="select")return `
+  <label>${esc(label)}
+   <select name="${name}">
+    ${(options||[]).map(o=>`
+     <option value="${esc(o)}"
        ${String(o)===String(value)?"selected":""}>
-       ${esc(o)}
-      </option>
-     `).join("")}
-    </select>
-   </label>
-  `;
- }
-
+      ${esc(o)}
+     </option>`).join("")}
+   </select>
+  </label>`;
  return `
-  <label>
-   ${esc(label)}
-   <input type="${type}"
-    name="${name}"
-    value="${esc(value)}"
-    ${requirement}>
-  </label>
- `;
+  <label>${esc(label)}
+   <input type="${type}" name="${name}"
+    value="${esc(value)}" ${req}>
+  </label>`;
 }
-
 function condoSelect(value,mode){
  const list=store.condominios.filter(c=>
   (mode==="survey"?canSurvey(c):canOperate(c))||
   String(c.id)===String(value)
  );
-
  return `
-  <label class="full">
-   Condomínio
+  <label class="full">Condomínio
    <select name="condominio_id" required>
     ${list.map(c=>`
      <option value="${esc(c.id)}"
-      ${String(c.id)===String(value)?"selected":""}>
+       ${String(c.id)===String(value)?"selected":""}>
       ${esc(c.nome)}
-     </option>
-    `).join("")}
+     </option>`).join("")}
    </select>
-  </label>
- `;
+  </label>`;
 }
-
 function openRecord(table,id=null){
- const record=id
-  ?store[table]?.find(x=>String(x.id)===String(id))
-  :null;
-
- if(id&&!record){
-  message("Registro não localizado.");
-  return;
- }
-
+ const d=id?store[table]?.find(x=>
+  String(x.id)===String(id)):null;
+ if(id&&!d){message("Registro não localizado.");return}
  if(table==="condominios"&&!isAdmin()){
-  message(
-   "Cadastro de condomínios reservado à administradora."
-  );
+  message("Somente a administradora pode editar condomínios.");
   return;
  }
-
  if(table==="pesquisas"&&id&&!isAdmin()){
-  message(
-   "Edição de pesquisa reservada à administradora."
-  );
+  message("Edição de pesquisa reservada à administradora.");
   return;
  }
-
- if(record&&table!=="condominios"&&
-    !isAdmin()&&
-    !canOperate(getCondo(record.condominio_id))){
+ if(d&&table!=="condominios"&&!isAdmin()&&
+    !canOperate(getCondo(d.condominio_id))){
   message("Sem permissão para editar este registro.");
   return;
  }
 
  dialog={table,id};
-
+ const r=d||{};
  let html="";
- const d=record||{};
 
  if(table==="condominios"){
-  html+=field("nome","Nome do condomínio",
-   "text",d.nome||"",null,true);
-
-  html+=field("codigo_origem","Código de origem",
-   "text",d.codigo_origem||"");
-
-  html+=field("filial","Filial",
-   "text",d.filial||"Ceará");
-
-  html+=field("responsavel_sc","Responsável SC",
-   "text",d.responsavel_sc||"A definir");
-
-  html+=field("supervisor_tecnico","Supervisor técnico",
-   "text",d.supervisor_tecnico||"");
-
-  html+=field("tecnico","Técnico",
-   "text",d.tecnico||"");
-
-  html+=field("ativo","Cliente ativo",
-   "checkbox",d.ativo??true);
+  html+=field("nome","Nome do condomínio","text",r.nome||"",null,true);
+  html+=field("codigo_origem","Código de origem","text",r.codigo_origem||"");
+  html+=field("filial","Filial","select",r.filial||"Ceará",
+   ["Ceará","Secopi","Manaus","Maranhão"]);
+  html+=field("responsavel_sc","Responsável SC","text",
+   r.responsavel_sc||"A definir");
+  html+=field("supervisor_tecnico","Supervisor técnico","text",
+   r.supervisor_tecnico||"");
+  html+=field("tecnico","Técnico","text",r.tecnico||"");
+  html+=field("ativo","Cliente ativo","checkbox",r.ativo??true);
  }
-
  if(table==="demandas"){
-  html+=condoSelect(d.condominio_id,"operate");
-
-  html+=field("tipo","Tipo","select",d.tipo||"O.S.",[
-   "O.S.",
-   "Demanda",
-   "Pendência técnica",
-   "Reclamação",
-   "Melhoria"
-  ]);
-
-  html+=field("numero_os","Número da O.S.",
-   "text",d.numero_os||"");
-
-  html+=field("titulo","Problema / Título",
-   "text",d.titulo||"",null,true);
-
-  html+=field("setor","Setor responsável",
-   "text",d.setor||"");
-
-  html+=field("prazo","Prazo",
-   "date",d.prazo||"");
-
-  html+=field("descricao","Descrição inicial",
-   "textarea",d.descricao||"");
-
-  html+=field("tratativa_tecnica","Tratativa técnica",
-   "textarea",d.tratativa_tecnica||"");
-
-  html+=field("retorno_sindico","Retorno dado ao síndico",
-   "textarea",d.retorno_sindico||"");
-
-  html+=field("data_retorno_sindico","Data do retorno",
-   "date",d.data_retorno_sindico||"");
-
-  html+=field("canal_retorno","Canal do retorno",
-   "select",d.canal_retorno||"",[
-    "",
-    "WhatsApp",
-    "Ligação",
-    "E-mail",
-    "Presencial",
-    "Outro"
-   ]);
-
-  html+=field("status","Status",
-   "select",d.status||"Aberta",[
-    "Aberta",
-    "Em tratativa",
-    "Aguardando retorno",
-    "Concluída"
-   ]);
+  html+=condoSelect(r.condominio_id,"operate");
+  html+=field("tipo","Tipo","select",r.tipo||"O.S.",
+   ["O.S.","Demanda","Pendência técnica","Reclamação","Melhoria"]);
+  html+=field("numero_os","Número da O.S.","text",r.numero_os||"");
+  html+=field("titulo","Problema / Título","text",r.titulo||"",null,true);
+  html+=field("setor","Setor","text",r.setor||"");
+  html+=field("prazo","Prazo","date",r.prazo||"");
+  html+=field("descricao","Descrição inicial","textarea",r.descricao||"");
+  html+=field("tratativa_tecnica","Tratativa técnica","textarea",
+   r.tratativa_tecnica||"");
+  html+=field("retorno_sindico","Retorno dado ao síndico","textarea",
+   r.retorno_sindico||"");
+  html+=field("data_retorno_sindico","Data do retorno","date",
+   r.data_retorno_sindico||"");
+  html+=field("canal_retorno","Canal do retorno","select",
+   r.canal_retorno||"",
+   ["","WhatsApp","Ligação","E-mail","Presencial","Outro"]);
+  html+=field("status","Status","select",r.status||"Aberta",
+   ["Aberta","Em tratativa","Aguardando retorno","Concluída"]);
  }
-
  if(table==="pesquisas"){
-  html+=condoSelect(d.condominio_id,"survey");
-
-  html+=field("nota","Nota (0 a 10)",
-   "number",d.nota??"");
-
-  html+=field("canal","Canal",
-   "select",d.canal||"WhatsApp",[
-    "WhatsApp",
-    "Ligação"
-   ]);
-
-  html+=field(
-   "comentario",
-   "Elogios, reclamações e pendências",
-   "textarea",
-   d.comentario||""
-  );
-
-  html+=field("tem_reclamacao",
-   "Reclamação relevante",
-   "checkbox",d.tem_reclamacao||false);
+  html+=condoSelect(r.condominio_id,"survey");
+  html+=field("nota","Nota (0 a 10)","number",r.nota??"");
+  html+=field("canal","Canal","select",r.canal||"WhatsApp",
+   ["WhatsApp","Ligação"]);
+  html+=field("comentario","Elogios, reclamações e pendências",
+   "textarea",r.comentario||"");
+  html+=field("tem_reclamacao","Reclamação relevante",
+   "checkbox",r.tem_reclamacao||false);
  }
-
  if(table==="pendencias_sc"){
-  html+=condoSelect(d.condominio_id,"operate");
-
-  html+=field("titulo","Título",
-   "text",d.titulo||"",null,true);
-
+  html+=condoSelect(r.condominio_id,"operate");
+  html+=field("titulo","Título","text",r.titulo||"",null,true);
   html+=field("descricao","Reclamação ou pendência",
-   "textarea",d.descricao||"");
-
-  html+=field("responsavel","Responsável",
-   "text",d.responsavel||"");
-
-  html+=field("supervisor_sc","Fiscalização",
-   "text",d.supervisor_sc||"");
-
-  html+=field("prioridade","Prioridade",
-   "select",d.prioridade||"Normal",[
-    "Normal",
-    "Alta",
-    "Crítica"
-   ]);
-
-  html+=field("status","Status",
-   "select",d.status||"Aberta",[
-    "Aberta",
-    "Em tratativa",
-    "Aguardando retorno",
-    "Concluída"
-   ]);
-
-  html+=field("prazo","Prazo",
-   "date",d.prazo||"");
+   "textarea",r.descricao||"");
+  html+=field("responsavel","Responsável","text",r.responsavel||"");
+  html+=field("supervisor_sc","Fiscalização","text",r.supervisor_sc||"");
+  html+=field("prioridade","Prioridade","select",r.prioridade||"Normal",
+   ["Normal","Alta","Crítica"]);
+  html+=field("status","Status","select",r.status||"Aberta",
+   ["Aberta","Em tratativa","Aguardando retorno","Concluída"]);
+  html+=field("prazo","Prazo","date",r.prazo||"");
  }
 
- $("recordFields").innerHTML=html;
- $("modalError").textContent="";
-
- const names={
+ const labels={
   condominios:"Condomínio",
   demandas:"Demanda / O.S.",
   pesquisas:"Pesquisa",
   pendencias_sc:"Pendência"
  };
-
+ $("recordFields").innerHTML=html;
+ $("modalError").textContent="";
  $("modalTitle").textContent=
-  (id?"Editar":"Cadastrar")+" — "+names[table];
-
+  (id?"Editar":"Cadastrar")+" — "+labels[table];
  $("recordModal").classList.remove("hidden");
 }
-
 function closeRecord(){
  dialog=null;
  $("recordModal").classList.add("hidden");
  $("recordForm").reset();
 }
 
-/* =============================================
-   SALVAR REGISTROS
-   ============================================= */
-
+/* SALVAR */
 async function saveRecord(event){
  event.preventDefault();
-
  if(!dialog)return;
 
  const {table,id}=dialog;
-
- const original=id
-  ?store[table].find(x=>String(x.id)===String(id))
-  :null;
-
- const form=new FormData($("recordForm"));
-
- const values=Object.fromEntries(form.entries());
+ const original=id?store[table].find(x=>
+  String(x.id)===String(id)):null;
+ const values=Object.fromEntries(
+  new FormData($("recordForm")).entries()
+ );
 
  if(table==="condominios"){
-  values.ativo=
-   $("recordForm").elements
-    .namedItem("ativo")?.checked??false;
-
-  if(!values.codigo_origem){
-   values.codigo_origem=
-    original?.codigo_origem||
+  values.ativo=$("recordForm").elements.namedItem("ativo")
+   ?.checked??false;
+  if(!values.codigo_origem)
+   values.codigo_origem=original?.codigo_origem||
     "MANUAL-"+Date.now();
-  }
  }
-
  if(table==="pesquisas"){
-  values.tem_reclamacao=
-   $("recordForm").elements
-    .namedItem("tem_reclamacao")?.checked??false;
-
-  values.nota=values.nota===""
-   ?null:Number(values.nota);
-
-  if(
-   values.nota!==null&&
-   (
-    !Number.isFinite(values.nota)||
-    values.nota<0||
-    values.nota>10
-   )
-  ){
-   $("modalError").textContent=
-    "A nota deve estar entre 0 e 10.";
+  values.tem_reclamacao=$("recordForm")
+   .elements.namedItem("tem_reclamacao")?.checked??false;
+  values.nota=values.nota===""?null:Number(values.nota);
+  if(values.nota!==null&&
+    (!Number.isFinite(values.nota)||
+     values.nota<0||values.nota>10)){
+   $("modalError").textContent="A nota deve estar entre 0 e 10.";
    return;
   }
  }
-
  if(table==="demandas"){
   for(const key of [
-   "numero_os",
-   "setor",
-   "prazo",
-   "data_retorno_sindico",
-   "canal_retorno"
-  ]){
-   if(!values[key]){
-    values[key]=null;
-   }
-  }
+   "numero_os","setor","prazo",
+   "data_retorno_sindico","canal_retorno"
+  ])if(!values[key])values[key]=null;
 
-  if(
-   values.tipo==="O.S."&&
-   values.status==="Concluída"&&
-   !(
-    values.tratativa_tecnica?.trim()&&
-    values.retorno_sindico?.trim()&&
-    values.data_retorno_sindico&&
-    values.canal_retorno
-   )
-  ){
+  if(values.tipo==="O.S."&&values.status==="Concluída"&&
+    !(values.tratativa_tecnica?.trim()&&
+      values.retorno_sindico?.trim()&&
+      values.data_retorno_sindico&&
+      values.canal_retorno)){
    $("modalError").textContent=
-    "Para concluir a O.S., registre a tratativa "+
-    "técnica, o retorno ao síndico, a data e o canal.";
+    "Para concluir a O.S., registre a tratativa técnica, "+
+    "o retorno ao síndico, a data e o canal.";
    return;
   }
-
-  if(!id){
-   values.status="Aberta";
-  }
+  if(!id)values.status="Aberta";
  }
-
  if(table==="pendencias_sc"){
-  if(!values.prazo){
-   values.prazo=null;
-  }
-
+  if(!values.prazo)values.prazo=null;
   if(!values.responsavel?.trim()){
    const c=getCondo(values.condominio_id);
-
    values.responsavel=
-    c?.filial==="Secopi"
-     ?"Paula"
-     :c?.filial==="Manaus"
-      ?"Tayane"
-      :c?.filial==="Maranhão"
-       ?"Juliana"
-       :c?.responsavel_sc||"Rosely";
-
+    c?.filial==="Secopi"?"Paula":
+    c?.filial==="Manaus"?"Tayane":
+    c?.filial==="Maranhão"?"Juliana":
+    c?.responsavel_sc||"Rosely";
    values.supervisor_sc=
-    c?.filial==="Maranhão"
-     ?"Nicole"
-     :["Secopi","Manaus"].includes(c?.filial)
-      ?"Josy"
-      :"Rosely";
+    c?.filial==="Maranhão"?"Nicole":
+    ["Secopi","Manaus"].includes(c?.filial)?"Josy":"Rosely";
   }
-
-  if(!id){
-   values.origem="Manual";
-  }
+  if(!id)values.origem="Manual";
  }
 
  $("modalSave").disabled=true;
  $("modalError").textContent="";
-
  try{
   const response=id
-   ?await db.from(table)
-     .update(values).eq("id",id).select("id")
-   :await db.from(table)
-     .insert(values).select("id");
-
-  const rows=ck(response);
-
-  if(!rows?.length){
-   throw Error(
-    "Nenhum registro salvo. Confira as permissões RLS."
-   );
-  }
-
+   ?await db.from(table).update(values)
+     .eq("id",id).select("id")
+   :await db.from(table).insert(values).select("id");
+  const result=ck(response);
+  if(!result?.length)
+   throw Error("Nenhum registro salvo. Confira as permissões RLS.");
   closeRecord();
   await loadData();
-
   message("Registro salvo com sucesso.");
-
- }catch(error){
-  $("modalError").textContent=
-   "Erro ao salvar: "+error.message;
+ }catch(err){
+  $("modalError").textContent="Erro ao salvar: "+err.message;
  }finally{
   $("modalSave").disabled=false;
  }
 }
 
-/* =============================================
-   EXCLUIR REGISTROS
-   ============================================= */
-
+/* EXCLUIR */
 async function deleteRecord(table,id){
  if(!isAdmin()){
-  message(
-   "Somente a administradora pode excluir registros."
-  );
+  message("Somente a administradora pode excluir registros.");
   return;
  }
-
- const record=store[table]?.find(x=>
-  String(x.id)===String(id)
- );
-
- if(!record)return;
-
+ const r=store[table]?.find(x=>String(x.id)===String(id));
+ if(!r)return;
  if(!confirm(
   "Excluir permanentemente este registro?\n"+
-  (record.nome||record.titulo||
-   record.comentario||id)+
-  "\n\nEssa ação não poderá ser desfeita."
- )){
-  return;
- }
+  (r.nome||r.titulo||r.comentario||id)+
+  "\n\nEsta ação não poderá ser desfeita."
+ ))return;
 
  try{
   const rows=ck(await db.from(table)
-   .delete()
-   .eq("id",id)
-   .select("id"));
-
-  if(!rows.length){
-   throw Error("Exclusão não autorizada.");
-  }
-
+   .delete().eq("id",id).select("id"));
+  if(!rows.length)throw Error("Exclusão não autorizada.");
   await loadData();
-
   message("Registro excluído.");
-
- }catch(error){
-  message("Erro ao excluir: "+error.message);
+ }catch(err){
+  message("Erro ao excluir: "+err.message);
  }
 }
 
-/* =============================================
-   CARREGAMENTO DO SUPABASE
-   ============================================= */
-
+/* CARREGAR DADOS */
 async function loadData(){
  message("Atualizando informações...");
-
  try{
   for(const table of [
-   "condominios",
-   "demandas",
-   "pesquisas",
-   "pendencias_sc",
-   "notificacoes_sc"
+   "condominios","demandas","pesquisas",
+   "pendencias_sc","notificacoes_sc"
   ]){
-   let query=db.from(table)
-    .select("*")
-    .limit(1000);
-
-   if(table==="condominios"){
-    query=query.order("nome");
-   }
-
-   if(
-    table==="pendencias_sc"||
-    table==="notificacoes_sc"
-   ){
-    query=query.order("criado_em",{
-     ascending:false
-    });
-   }
-
+   let query=db.from(table).select("*").limit(1000);
+   if(table==="condominios")query=query.order("nome");
+   if(["pendencias_sc","notificacoes_sc"].includes(table))
+    query=query.order("criado_em",{ascending:false});
    store[table]=ck(await query);
   }
 
   if(isAdmin()){
-   store.auditoria_sc=ck(
-    await db.from("auditoria_sc")
-     .select("*")
-     .order("realizado_em",{
-      ascending:false
-     })
-     .limit(500)
-   );
-  }else{
-   store.auditoria_sc=[];
-  }
+   store.auditoria_sc=ck(await db.from("auditoria_sc")
+    .select("*")
+    .order("realizado_em",{ascending:false})
+    .limit(500));
+  }else store.auditoria_sc=[];
 
   render();
   message("");
-
- }catch(error){
-  message(
-   "Erro ao carregar banco: "+error.message
-  );
+ }catch(err){
+  message("Erro ao carregar banco: "+err.message);
  }
 }
 
-/* =============================================
-   LOGIN
-   ============================================= */
-
+/* LOGIN */
 async function session(){
- const result=await db.auth.getUser();
-
- if(result.error||!result.data.user){
+ const r=await db.auth.getUser();
+ if(r.error||!r.data.user){
   profile=null;
-
   $("loginScreen").classList.remove("hidden");
   $("system").classList.add("hidden");
   return;
  }
-
  try{
-  profile=ck(await db.from("profiles")
-   .select("*")
-   .eq("user_id",result.data.user.id)
-   .single());
-
+  profile=ck(await db.from("profiles").select("*")
+   .eq("user_id",r.data.user.id).single());
   setPhoto();
-
   $("loginScreen").classList.add("hidden");
   $("system").classList.remove("hidden");
-
   await loadData();
-
- }catch(error){
+ }catch(err){
   $("loginMessage").textContent=
-   "Erro ao carregar perfil: "+error.message;
-
-  $("loginScreen").classList.remove("hidden");
-  $("system").classList.add("hidden");
+   "Erro ao carregar perfil: "+err.message;
  }
 }
-
 async function login(){
  $("loginMessage").textContent="";
-
  $("loginButton").disabled=true;
-
  try{
   ck(await db.auth.signInWithPassword({
    email:$("email").value.trim(),
    password:$("password").value
   }));
-
   await session();
-
- }catch(error){
-  $("loginMessage").textContent=error.message;
+ }catch(err){
+  $("loginMessage").textContent=err.message;
  }finally{
   $("loginButton").disabled=false;
  }
 }
 
-/* =============================================
-   EXPORTAÇÃO
-   ============================================= */
-
+/* EXPORTAÇÃO */
 function exportData(){
- const data={
-  exportado_em:new Date().toISOString(),
-  ...store
- };
-
- const blob=new Blob(
+ const data={exportado_em:new Date().toISOString(),...store};
+ const url=URL.createObjectURL(new Blob(
   [JSON.stringify(data,null,2)],
   {type:"application/json"}
- );
-
- const url=URL.createObjectURL(blob);
-
- const anchor=document.createElement("a");
-
- anchor.href=url;
- anchor.download="servis_sc_exportacao.json";
- anchor.click();
-
- setTimeout(()=>{
-  URL.revokeObjectURL(url);
- },1000);
+ ));
+ const a=document.createElement("a");
+ a.href=url;
+ a.download="servis_sc_exportacao.json";
+ a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
-/* =============================================
-   EVENTOS E INICIALIZAÇÃO
-   ============================================= */
-
+/* EVENTOS */
 document.addEventListener("DOMContentLoaded",async()=>{
-
  renderProcesses();
 
- document.querySelectorAll("[data-page]").forEach(button=>{
-  button.addEventListener("click",()=>{
-   page(button.dataset.page);
-  });
+ document.querySelectorAll("[data-page]").forEach(b=>{
+  b.addEventListener("click",()=>page(b.dataset.page));
  });
-
- document.querySelectorAll("[data-page-direct]").forEach(button=>{
-  button.addEventListener("click",()=>{
-   page(button.dataset.pageDirect);
-  });
+ document.querySelectorAll("[data-page-direct]").forEach(b=>{
+  b.addEventListener("click",()=>page(b.dataset.pageDirect));
  });
 
  for(const id of [
-  "condoSearch",
-  "condoOwner",
-  "demandSearch",
-  "demandStatus",
-  "surveySearch",
-  "pendingSearch",
-  "pendingStatus"
- ]){
-  $(id).addEventListener("input",render);
- }
+  "condoSearch","condoOwner","demandSearch",
+  "demandStatus","surveySearch","pendingSearch","pendingStatus"
+ ])$(id).addEventListener("input",render);
 
- $("processSearch").addEventListener(
-  "input",
-  renderProcesses
- );
+ $("processSearch").addEventListener("input",renderProcesses);
+ $("processArea").addEventListener("change",renderProcesses);
+ $("auditFilter").addEventListener("change",renderAudit);
+ $("resultOwner").addEventListener("change",renderPortfolioResults);
+ $("resultPeriod").addEventListener("change",renderPortfolioResults);
+ $("refreshPortfolio").addEventListener("click",loadData);
 
- $("processArea").addEventListener(
-  "change",
-  renderProcesses
- );
-
- $("auditFilter").addEventListener(
-  "change",
-  renderAudit
- );
-
- $("resultOwner").addEventListener(
-  "change",
-  renderPortfolioResults
- );
-
- $("resultPeriod").addEventListener(
-  "change",
-  renderPortfolioResults
- );
-
- $("refreshPortfolio").addEventListener(
-  "click",
-  loadData
- );
-
- document.body.addEventListener("click",async event=>{
-  const button=event.target.closest(
+ document.body.addEventListener("click",async e=>{
+  const b=e.target.closest(
    "[data-new],[data-edit],[data-delete],[data-detail]"
   );
-
-  if(!button)return;
-
-  if(button.dataset.new){
-   openRecord(button.dataset.new);
-
-  }else if(button.dataset.edit){
-   openRecord(
-    button.dataset.edit,
-    button.dataset.id
-   );
-
-  }else if(button.dataset.delete){
-   await deleteRecord(
-    button.dataset.delete,
-    button.dataset.id
-   );
-
-  }else if(button.dataset.detail){
-   showDetail(button.dataset.detail);
-  }
+  if(!b)return;
+  if(b.dataset.new)openRecord(b.dataset.new);
+  else if(b.dataset.edit)openRecord(b.dataset.edit,b.dataset.id);
+  else if(b.dataset.delete)
+   await deleteRecord(b.dataset.delete,b.dataset.id);
+  else if(b.dataset.detail)showDetail(b.dataset.detail);
  });
 
- $("recordForm").addEventListener(
-  "submit",
-  saveRecord
- );
-
- $("modalCancel").addEventListener(
-  "click",
-  closeRecord
- );
-
- $("modalClose").addEventListener(
-  "click",
-  closeRecord
- );
-
+ $("recordForm").addEventListener("submit",saveRecord);
+ $("modalCancel").addEventListener("click",closeRecord);
+ $("modalClose").addEventListener("click",closeRecord);
  $("closePending").addEventListener("click",()=>{
   $("pendingDetail").classList.add("hidden");
  });
-
  $("bell").addEventListener("click",()=>{
   $("notificationPanel").classList.toggle("hidden");
  });
-
  $("readAll").addEventListener("click",async()=>{
   if(!profile)return;
-
   try{
    ck(await db.from("notificacoes_sc")
     .update({lida:true})
     .eq("usuario_id",profile.user_id)
     .eq("lida",false));
-
    await loadData();
-
-  }catch(error){
-   message(
-    "Erro nas notificações: "+error.message
-   );
+  }catch(err){
+   message("Erro nas notificações: "+err.message);
   }
  });
-
- $("reload").addEventListener(
-  "click",
-  loadData
- );
-
- $("auditReload").addEventListener(
-  "click",
-  loadData
- );
-
- $("exportBtn").addEventListener(
-  "click",
-  exportData
- );
+ $("reload").addEventListener("click",loadData);
+ $("auditReload").addEventListener("click",loadData);
+ $("exportBtn").addEventListener("click",exportData);
 
  if(!window.supabase){
   $("loginMessage").textContent=
-   "Não foi possível carregar o Supabase.";
+   "Não foi possível carregar a biblioteca do Supabase.";
   return;
  }
 
- db=window.supabase.createClient(
-  URL_DB,
-  KEY
- );
+ db=window.supabase.createClient(URL_DB,KEY);
 
- $("loginButton").addEventListener(
-  "click",
-  login
- );
-
- $("password").addEventListener("keydown",event=>{
-  if(event.key==="Enter"){
-   login();
-  }
+ $("loginButton").addEventListener("click",login);
+ $("password").addEventListener("keydown",e=>{
+  if(e.key==="Enter")login();
  });
-
  $("logout").addEventListener("click",async()=>{
   await db.auth.signOut();
-
-  profile=null;
-  dialog=null;
-
-  Object.keys(store).forEach(key=>{
-   store[key]=[];
-  });
-
+  profile=null;dialog=null;
+  Object.keys(store).forEach(k=>store[k]=[]);
   $("password").value="";
-
   $("loginScreen").classList.remove("hidden");
   $("system").classList.add("hidden");
  });
@@ -2723,6 +1755,5 @@ document.addEventListener("DOMContentLoaded",async()=>{
  await session();
 });
 </script>
-
 </body>
 </html>
