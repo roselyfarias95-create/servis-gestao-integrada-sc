@@ -143,7 +143,7 @@ function renderOsSummary(registros){
  ];
  target.innerHTML=cards.map(([label,n])=>`<div class="kpi"><small>${esc(label)}</small><b>${n}</b></div>`).join('');
 }
-function render(){let C=store.condominios,D=store.demandas,P=store.pesquisas,Q=store.pendencias_sc;let openQ=Q.filter(x=>x.status!=='Concluída');const summary=aggregateMonth(new Date().toISOString().slice(0,7));let avg=summary.mean===null?'—':summary.mean.toFixed(2).replace('.',',');let cards=[['Condomínios',C.filter(x=>x.ativo).length],['Demandas de Gestão',store.demandas_gestao_sc.length],['O.S. abertas',D.filter(x=>x.tipo==='O.S.'&&x.status!=='Concluída').length],['O.S. concluídas',D.filter(x=>x.tipo==='O.S.'&&x.status==='Concluída').length],['Pesquisas realizadas (mês)',summary.done],['Nota média',avg],['Pendências abertas',openQ.length],['Pendências críticas',openQ.filter(x=>x.prioridade==='Crítica').length]];$('kpis').innerHTML=cards.map(([k,v])=>`<div class="kpi"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('');$('strategic').innerHTML=cards.map(([k,v])=>`<p>${esc(k)}: <strong>${esc(v)}</strong></p>`).join('');let counts={};C.forEach(c=>{let k=c.responsavel_sc||'A definir';counts[k]=(counts[k]||0)+1});$('distribution').innerHTML=Object.entries(counts).map(([k,v])=>`<span class="tag">${esc(k)}: ${v}</span>`).join('');
+function render(){let C=store.condominios,D=store.demandas,P=store.pesquisas,Q=store.pendencias_sc;let openQ=Q.filter(x=>x.status!=='Concluída');const summary=aggregateMonth(new Date().toISOString().slice(0,7));let avg=summary.mean===null?'—':summary.mean.toFixed(2).replace('.',',');let cards=[['Condomínios',C.filter(x=>x.ativo).length],['Demandas de Gestão',store.demandas_gestao_sc.length],['O.S. abertas',D.filter(x=>x.tipo==='O.S.'&&x.status!=='Concluída').length],['O.S. concluídas',D.filter(x=>x.tipo==='O.S.'&&x.status==='Concluída').length],['Pesquisas realizadas (mês)',summary.done],['Nota média',avg],['Pendências abertas',openQ.length],['Pendências críticas',openQ.filter(x=>x.prioridade==='Crítica').length]];$('kpis').innerHTML=cards.map(([k,v])=>`<div class="kpi"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('');$('strategic').innerHTML=cards.map(([k,v])=>`<p>${esc(k)}: <strong>${esc(v)}</strong></p>`).join('');let counts={};C.forEach(c=>{let k=String(c.responsavel_sc||'A definir').trim();if(/^nicol(?:e|ly)$/i.test(k))k='Nicole';else if(/^jos(?:y|iane)$/i.test(k))k='Josy';counts[k]=(counts[k]||0)+1});$('distribution').innerHTML=Object.entries(counts).map(([k,v])=>`<span class="tag">${esc(k)}: ${v}</span>`).join('');
 let co=$('condoSearch').value.toLowerCase(),ow=$('condoOwner').value,br=$('condoBranch').value;
 const branchNames=['Ceará','Secopi','Manaus','Maranhão'];
 $('branchSummary').innerHTML=branchNames.map(name=>{const n=C.filter(c=>c.filial===name).length;return `<button type="button" class="kpi" data-branch-pick="${esc(name)}" style="color:inherit;text-align:left;cursor:pointer"><small>${esc(name)}</small><b>${n}</b><small>condomínios cadastrados</small></button>`}).join('');
@@ -154,7 +154,7 @@ renderOsSummary(D);
 let dq=$('demandSearch').value.toLowerCase(),ds=$('demandStatus').value;$('demandRows').innerHTML=D.filter(d=>(!ds||d.status===ds)&&[condoName(d.condominio_id),d.numero_os,d.titulo,d.descricao].join(' ').toLowerCase().includes(dq)).map(d=>`<tr><td>${esc(condoName(d.condominio_id))}</td><td>${esc(d.numero_os||'—')}</td><td>${esc(d.titulo)} <small>${esc(d.tipo)}</small></td><td>${esc(d.prazo||'—')}</td><td>${esc(d.status)}</td><td>${lastActor('demandas',d.id)}</td><td>${actions('demandas',d.id,canOperate(getCondo(d.condominio_id)))}${d.tipo==='O.S.'?`<button class="btn small" data-os-report="${esc(d.id)}">Relatório</button>`:''}</td></tr>`).join('');
 let pq=''; if($('surveyRows'))$('surveyRows').innerHTML=P.filter(p=>[condoName(p.condominio_id),p.comentario].join(' ').toLowerCase().includes(pq)).map(p=>`<tr><td>${esc(condoName(p.condominio_id))}</td><td>${esc(p.nota??'—')}</td><td>${esc(p.canal)}</td><td style="white-space:pre-wrap">${esc(p.comentario)}</td><td>${lastActor('pesquisas',p.id)}</td><td>${actions('pesquisas',p.id,isAdmin())}${Q.some(x=>String(x.pesquisa_id)===String(p.id))?'<small>Possui pendência</small>':''}</td></tr>`).join('');
 let qq=$('pendingSearch').value.toLowerCase(),qs=$('pendingStatus').value;$('pendingRows').innerHTML=Q.filter(p=>(!qs||p.status===qs)&&[condoName(p.condominio_id),p.titulo,p.responsavel].join(' ').toLowerCase().includes(qq)).map(p=>`<tr><td>${esc(condoName(p.condominio_id))}</td><td><strong>${esc(p.titulo)}</strong><br><small>${esc(p.descricao)}</small></td><td>${esc(p.responsavel)}</td><td>${esc(p.prioridade)}</td><td>${esc(p.status)}</td><td>${lastActor('pendencias_sc',p.id)}</td><td><button class="btn small" data-detail="${esc(p.id)}">Ver reclamação</button>${actions('pendencias_sc',p.id,canOperate(getCondo(p.condominio_id)))}</td></tr>`).join('');
-$('oversight').innerHTML=C.filter(c=>c.filial!=='Ceará').map(c=>`<p>${esc(c.filial)} — ${esc(c.nome)}</p>`).join('')||'<p class="muted">Nenhum condomínio regional no escopo desta conta.</p>';renderAudit();renderNotices();renderPortfolioResults();document.querySelectorAll('.admin-only').forEach(x=>x.classList.toggle('hidden',!isAdmin()));document.querySelectorAll('[data-page]').forEach(x=>{if(adminPages.has(x.dataset.page))x.classList.toggle('hidden',!isAdmin())});adminPages.forEach(id=>{const section=$(id);if(section)section.classList.toggle('hidden',!isAdmin())});$('importPanel').classList.toggle('hidden',!isAdmin());}
+$('oversight').innerHTML=C.filter(c=>c.filial!=='Ceará').map(c=>`<p>${esc(c.filial)} — ${esc(c.nome)}</p>`).join('')||'<p class="muted">Nenhum condomínio regional no escopo desta conta.</p>';renderAudit();renderNotices();renderPortfolioResults();document.querySelectorAll('.admin-only').forEach(x=>x.classList.toggle('hidden',!isAdmin()));document.querySelectorAll('[data-page]').forEach(x=>{if(adminPages.has(x.dataset.page))x.classList.toggle('hidden',!isAdmin())});adminPages.forEach(id=>{const section=$(id);if(section)section.classList.toggle('hidden',!isAdmin())});if($('importPanel'))$('importPanel')?.classList.toggle('hidden',!isAdmin());}
 function renderAudit(){const f=$('auditFilter').value;let a=store.auditoria_sc.filter(x=>!f||x.tabela===f);$('auditList').innerHTML=a.length?a.map(x=>{let data=x.depois||x.antes||{};return `<div class="audit-row"><b>${esc(x.usuario_nome||'Não identificado')}</b> · ${esc(x.acao)} · ${esc(x.tabela)}<p>${esc(data.nome||data.titulo||data.numero_os||data.comentario||x.registro_id)}</p><small>${esc(dateText(x.realizado_em))}</small></div>`}).join(''):'<p class="muted">Sem alterações registradas neste período ou sem acesso ao histórico.</p>'}
 function renderNotices(){let a=store.notificacoes_sc,n=a.filter(x=>!x.lida).length;$('bellCount').classList.toggle('hidden',!n);$('bellCount').textContent=n;$('notificationList').innerHTML=a.length?a.map(x=>`<div class="notification-item"><strong>${esc(x.titulo)}</strong><p>${esc(x.mensagem)}</p><small>${esc(dateText(x.criado_em))}</small>${x.pendencia_id?`<p><button class="btn small" data-detail="${esc(x.pendencia_id)}">Ver reclamação completa</button></p>`:''}</div>`).join(''):'<p class="muted">Sem notificações.</p>'}
 function showDetail(id){let q=store.pendencias_sc.find(x=>String(x.id)===String(id));page('pendencias');if(!q){message('Pendência não disponível para seu perfil.');return}chosenPending=id;let survey=store.pesquisas.find(x=>String(x.id)===String(q.pesquisa_id));let pairs=[['Condomínio',condoName(q.condominio_id)],['Responsável',q.responsavel],['Supervisão',q.supervisor_sc],['Prioridade',q.prioridade],['Status',q.status],['Nota',survey?.nota??'—'],['Criada',dateText(q.criado_em)],['Última edição',lastActorText('pendencias_sc',q.id)]];$('pendingContent').innerHTML=`<div class="details">${pairs.map(([k,v])=>`<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div><h3>${esc(q.titulo)}</h3><div class="note">${esc(survey?.comentario||q.descricao||'Sem descrição')}</div>`;$('pendingDetail').classList.remove('hidden');$('pendingDetail').scrollIntoView({behavior:'smooth'})}
@@ -487,7 +487,7 @@ function missingRegional(){
 async function createRegionalCondominiums(){
  if(!isAdmin())return;
  const rows=missingRegional();
- if(!rows.length){$('importInfo').textContent='Não há cadastros regionais faltando.';return}
+ if(!rows.length){if($('importInfo'))$('importInfo').textContent='Não há cadastros regionais faltando.';return}
  if(!confirm(`Cadastrar ${rows.length} condomínios regionais da planilha?\n\nSerão criados somente os condomínios ausentes, com sua filial e responsável de SC. Nenhuma pesquisa será gravada até a confirmação da importação.`))return;
  $('importCreateRegional').disabled=true;
  let created=0,errors=[];
@@ -503,11 +503,11 @@ async function createRegionalCondominiums(){
  if(!fetched.error)store.condominios=fetched.data;
  const draft=importDraft.map(r=>({name:r.name,filial:r.filial,nota:r.nota,data:r.data,canal:r.canal,comentario:r.comentario}));
  prepareImport(draft);
- $('importInfo').textContent=`${created} condomínio(s) regional(is) cadastrado(s). ${errors.length} falha(s). `+(errors.length?errors.slice(0,2).join(' | '):'Agora revise as pesquisas e confirme sua importação.');
+ if($('importInfo'))$('importInfo').textContent=`${created} condomínio(s) regional(is) cadastrado(s). ${errors.length} falha(s). `+(errors.length?errors.slice(0,2).join(' | '):'Agora revise as pesquisas e confirme sua importação.');
  render();
 }
 function renderImportReview(){
- $('importReview').classList.remove('hidden');
+ $('importReview')?.classList.remove('hidden');
  const valid=importDraft.filter(r=>!r.issue&&!r.duplicate).length;
  $('importSummary').textContent=`${importDraft.length} linhas analisadas • ${valid} prontas • ${importDraft.filter(r=>r.issue).length} a revisar • ${importDraft.filter(r=>r.duplicate).length} possíveis duplicatas`;
  $('importRows').innerHTML=importDraft.slice(0,500).map((r,i)=>`
@@ -520,14 +520,14 @@ function renderImportReview(){
  <td class="${r.issue?'import-issue':'import-valid'}">${esc(r.issue|| (r.duplicate?'Duplicata — não importar':'Pronta'))}</td></tr>
  `).join('');
  const missing=missingRegional();
- $('importCreateRegional').classList.toggle('hidden',!missing.length);
+ $('importCreateRegional')?.classList.toggle('hidden',!missing.length);
  $('importCreateRegional').disabled=false;
  $('regionalInfo').textContent=missing.length?`${missing.length} condomínios regionais ausentes; cadastre-os antes de importar suas pesquisas.`:'Condomínios regionais conciliados.';
  $('importConfirm').disabled=!valid;
 }
 async function handleImportFile(file){
  if(!file)return;
- $('importInfo').textContent='Lendo o arquivo...';$('importReview').classList.add('hidden');importDraft=[];
+ if($('importInfo'))$('importInfo').textContent='Lendo o arquivo...';$('importReview')?.classList.add('hidden');importDraft=[];
  try{
   const ext=file.name.split('.').pop().toLowerCase();let rows=[];
   if(ext==='pdf')rows=await parsePDF(file);
@@ -542,11 +542,11 @@ async function handleImportFile(file){
   if(!rows.length)throw Error('Não foram encontradas pesquisas. Confira as colunas e o formato do arquivo.');
   if(rows.length>500)throw Error('O arquivo contém mais de 500 pesquisas. Divida a importação em lotes de até 500 para revisar todas as linhas.');
   prepareImport(rows);
-  $('importInfo').textContent='Prévia gerada. Nomes equivalentes reconhecidos automaticamente; confira somente as linhas sinalizadas antes de importar.';
- }catch(e){$('importInfo').textContent='Não foi possível ler o arquivo: '+e.message}
+  if($('importInfo'))$('importInfo').textContent='Prévia gerada. Nomes equivalentes reconhecidos automaticamente; confira somente as linhas sinalizadas antes de importar.';
+ }catch(e){if($('importInfo'))$('importInfo').textContent='Não foi possível ler o arquivo: '+e.message}
 }
 async function saveHistoricalImport(){
- if(!isAdmin()){ $('importInfo').textContent='Importação histórica restrita à administradora.';return}
+ if(!isAdmin()){ if($('importInfo'))$('importInfo').textContent='Importação histórica restrita à administradora.';return}
  const selected=importDraft.filter(x=>!x.issue&&!x.duplicate);
  if(!selected.length)return;
  if(!confirm(`Importar ${selected.length} pesquisas históricas? As datas serão preservadas e NÃO devem gerar novas pendências ou notificações.`))return;
@@ -558,8 +558,8 @@ async function saveHistoricalImport(){
   if(response.error)failed.push(`${r.name}: ${response.error.message}`);else saved++;
  }
  await loadData();
- importDraft=[];$('importReview').classList.add('hidden');$('importFile').value='';
- $('importInfo').textContent=`${saved} pesquisa(s) importada(s). ${failed.length} falha(s).`+(failed.length?' '+failed.slice(0,3).join(' | '):'');
+ importDraft=[];$('importReview')?.classList.add('hidden');if($('importFile'))$('importFile').value='';
+ if($('importInfo'))$('importInfo').textContent=`${saved} pesquisa(s) importada(s). ${failed.length} falha(s).`+(failed.length?' '+failed.slice(0,3).join(' | '):'');
 }
 /* PAINEL DE RESULTADOS POR CARTEIRA */
 const portfolios=[['Josy','Ceará'],['Nicole','Ceará'],['Paula','Secopi'],['Tayane','Manaus'],['Juliana','Maranhão']];
@@ -642,10 +642,22 @@ const rankMetrics={
 };
 function rankingMonths(){
  const known=new Set();
- for(const tbl of ['pesquisas','demandas','pendencias_sc','demandas_gestao_sc'])for(const r of store[tbl]){
-  const d=dateOfRecord(r,tbl);if(d)known.add(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`);
+ // Permite selecionar meses anteriores mesmo sem fechamento cadastrado.
+ const now=new Date();
+ for(let year=2025;year<=now.getFullYear();year++){
+  for(let m=1;m<=12;m++){
+   if(year===now.getFullYear()&&m>now.getMonth()+1)break;
+   known.add(`${year}-${String(m).padStart(2,'0')}`);
+  }
  }
- for(const r of store.fechamento_pesquisas_carteira)known.add(r.competencia);return [...known].sort().reverse();
+ for(const tbl of ['pesquisas','demandas','pendencias_sc','demandas_gestao_sc'])for(const r of store[tbl]){
+  const d=dateOfRecord(r,tbl);
+  if(d)known.add(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`);
+ }
+ for(const r of store.fechamento_pesquisas_carteira){
+  if(/^\d{4}-\d{2}$/.test(String(r.competencia||'')))known.add(r.competencia);
+ }
+ return [...known].sort().reverse();
 }
 function drawRanking(pageId){
  const el=$('ranking-'+pageId);if(!el)return;
@@ -825,7 +837,7 @@ document.addEventListener('keydown',e=>{
   }else{e.preventDefault()}
  }
 });
-document.addEventListener('DOMContentLoaded',async()=>{renderProcesses();$('monthlySurveyMonth').value=new Date().toISOString().slice(0,7);$('separateRankingMonth').value=new Date().toISOString().slice(0,7);$('monthlySurveyMonth').addEventListener('change',()=>{renderMonthlySurveys();drawAllRankings()});$('monthlySurveyRefresh').addEventListener('click',loadData);$('monthlySurveyForm').addEventListener('submit',saveMonthlySurvey);$('separateRankingMonth').addEventListener('change',renderSeparateRankings);document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));for(const id of ['condoSearch','condoOwner','condoBranch','demandSearch','demandStatus','pendingSearch','pendingStatus'])$(id).addEventListener('input',render);document.body.addEventListener('click',e=>{const b=e.target.closest('[data-branch-pick]');if(b){$('condoBranch').value=b.dataset.branchPick;render()}});$('processSearch').addEventListener('input',renderProcesses);$('processArea').addEventListener('change',renderProcesses);$('resultOwner').addEventListener('change',renderPortfolioResults);$('resultPeriod').addEventListener('change',renderPortfolioResults);$('importFile')?.addEventListener('change',e=>handleImportFile(e.target.files[0]));$('importRows')?.addEventListener('change',e=>{const key=e.target.dataset.importEdit;const i=Number(e.target.dataset.index);if(!key||!importDraft[i])return;importDraft[i][key]=key==='nota'?parseHistoricalScore(e.target.value):e.target.value;const r=importDraft[i];r.issue=!r.condominio_id?'Condomínio não identificado':r.nota===null?'Nota ausente/inválida':!r.data?'Data não reconhecida':'';r.duplicate=false;renderImportReview()});$('importConfirm')?.addEventListener('click',saveHistoricalImport);$('importCreateRegional')?.addEventListener('click',createRegionalCondominiums);$('importCancel')?.addEventListener('click',()=>{$('importReview').classList.add('hidden');importDraft=[];$('importFile').value='';$('importInfo').textContent='Importação cancelada.'});$('auditFilter').addEventListener('change',renderAudit);document.body.addEventListener('click',async e=>{let el=e.target.closest('[data-new],[data-edit],[data-delete],[data-detail]');if(!el)return;if(el.dataset.new)openRecord(el.dataset.new);else if(el.dataset.edit)openRecord(el.dataset.edit,el.dataset.id);else if(el.dataset.delete)await deleteRecord(el.dataset.delete,el.dataset.id);else if(el.dataset.detail)showDetail(el.dataset.detail)});document.body.addEventListener('click',e=>{const b=e.target.closest('[data-os-report]');if(!b)return;const r=store.demandas.find(x=>String(x.id)===String(b.dataset.osReport));if(r)openOsReport(r)});$('recordForm').addEventListener('submit',saveRecord);$('generateOsReport').addEventListener('click',osReportFromForm);$('osReportClose').addEventListener('click',()=>$('osReportModal').classList.add('hidden'));$('osReportCopy').addEventListener('click',copyOsReport);$('osReportPrint').addEventListener('click',printOsReport);$('modalCancel').addEventListener('click',closeRecord);$('modalClose').addEventListener('click',closeRecord);$('closePending').addEventListener('click',()=>{$('pendingDetail').classList.add('hidden');chosenPending=null});$('bell').addEventListener('click',()=>$('notificationPanel').classList.toggle('hidden'));$('readAll').addEventListener('click',async()=>{try{ck(await db.from('notificacoes_sc').update({lida:true}).eq('usuario_id',profile.user_id).eq('lida',false));await loadData()}catch(e){message(e.message)}});$('reload').addEventListener('click',loadData);$('auditReload').addEventListener('click',loadData);$('exportBtn').addEventListener('click',exportData);if(!window.supabase){$('loginMessage').textContent='Biblioteca Supabase indisponível.';return}db=window.supabase.createClient(URL_DB,KEY);$('loginButton').addEventListener('click',login);$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login()});$('logout').addEventListener('click',async()=>{await db.auth.signOut();profile=null;Object.keys(store).forEach(k=>store[k]=[]);$('password').value='';$('loginScreen').classList.remove('hidden');$('system').classList.add('hidden')});await session()});
+document.addEventListener('DOMContentLoaded',async()=>{renderProcesses();$('monthlySurveyMonth').value=new Date().toISOString().slice(0,7);$('separateRankingMonth').value=new Date().toISOString().slice(0,7);$('monthlySurveyMonth').addEventListener('change',()=>{renderMonthlySurveys();drawAllRankings()});$('monthlySurveyRefresh').addEventListener('click',loadData);$('monthlySurveyForm').addEventListener('submit',saveMonthlySurvey);$('separateRankingMonth').addEventListener('change',renderSeparateRankings);document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));for(const id of ['condoSearch','condoOwner','condoBranch','demandSearch','demandStatus','pendingSearch','pendingStatus'])$(id).addEventListener('input',render);document.body.addEventListener('click',e=>{const b=e.target.closest('[data-branch-pick]');if(b){$('condoBranch').value=b.dataset.branchPick;render()}});$('processSearch').addEventListener('input',renderProcesses);$('processArea').addEventListener('change',renderProcesses);$('resultOwner').addEventListener('change',renderPortfolioResults);$('resultPeriod').addEventListener('change',renderPortfolioResults);$('importFile')?.addEventListener('change',e=>handleImportFile(e.target.files[0]));$('importRows')?.addEventListener('change',e=>{const key=e.target.dataset.importEdit;const i=Number(e.target.dataset.index);if(!key||!importDraft[i])return;importDraft[i][key]=key==='nota'?parseHistoricalScore(e.target.value):e.target.value;const r=importDraft[i];r.issue=!r.condominio_id?'Condomínio não identificado':r.nota===null?'Nota ausente/inválida':!r.data?'Data não reconhecida':'';r.duplicate=false;renderImportReview()});$('importConfirm')?.addEventListener('click',saveHistoricalImport);$('importCreateRegional')?.addEventListener('click',createRegionalCondominiums);$('importCancel')?.addEventListener('click',()=>{$('importReview')?.classList.add('hidden');importDraft=[];if($('importFile'))$('importFile').value='';if($('importInfo'))$('importInfo').textContent='Importação cancelada.'});$('auditFilter').addEventListener('change',renderAudit);document.body.addEventListener('click',async e=>{let el=e.target.closest('[data-new],[data-edit],[data-delete],[data-detail]');if(!el)return;if(el.dataset.new)openRecord(el.dataset.new);else if(el.dataset.edit)openRecord(el.dataset.edit,el.dataset.id);else if(el.dataset.delete)await deleteRecord(el.dataset.delete,el.dataset.id);else if(el.dataset.detail)showDetail(el.dataset.detail)});document.body.addEventListener('click',e=>{const b=e.target.closest('[data-os-report]');if(!b)return;const r=store.demandas.find(x=>String(x.id)===String(b.dataset.osReport));if(r)openOsReport(r)});$('recordForm').addEventListener('submit',saveRecord);$('generateOsReport').addEventListener('click',osReportFromForm);$('osReportClose').addEventListener('click',()=>$('osReportModal').classList.add('hidden'));$('osReportCopy').addEventListener('click',copyOsReport);$('osReportPrint').addEventListener('click',printOsReport);$('modalCancel').addEventListener('click',closeRecord);$('modalClose').addEventListener('click',closeRecord);$('closePending').addEventListener('click',()=>{$('pendingDetail').classList.add('hidden');chosenPending=null});$('bell').addEventListener('click',()=>$('notificationPanel').classList.toggle('hidden'));$('readAll').addEventListener('click',async()=>{try{ck(await db.from('notificacoes_sc').update({lida:true}).eq('usuario_id',profile.user_id).eq('lida',false));await loadData()}catch(e){message(e.message)}});$('reload').addEventListener('click',loadData);$('auditReload').addEventListener('click',loadData);$('exportBtn').addEventListener('click',exportData);if(!window.supabase){$('loginMessage').textContent='Biblioteca Supabase indisponível.';return}db=window.supabase.createClient(URL_DB,KEY);$('loginButton').addEventListener('click',login);$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login()});$('logout').addEventListener('click',async()=>{await db.auth.signOut();profile=null;Object.keys(store).forEach(k=>store[k]=[]);$('password').value='';$('loginScreen').classList.remove('hidden');$('system').classList.add('hidden')});await session()});
 
 /* FECHAMENTO MENSAL — FONTE ÚNICA DOS INDICADORES DE PESQUISAS */
 let monthlySurveyAvailable=true;
