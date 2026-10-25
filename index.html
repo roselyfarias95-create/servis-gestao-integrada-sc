@@ -48,6 +48,30 @@
 .pop-guide .pop-note{color:#a8d1e1;font-size:12px}.pop-guide .pop-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
 .pop-guide .pop-table{overflow:auto}
 @media print{#processos.active{display:block!important}.pop-guide{color:#111;background:white;border-color:#888}.pop-guide h2,.pop-guide h3{color:#111}}
+
+/* Tutorial interativo dentro do POP — sem dependências externas */
+.pop-slide-shell{margin:20px 0 28px;border-radius:18px;padding:19px;background:linear-gradient(145deg,#112e49,#14253e);border:1px solid #32718b;box-shadow:0 9px 30px #0003}
+.pop-slide-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.pop-slide-heading h3{margin:0;font-size:18px;color:#f7fbff}
+.pop-slide-heading small{color:#a8dbe8}
+.pop-stepper{display:flex;gap:7px;margin-bottom:15px}
+.pop-stepdot{flex:1;height:7px;border-radius:10px;border:0;background:#38506b;padding:0;cursor:pointer;min-width:13px}
+.pop-stepdot.active{background:#38d5c8}.pop-stepdot.done{background:#248b97}
+.pop-slides{min-height:255px}
+.pop-slide{display:none;animation:popfade .18s ease-in}
+.pop-slide.active{display:grid;grid-template-columns:95px minmax(0,1fr);gap:19px;align-items:start}
+.pop-slide-symbol{display:flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:22px;background:#1c5470;border:1px solid #4a99ae;font-size:39px}
+.pop-slide h4{font-size:22px;color:#fff;margin:0 0 8px}
+.pop-slide p,.pop-slide li{color:#d3e3f1;line-height:1.7}
+.pop-slide ol,.pop-slide ul{margin:8px 0;padding-left:20px}
+.pop-slide-example{margin-top:12px;background:#0b2135;border-left:3px solid #38d5c8;border-radius:8px;padding:12px 14px;color:#e0f4f7;line-height:1.6;white-space:pre-line}
+.pop-slide-warning{margin-top:10px;padding:10px 13px;border-radius:8px;background:#453626;color:#ffe0a8;font-size:12px;line-height:1.5}
+.pop-slide-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.pop-slide-actions .btn{min-width:110px}
+.pop-slide-count{font-size:12px;color:#b2cedd;font-variant-numeric:tabular-nums}
+@keyframes popfade{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media(max-width:650px){.pop-slide.active{grid-template-columns:1fr}.pop-slides{min-height:340px}.pop-slide-symbol{width:65px;height:65px;font-size:28px}.pop-slide h4{font-size:19px}}
+@media(prefers-reduced-motion:reduce){.pop-slide{animation:none}}
 </style><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head><body>
@@ -69,6 +93,23 @@
 <section id="processos" class="page"><div id="ranking-processos" class="portfolio-rank"></div><div class="panel"><div class="topline"><div><h2>Biblioteca de processos do SC</h2><p class="muted">45 procedimentos de referência. Esta biblioteca é normativa e não contém registros editáveis no banco atual.</p></div><a class="btn" href="https://servis-processos-sc-rose.roselyfarias95.chatgpt.site/" target="_blank" rel="noopener noreferrer">Abrir processos originais ↗</a></div><div class="search"><input id="processSearch" placeholder="Buscar processo"><select id="processArea"><option value="">Todas as áreas</option><option>Jornada do cliente</option><option>Operação e qualidade</option><option>Segurança e ocorrências</option><option>Contratos e retenção</option><option>Gestão e indicadores</option></select></div><p id="processCount" class="muted"></p></div><div id="processGrid" class="process-grid"></div>
 <article id="popPesquisa" class="pop-guide hidden" tabindex="-1" aria-label="POP de registro de pesquisas de satisfação">
  <div class="topline"><div><small class="eyebrow">PROCEDIMENTO OPERACIONAL PADRÃO • SERVIS</small><h2>POP – Registro de Pesquisas de Satisfação</h2><p class="muted">Setor: Sucesso do Cliente | Comprovação de contato e tratamento de pendências</p></div><button type="button" class="btn" id="popClose">Fechar POP</button></div>
+
+<section class="pop-slide-shell" id="popTutorial" aria-label="Tutorial visual das pesquisas de satisfação">
+ <div class="pop-slide-heading"><div><small>GUIA VISUAL • PASSO A PASSO</small><h3>Como realizar e registrar a pesquisa</h3></div><small>Use os botões para navegar pelas etapas</small></div>
+ <div class="pop-stepper" id="popSlideDots" aria-label="Etapas do tutorial">
+  <button type="button" class="pop-stepdot active" data-pop-step="0" aria-label="Ir para etapa 1"></button><button type="button" class="pop-stepdot" data-pop-step="1" aria-label="Ir para etapa 2"></button><button type="button" class="pop-stepdot" data-pop-step="2" aria-label="Ir para etapa 3"></button><button type="button" class="pop-stepdot" data-pop-step="3" aria-label="Ir para etapa 4"></button><button type="button" class="pop-stepdot" data-pop-step="4" aria-label="Ir para etapa 5"></button><button type="button" class="pop-stepdot" data-pop-step="5" aria-label="Ir para etapa 6"></button>
+ </div>
+ <div class="pop-slides" id="popSlides" aria-live="polite">
+  <article class="pop-slide active" data-slide="0"><div class="pop-slide-symbol" aria-hidden="true">📋</div><div><small class="eyebrow">ETAPA 1 · PREPARAR E IDENTIFICAR</small><h4>Identifique o condomínio e o contato</h4><ol><li>Confirme condomínio, filial e nome do(a) síndico(a).</li><li>Registre data, colaborador responsável, canal e status.</li><li>Documente o relato e a nota, quando informada.</li></ol><div class="pop-slide-example"><strong>Exemplo:</strong> Di Fiori • Ceará • Síndica Eveline • Josiane • Ligação • Concluída • Nota 10</div><div class="pop-slide-warning">Campos opcionais sem informação devem ser omitidos. Não atribua nota quando não houver resposta.</div></div></article>
+  <article class="pop-slide" data-slide="1"><div class="pop-slide-symbol" aria-hidden="true">📞</div><div><small class="eyebrow">ETAPA 2 · REGISTRAR O CONTATO</small><h4>Ligação atendida ou sem atendimento?</h4><ul><li><strong>Atendida:</strong> registre a avaliação, elogios, reclamações e pendências que realmente existirem.</li><li><strong>Sem atendimento:</strong> registre a tentativa, anexe o print e programe novo contato.</li></ul><div class="pop-slide-example"><strong>Exemplo sem atendimento:</strong> Mandacarus • Síndica Jaqueline • Tentativa por ligação sem sucesso • Sem nota • Pendente para novo contato.</div><div class="pop-slide-warning">Toda ligação exige print da chamada, inclusive tentativas sem atendimento.</div></div></article>
+  <article class="pop-slide" data-slide="2"><div class="pop-slide-symbol" aria-hidden="true">💬</div><div><small class="eyebrow">ETAPA 3 · COMPROVAR A NOTA</small><h4>Envie a confirmação pelo WhatsApp</h4><p>Se a nota foi informada durante uma ligação, envie a mensagem padrão, informando a nota registrada e solicitando correção caso haja divergência.</p><div class="pop-slide-example">“Conforme nossa conversa por telefone, registramos sua avaliação com nota [NOTA], além das observações repassadas...”</div><div class="pop-slide-warning">Anexe o print do envio. Falta de resposta não é confirmação expressa.</div><button type="button" class="btn primary small" data-pop-copy-whatsapp="true">Copiar mensagem completa</button></div></article>
+  <article class="pop-slide" data-slide="3"><div class="pop-slide-symbol" aria-hidden="true">🧭</div><div><small class="eyebrow">ETAPA 4 · TRATAR RECLAMAÇÕES</small><h4>Classifique e encaminhe a pendência</h4><ol><li>Confira se já existe O.S. ou protocolo para evitar duplicidade.</li><li>Direcione ao setor: Técnica, Central, Backoffice, Comercial/Financeiro ou Gestão.</li><li>Registre responsável, descrição, status e prazo previsto.</li></ol><div class="pop-slide-example"><strong>Exemplo:</strong> Rosa Maria • Portão veicular com falha • Setor Técnico • Equipe no local • Status: Em andamento.</div><div class="pop-slide-warning">Encaminhar a reclamação não significa que ela foi concluída.</div></div></article>
+  <article class="pop-slide" data-slide="4"><div class="pop-slide-symbol" aria-hidden="true">⏰</div><div><small class="eyebrow">ETAPA 5 · ACOMPANHAR E INFORMAR</small><h4>Cobre a solução e mantenha o síndico informado</h4><ol><li>Acompanhe a tratativa com o setor executor.</li><li>Atualize status, providências e previsão de resolução.</li><li>Retorne ao síndico e registre data, canal e posicionamento.</li></ol><div class="pop-slide-example"><strong>Registro:</strong> Equipe técnica informou troca programada do componente. Síndico comunicado por WhatsApp. Próxima cobrança definida.</div><div class="pop-slide-warning">O Sucesso do Cliente acompanha e comunica; a execução técnica continua sob responsabilidade do setor executor.</div></div></article>
+  <article class="pop-slide" data-slide="5"><div class="pop-slide-symbol" aria-hidden="true">✅</div><div><small class="eyebrow">ETAPA 6 · VALIDAR E ENCERRAR</small><h4>Conclua somente depois da validação</h4><ol><li>Confirme a resolução com o setor responsável.</li><li>Comunique ao síndico a providência realizada.</li><li>Registre a confirmação ou tentativa de validação.</li><li>Atualize o status; se persistir, mantenha aberta ou reabra a pendência.</li></ol><div class="pop-slide-example"><strong>Concluído:</strong> solução confirmada, retorno ao síndico registrado e acompanhamento encerrado com evidências.</div><div class="pop-slide-warning">A conclusão da pesquisa não encerra automaticamente as pendências relacionadas.</div></div></article>
+ </div>
+ <div class="pop-slide-actions"><button type="button" class="btn" id="popPrevStep">← Anterior</button><span class="pop-slide-count" id="popStepCount">Etapa 1 de 6</span><button type="button" class="btn primary" id="popNextStep">Próximo →</button></div>
+ <p class="muted" style="font-size:12px;margin:14px 0 0">O POP escrito completo, com os modelos oficiais e regras de comprovação, permanece disponível abaixo deste tutorial.</p>
+</section>
  <h3>1. Objetivo</h3><p>Padronizar os registros das pesquisas de satisfação, a comprovação dos contatos e o tratamento das pendências identificadas, garantindo o acompanhamento das demandas relatadas pelos síndicos até a resolução.</p>
  <h3>2. Informações obrigatórias</h3><ul><li>Condomínio e filial; nome do(a) síndico(a).</li><li>Data da pesquisa e colaborador responsável pelo registro.</li><li>Tipo de contato, status e relato da avaliação.</li><li>Pendências, reclamações e elogios, quando houver.</li><li>Nota de satisfação, quando informada.</li><li>Prints comprobatórios do contato e, quando aplicável, da mensagem de confirmação da nota.</li></ul>
  <h3>3. Pesquisa concluída por ligação — exemplo preenchido</h3>
@@ -924,8 +965,33 @@ document.addEventListener('keydown',e=>{
  }
 });
 
+
+// Tutorial visual do POP. Apenas interface; não grava ou modifica registros.
+let popSlideIndex=0;
+function showPopSlide(index){
+ const root=$('popTutorial');if(!root)return;
+ const slides=[...root.querySelectorAll('[data-slide]')];
+ popSlideIndex=Math.max(0,Math.min(slides.length-1,Number(index)||0));
+ slides.forEach((el,i)=>el.classList.toggle('active',i===popSlideIndex));
+ root.querySelectorAll('[data-pop-step]').forEach((b,i)=>{
+  b.classList.toggle('active',i===popSlideIndex);
+  b.classList.toggle('done',i<popSlideIndex);
+  b.setAttribute('aria-current',i===popSlideIndex?'step':'false');
+ });
+ $('popStepCount').textContent=`Etapa ${popSlideIndex+1} de ${slides.length}`;
+ $('popPrevStep').disabled=popSlideIndex===0;
+ $('popNextStep').textContent=popSlideIndex===slides.length-1?'Recomeçar ↺':'Próximo →';
+}
+document.addEventListener('click',e=>{
+ const dot=e.target.closest('[data-pop-step]');
+ if(dot){showPopSlide(Number(dot.dataset.popStep));return;}
+ if(e.target.closest('#popPrevStep'))showPopSlide(popSlideIndex-1);
+ if(e.target.closest('#popNextStep'))showPopSlide(popSlideIndex===5?0:popSlideIndex+1);
+ if(e.target.closest('[data-pop-copy-whatsapp]'))copyPopText('popWhatsAppText');
+});
+
 // Procedimento completo de registro de pesquisas - somente consulta, sem alterar dados.
-function openPopPesquisa(){const el=$('popPesquisa');if(!el)return;page('processos');el.classList.remove('hidden');el.focus();el.scrollIntoView({behavior:'smooth',block:'start'});}
+function openPopPesquisa(){const el=$('popPesquisa');if(!el)return;page('processos');el.classList.remove('hidden');showPopSlide(0);el.focus();el.scrollIntoView({behavior:'smooth',block:'start'});}
 function closePopPesquisa(){$('popPesquisa')?.classList.add('hidden');}
 async function copyPopText(id){const txt=$(id)?.textContent||'';if(!txt)return;try{await navigator.clipboard.writeText(txt);$('popCopyStatus').textContent=' Texto copiado.';}catch(e){$('popCopyStatus').textContent=' Não foi possível copiar automaticamente; selecione o texto e copie.';}}
 document.addEventListener('click',e=>{if(e.target.closest('[data-open-pop="pesquisas"]'))openPopPesquisa();if(e.target.closest('#popClose,#popCloseBottom'))closePopPesquisa();if(e.target.closest('#popCopyWhatsApp'))copyPopText('popWhatsAppText');if(e.target.closest('#popCopyFollowup'))copyPopText('popFollowupText');if(e.target.closest('#popGoMonth'))page('pesquisas');});
